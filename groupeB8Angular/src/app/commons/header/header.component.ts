@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCoffee, faUserGraduate, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { faFileExcel } from '@fortawesome/free-regular-svg-icons';
+import { faCoffee, faUserGraduate, faSignOutAlt, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',

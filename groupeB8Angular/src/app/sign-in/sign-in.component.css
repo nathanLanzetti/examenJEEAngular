@@ -1,0 +1,40 @@
+div.columns.is-centered {
+  background: linear-gradient(
+    132deg,
+    rgba(116, 233, 233, 0.938) 17%,
+    rgb(192, 192, 192) 79%
+  );
+}
+#signin-form {
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.form-container {
+  background: #fdfdfd;
+  border-radius: 7px;
+  width: 100%;
+  border: 2px solid #424d58;
+}
+.form-container > .form-header {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+  padding: 1rem;
+}
+#signin-form form {
+  width: 100%;
+}
+.field {
+  padding: 0 1.5rem;
+}
+.field:first-of-type {
+  margin-top: 2rem;
+}
+.field:last-of-type {
+  padding-bottom: 1.2rem;
+}
+form button.helha.primary-background {
+  border-radius: 0 0 5px 5px;
+}

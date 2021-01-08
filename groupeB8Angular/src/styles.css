@@ -2,16 +2,26 @@
 .helha.primary-color {
   color: #009790 !important;
 }
+.helha.secondary-color {
+  color: #424d58 !important;
+}
+.helha.primary-background {
+  background: #009790 !important;
+  border: none;
+}
 .helha.secondary-background {
   background: #424d58 !important;
 }
-.helha.primary-color {
-  color: #009790 !important;
-}
-.helha.secondary-background {
-  background: #424d58 !important;
+.white {
+  color: #fff !important;
 }
 
 fa-icon {
   padding: 0rem 0.25rem;
+}
+
+/* Hover */
+.button.helha.primary-background:hover {
+  transition: all 0.2s;
+  background: #018881 !important;
 }
