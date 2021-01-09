@@ -14,6 +14,8 @@ import { TableStudentsComponent } from './students/table-students/table-students
 import { SearchTermPipe } from './filters/search-term.pipe';
 import { SelectBlocPipe } from './filters/select-bloc.pipe';
 import { SelectSectionPipe } from './filters/select-section.pipe';
+import { DragZoneExcelComponent } from './excel/drag-zone-excel/drag-zone-excel.component';
+import { ManagerStudentComponent } from './student-card/manager-student/manager-student.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { SelectSectionPipe } from './filters/select-section.pipe';
     TableStudentsComponent,
     SearchTermPipe,
     SelectBlocPipe,
-    SelectSectionPipe
+    SelectSectionPipe,
+    DragZoneExcelComponent,
+    ManagerStudentComponent
   ],
   imports: [
     BrowserModule,

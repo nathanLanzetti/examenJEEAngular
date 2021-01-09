@@ -9,8 +9,8 @@
                 </tr>
         </thead>
         <tbody>
-                <tr
-                        *ngFor="let student of students | searchTerm: searchTerm | selectSection: selectedSection | selectBloc: selectedBloc">
+                <tr *ngFor="let student of students | searchTerm: searchTerm | selectSection: selectedSection | selectBloc: selectedBloc"
+                        (click)="onClickedRow($event)">
                         <td>{{student.matricule}}</td>
                         <td>{{student.lastname}}</td>
                         <td>{{student.firstname}}</td>
