@@ -1,0 +1,14 @@
+.columns.is-centered {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+.dragzone {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ngx-dropzone {
+  width: 100%;
+}
