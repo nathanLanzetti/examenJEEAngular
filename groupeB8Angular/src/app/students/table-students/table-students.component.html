@@ -1,0 +1,24 @@
+<table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+                <tr>
+                        <th><abbr title="Matricule">Mat</abbr></th>
+                        <th><abbr title="Nom">Nom</abbr></th>
+                        <th><abbr title="Prénom">Prenom</abbr></th>
+                        <th><abbr title="Section">Section</abbr></th>
+                        <th><abbr title="Bloc">Bloc</abbr></th>
+                </tr>
+        </thead>
+        <tbody>
+                <tr
+                        *ngFor="let student of students | searchTerm: searchTerm | selectSection: selectedSection | selectBloc: selectedBloc">
+                        <td>{{student.matricule}}</td>
+                        <td>{{student.lastname}}</td>
+                        <td>{{student.firstname}}</td>
+                        <td>{{student.section}}</td>
+                        <td>{{student.bloc}}</td>
+                </tr>
+
+        </tbody>
+</table>
+
+<!-- *ngFor="let student of students | searchTerm: searchTerm | selectSection: selectedSection | selectBloc: selectedBloc" -->

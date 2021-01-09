@@ -1,0 +1,26 @@
+<div class="filter-menu field is-grouped">
+
+    <div class="select">
+        <select [(ngModel)]="selectSection" (change)="onSectionSelected($event)" name="selectSection"
+            id="selectSection">
+            <option value="0">Choisir une section</option>
+            <option *ngFor="let section of sections | keyvalue" [value]="section.value">{{section.key}}</option>
+        </select>
+    </div>
+    <div class="select">
+        <select [(ngModel)]="selectBloc" (change)="onBlocSelected($event)" name="selectBlocselectBloc"
+            id="selectBlocselectBloc">
+            <option value="0">Choisir un bloc</option>
+            <option *ngFor="let bloc of blocs | keyvalue" [value]="bloc.value">{{bloc.key}}</option>
+        </select>
+    </div>
+    <div class="field">
+        <p class="control has-icons-right">
+            <input class="input" type="text" placeholder="Matricule/Nom" [(ngModel)]="searchInput"
+                (keyup)="onKeyUp($event)" name="searchInput" id="searchInput">
+            <span class="icon is-small is-right">
+                <fa-icon [icon]="faSearch"></fa-icon>
+            </span>
+        </p>
+    </div>
+</div>

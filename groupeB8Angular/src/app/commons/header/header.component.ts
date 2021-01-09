@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faCoffee, faUserGraduate, faSignOutAlt, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -12,9 +13,16 @@ export class HeaderComponent implements OnInit {
   faUserGraduate = faUserGraduate;
   faSignOutAlt = faSignOutAlt;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+    // check if user is connected
+    // if not, dont show nav-links
+  }
+
+  logOut() {
+    console.log("Logging Out...");
+
   }
 
 }

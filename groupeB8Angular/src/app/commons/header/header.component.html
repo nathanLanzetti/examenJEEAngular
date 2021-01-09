@@ -13,18 +13,18 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
-            <a class="navbar-item helha primary-color">
+            <a routerLink="/etudiants" routerLinkActive="active" class="navbar-item helha primary-color">
                 <fa-icon [icon]="faUserGraduate"></fa-icon> Etudiants
             </a>
 
-            <a class="navbar-item helha primary-color">
+            <a routerLink="/excel" routerLinkActive="active" class="navbar-item helha primary-color">
                 <fa-icon [icon]="faFileExcel"></fa-icon> Charger Excel
             </a>
 
 
             <div class="navbar-item">
-                <a class="button is-danger">
-                    <fa-icon class="is-vcentered" [icon]="faSignOutAlt"></fa-icon> Déconnexion
+                <a (click)="logOut()" class="button is-danger">
+                    <fa-icon [icon]="faSignOutAlt"></fa-icon> Déconnexion
                 </a>
             </div>
         </div>

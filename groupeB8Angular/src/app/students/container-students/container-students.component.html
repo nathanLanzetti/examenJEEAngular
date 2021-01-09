@@ -1,0 +1,10 @@
+<section class="section">
+    <div class="container">
+        <app-filter-menu-student (sectionEmitter)="getSection($event)" (blocEmitter)="getBloc($event)"
+            (searchEmitter)="getSearch($event)"></app-filter-menu-student>
+    </div>
+    <div class="container">
+        <app-table-students [students]="studentsToDisplay" [selectedSection]="selectedSection"
+            [selectedBloc]="selectedBloc" [searchTerm]="searchTerm"></app-table-students>
+    </div>
+</section>
