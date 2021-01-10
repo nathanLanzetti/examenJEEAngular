@@ -11,4 +11,10 @@
 }
 ngx-dropzone {
   width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+fa-icon {
+  height: 50px;
+  transform: scale(250%);
 }

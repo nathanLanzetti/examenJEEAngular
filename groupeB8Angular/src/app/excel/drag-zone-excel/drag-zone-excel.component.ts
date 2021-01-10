@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-drag-zone-excel',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./drag-zone-excel.component.css']
 })
 export class DragZoneExcelComponent implements OnInit {
-
+  faUpload = faUpload
   files: File[] = [];
 
   constructor() { }

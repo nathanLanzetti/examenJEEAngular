@@ -8,8 +8,6 @@ export interface Student {
     lastname: string,
     firstname: string,
     units: Unit[],
-    ueValidated: Map<String, Boolean>,
-    aaValidated: Map<String, Boolean>,
     creditsNumber: number,
     academicYear: string,
     section: Section,

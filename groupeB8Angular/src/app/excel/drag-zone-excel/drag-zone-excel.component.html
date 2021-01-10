@@ -2,6 +2,7 @@
 
     <section id="dragzone" class="column is-6">
         <ngx-dropzone (change)="onSelect($event)" [multiple]="false">
+            <fa-icon [icon]="faUpload"></fa-icon>
             <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
             <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                 <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
