@@ -11,7 +11,7 @@ export class SignInComponent implements OnInit {
   connected : boolean[] = [true,true];
   color : string = 'black';
   form : FormGroup = this.formbuilder.group({
-    email: ['', Validators.required, Validators.email],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 
