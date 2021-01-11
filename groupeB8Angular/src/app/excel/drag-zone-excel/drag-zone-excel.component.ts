@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import * as xlsx from 'xlsx';
+import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
 
 @Component({
   selector: 'app-drag-zone-excel',
@@ -9,17 +11,40 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 export class DragZoneExcelComponent implements OnInit {
   faUpload = faUpload
   files: File[] = [];
+  data: [][];
 
-  constructor() { }
+  constructor(private listes: ListesEtudiantsService) { }
 
   ngOnInit(): void {
   }
 
-  onSelect(event) {
+  onSelect(event: any) {
     console.log(event);
     this.files = []
     this.files.push(...event.addedFiles);
+
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if(this.verifyExtension() == false) return;
+    const reader: FileReader = new FileReader();
+
+    reader.onload = (e: any) =>{
+      const bstr: string = e.target.result;
+
+      const wb: xlsx.WorkBook = xlsx.read(bstr, {type: 'binary'});
+      const wsEtudiants: string = wb.SheetNames[0];
+      const ws: xlsx.WorkSheet = wb.Sheets[wsEtudiants];
+
+      console.log(ws);
+      this.data = (xlsx.utils.sheet_to_json(ws,{header: 1}));
+      console.log(this.data);
+      this.listes.setData(this.data);
+
+    };
+
+    reader.readAsBinaryString(this.files[0]);
+
   }
+
 
   onRemove(event) {
     console.log(event);

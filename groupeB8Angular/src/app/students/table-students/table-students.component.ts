@@ -4,6 +4,7 @@ import { Bloc, getDisplayNameBloc } from 'src/app/models/Bloc';
 import { Section, getDisplayName } from 'src/app/models/Section';
 import { Student } from 'src/app/models/Student';
 import { StudentToDisplay } from 'src/app/models/StudentsToDisplay';
+import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
 
 @Component({
   selector: 'app-table-students',
@@ -17,9 +18,11 @@ export class TableStudentsComponent implements OnInit {
   @Input() selectedBloc: number = 0;
   @Input() searchTerm: string = ""
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private listes: ListesEtudiantsService) { }
 
   ngOnInit(): void {
+    this.students = this.listes.data[1];
   }
 
   onClickedRow($event) {
