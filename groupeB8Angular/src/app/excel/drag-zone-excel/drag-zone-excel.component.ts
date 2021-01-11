@@ -26,4 +26,15 @@ export class DragZoneExcelComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
+  verifyExtension() {
+    var isExcelFile = 1;
+    if(this.files==null)isExcelFile=0;
+    this.files.forEach(file=> {
+      if(file.name.slice((file.name.lastIndexOf('.') - 1 >>> 0) + 2) != "xlsx"){
+        isExcelFile = 0;
+      };
+    });
+    return (isExcelFile == 1);
+
+  }
 }
