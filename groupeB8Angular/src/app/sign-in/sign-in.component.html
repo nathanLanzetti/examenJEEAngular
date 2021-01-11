@@ -5,20 +5,20 @@
             <div class="form-header helha secondary-background">
                 <h3 class="is-size-4 has-text-centered white">Connexion</h3>
             </div>
-            <form>
+            <form [formGroup]="form" (submit)="connection()">
                 <div class="field">
-                    <label for="">Email :</label>
+                    <label for="">Email :</label><label *ngIf="connected[1]==false" [ngStyle]="{color : color}"> email incorrect</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Email..">
+                        <input class="input" name = "email" [ngStyle]="{borderColor: color, color : color}" type="email" formControlName="email" placeholder="Email..">
                     </div>
                 </div>
                 <div class="field">
-                    <label for="">Password :</label>
-                    <div class="control">
-                        <input class="input" type="password" placeholder="Password..">
+                    <label for="" >Password :</label><label *ngIf="connected[0]==false" [ngStyle]="{color : color}"> mot de passe incorrect</label>
+                  <div class="control">
+                        <input class="input" name = "password" [ngStyle]="{borderColor: color, color : color}" formControlName="password" type="password" placeholder="Password..">
                     </div>
                 </div>
-                <button class="button is-fullwidth is-medium helha primary-background white">Se connecter</button>
+                <button [disabled]="form.controls['email'].invalid" class="button is-fullwidth is-medium helha primary-background white">Se connecter</button>
             </form>
         </div>
     </section>
