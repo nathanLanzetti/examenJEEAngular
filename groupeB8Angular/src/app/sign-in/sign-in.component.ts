@@ -14,6 +14,8 @@ export class SignInComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
+  colorEmail: string = 'black';
+  colorPassword : string = "black";
 
   constructor(private formbuilder : FormBuilder) { }
 
@@ -45,6 +47,6 @@ export class SignInComponent implements OnInit {
   }
 
   getColor() {
-    this.color = 'red';
+    this.colorEmail = this.colorPassword = this.color = 'red';
   }
 }
