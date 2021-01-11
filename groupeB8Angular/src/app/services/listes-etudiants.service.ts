@@ -9,8 +9,7 @@ export class ListesEtudiantsService {
 
   constructor() { }
 
-  setData(data)
-  {
+  setData(data) {
     this.data = data;
     console.log(this.data);
   }
