@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // check if user is connected
     // if not, dont show nav-links
-    this.authService.currentUserSub.subscribe(x => this.currentUser = x);
+    //this.authService.currentUserSub.subscribe(x => this.currentUser = x);
   }
 
   logOut() {
