@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
-import {Section} from "../../models/Section";
 import {Activity} from "../../models/Activity";
+import {Bloc} from "../../models/Bloc";
 
 @Component({
   selector: 'app-list-courses',
@@ -13,11 +13,11 @@ import {Activity} from "../../models/Activity";
 })
 export class ListCoursesComponent implements OnInit {
 
-  bloc1 : any[] = new Array();
-  bloc2 : any[] = new Array();
-  bloc3 : any[] = new Array();
+  bloc1 : Unit[] = new Array();
+  bloc2 : Unit[] = new Array();
+  bloc3 : Unit[] = new Array();
 
-  listUE : any[] = new Array();
+  listUE : Unit[] = new Array();
   matricule : string;
   constructor(private route:ActivatedRoute , private listes : ListesEtudiantsService) { }
 
@@ -33,9 +33,14 @@ export class ListCoursesComponent implements OnInit {
   private hideTabs() {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
+    tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
     }
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.color = "black";
+    }
+
   }
 
 
@@ -49,7 +54,11 @@ export class ListCoursesComponent implements OnInit {
 
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.color = "black";
+    }
+    for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
+      tablinks.style.color = "green";
     }
 
     document.getElementById(bloc).style.display = "block";
@@ -57,14 +66,19 @@ export class ListCoursesComponent implements OnInit {
   }
 
   getListUE(){
-    this.listes.data.forEach(section=>{
-      section.forEach(datas=>{
-        if(datas[2]==this.matricule){
-          datas.forEach(data=>{
-
-          })
-        }
-      })
+    this.listUE.forEach(unit=>{
+      switch(unit.bloc){
+        case Bloc.BLOC_1 :
+          this.bloc1.push(unit);
+          break;
+        case Bloc.BLOC_2 :
+          this.bloc2.push(unit);
+          break;
+        case Bloc.BLOC_3:
+          this.bloc3.push(unit);
+          break;
+        default : break;
+      }
     })
   }
 
@@ -103,14 +117,25 @@ export class ListCoursesComponent implements OnInit {
                           nameUE+=text+" ";
                         }
                         else if(dividedText.indexOf(text)==0){
-                          bloc = text[2];
+                          switch (text[2]){
+                            case "1" :
+                              bloc = Bloc.BLOC_1;
+                              break;
+                            case "2" :
+                              bloc = Bloc.BLOC_2;
+                              break;
+                            case "3" :
+                              bloc = Bloc.BLOC_3;
+                              break;
+                            default : break;
+                          }
                         }
                       });
 
                       unit = {
                         code : dividedText[3],
                         title : nameUE,
-                        section : indexSectionStudent + 1,
+                        section : this.listes.sections[indexSectionStudent],
                         bloc : bloc,
                         activities : new  Array(),
                         academicYear: year-1+"/"+year
@@ -127,7 +152,7 @@ export class ListCoursesComponent implements OnInit {
                         activity = {
                           title: nameAA,
                           bloc: bloc,
-                          section: indexSectionStudent + 1
+                          section: this.listes.sections[indexSectionStudent]
                         }
                         nameAA = "";
                         if (unit != null) unit.activities.push(activity);
