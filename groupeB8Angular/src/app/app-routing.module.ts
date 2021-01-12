@@ -9,9 +9,9 @@ import { ContainerStudentsComponent } from './students/container-students/contai
 
 const routes: Routes = [
   { path: 'auth/signin', component: SignInComponent },
-  { path: 'etudiants', canActivate: [AuthGuard], component: ContainerStudentsComponent },
-  { path: 'excel', canActivate: [AuthGuard], component: DragZoneExcelComponent },
-  { path: 'etudiants/:matricule', canActivate: [AuthGuard], component: ManagerStudentComponent },
+  { path: 'etudiants', component: ContainerStudentsComponent },
+  { path: 'excel', component: DragZoneExcelComponent },
+  { path: 'etudiants/:matricule', component: ManagerStudentComponent },
   /*
   { path: 'correctifs/:id', canActivate: [AuthGuard], component: CorrectifsComponent },
   */
