@@ -18,6 +18,9 @@ import { SelectSectionPipe } from './filters/select-section.pipe';
 import { DragZoneExcelComponent } from './excel/drag-zone-excel/drag-zone-excel.component';
 import { ManagerStudentComponent } from './student-card/manager-student/manager-student.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DetailStudentComponent } from './student-card/detail-student/detail-student.component';
+import { ChangeUEComponent } from './student-card/change-ue/change-ue.component';
+import { ListCoursesComponent } from './student-card/list-courses/list-courses.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { HttpClientModule } from '@angular/common/http';
     SelectBlocPipe,
     SelectSectionPipe,
     DragZoneExcelComponent,
-    ManagerStudentComponent
+    ManagerStudentComponent,
+    DetailStudentComponent,
+    ChangeUEComponent,
+    ListCoursesComponent
   ],
   imports: [
     BrowserModule,
