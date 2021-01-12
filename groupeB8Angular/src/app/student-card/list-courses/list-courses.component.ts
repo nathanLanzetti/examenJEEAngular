@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
 import {Section} from "../../models/Section";
+import {Activity} from "../../models/Activity";
 
 @Component({
   selector: 'app-list-courses',
@@ -75,8 +76,9 @@ export class ListCoursesComponent implements OnInit {
     var dividedText : any[] = new Array();
     var nameUE : string = "";
     var bloc : number = 0;
-   var year : number = new Date().getFullYear();
-
+    var year : number = new Date().getFullYear();
+    var nameAA  : string = "";
+    var activity : Activity = null;
 
     //Déterminer la section de l'étudiant
     this.listes.studentList.forEach(student=>{
@@ -91,9 +93,7 @@ export class ListCoursesComponent implements OnInit {
         section.forEach(datas=>{
           if(section.indexOf(datas)<3){
             datas.forEach(data=>{
-              if(datas.indexOf(data)>=5) {
-                switch (indexSectionStudent) {
-                  case 0 :
+              if(datas.indexOf(data)>=4) {
                     data = ""+data;
                     dividedText = data.split(" ");
                     if(dividedText[2] == "UE"){
@@ -112,21 +112,27 @@ export class ListCoursesComponent implements OnInit {
                         title : nameUE,
                         section : indexSectionStudent + 1,
                         bloc : bloc,
-
+                        activities : new  Array(),
                         academicYear: year-1+"/"+year
                       }
                       nameUE = "";
                     }
                     else{
-
+                      dividedText.forEach(text=>{
+                        if(dividedText.indexOf(text)>=2){
+                          nameAA+=text+" ";
+                        }
+                      })
+                      if(nameAA!="") {
+                        activity = {
+                          title: nameAA,
+                          bloc: bloc,
+                          section: indexSectionStudent + 1
+                        }
+                        nameAA = "";
+                        if (unit != null) unit.activities.push(activity);
+                      }
                     }
-
-                    break;
-
-                  default:
-                    break;
-
-                }
               }
             })
           }
