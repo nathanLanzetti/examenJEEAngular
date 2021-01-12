@@ -6,10 +6,11 @@ import { Injectable } from '@angular/core';
 export class ListesEtudiantsService {
 
   data: any[][][];
-
+  sections : any[];
 
   constructor() {
     this.data = new Array();
+    this.sections = new Array();
   }
 
   setData(data) {

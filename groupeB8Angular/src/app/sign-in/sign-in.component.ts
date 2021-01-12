@@ -16,13 +16,25 @@ export class SignInComponent implements OnInit {
   });
   colorEmail: string = 'black';
   colorPassword : string = "black";
+  loading = false;
+  submitted = false;
 
   constructor(private formbuilder : FormBuilder) { }
 
   ngOnInit(): void {
   }
 
+  get f() { return this.form.controls; }
+
   connection() {
+    this.submitted = true;
+
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.loading = true;
+
     console.log(this.form.value);
     const password = this.form.value['password'];
     console.log(password);
@@ -37,7 +49,7 @@ export class SignInComponent implements OnInit {
     else{
       if(this.form.controls['email'].invalid)
       {
-       this.connected[1] = false;
+        this.connected[1] = false;
       }
       alert("Vous n'êtes pas connecté");
       this.getColor();
@@ -48,5 +60,10 @@ export class SignInComponent implements OnInit {
 
   getColor() {
     this.colorEmail = this.colorPassword = this.color = 'red';
+  }
+
+  isValidInput(fieldName): boolean {
+    return this.form.controls[fieldName].invalid &&
+      (this.form.controls[fieldName].dirty || this.form.controls[fieldName].touched);
   }
 }
