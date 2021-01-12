@@ -5,12 +5,20 @@ import { Injectable } from '@angular/core';
 })
 export class ListesEtudiantsService {
 
-  data: [][];
+  data: any[][][];
 
-  constructor() { }
+
+  constructor() {
+    this.data = new Array();
+  }
 
   setData(data) {
     this.data = data;
+    console.log(this.data);
+  }
+
+  addDataList(data){
+    this.data.push(data);
     console.log(this.data);
   }
 }

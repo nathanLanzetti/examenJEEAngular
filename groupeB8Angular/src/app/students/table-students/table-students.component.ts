@@ -34,11 +34,12 @@ export class TableStudentsComponent implements OnInit {
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
     for (let i:number =0; i<cpt; i++){
+      console.log(this.matricule[i]);
       // @ts-ignore
       etudiant = {
         matricule: this.matricule[i],
-        lastname: this.name[i+1],
-        firstname: this.firstname[i+1],
+        lastname: this.name[i],
+        firstname: this.firstname[i],
         bloc: this.bloc[i]
       };
       this.students.push(etudiant);
@@ -52,11 +53,14 @@ export class TableStudentsComponent implements OnInit {
   }
 
   generateMatricule(){
-    this.listes.data.forEach(data => {
-      data.forEach(a => {
-        if (data.indexOf(a)==2){
-          this.matricule.push(a)
-        }
+    this.listes.data.forEach(sections=>{
+      sections.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==2){
+            // @ts-ignore
+            this.matricule.push(a);
+          }
+        })
       })
     });
     console.log(this.matricule);
@@ -67,30 +71,35 @@ export class TableStudentsComponent implements OnInit {
     var firstName: string = "";
     var lastName: string = "";
     var morceau: string[] = [];
-    this.listes.data.forEach(data =>{
-      data.forEach(n =>{
-        if(data.indexOf(n)==1){
+    this.listes.data.forEach(section=>{
+      section.forEach(data =>{
+        data.forEach(n =>{
+          if(data.indexOf(n)==1 && n!="Etudiants"){
 
-          name = ""+n;
-          morceau = name.split(" ",2);
-          lastName = morceau[0];
-          firstName = morceau[1];
-          // @ts-ignore
-          this.firstname.push(firstName);
-          // @ts-ignore
-          this.name.push(lastName.valueOf());
-        }
+            name = ""+n;
+            morceau = name.split(" ",2);
+            lastName = morceau[0];
+            firstName = morceau[1];
+            // @ts-ignore
+            this.firstname.push(firstName);
+            // @ts-ignore
+            this.name.push(lastName);
+          }
+        })
       })
     });
     console.log(this.name);
   }
 
   generateBloc(){
-    this.listes.data.forEach(data => {
-      data.forEach(a => {
-        if (data.indexOf(a)==3){
-          this.bloc.push(a)
-        }
+    this.listes.data.forEach(section=>{
+      section.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==3){
+            // @ts-ignore
+            this.bloc.push(a)
+          }
+        })
       })
     });
     console.log(this.bloc);

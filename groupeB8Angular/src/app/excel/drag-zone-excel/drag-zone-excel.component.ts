@@ -13,6 +13,7 @@ export class DragZoneExcelComponent implements OnInit {
   files: File[] = [];
   data: [][];
 
+  dataList : [] = [];
   constructor(private listes: ListesEtudiantsService) { }
 
   ngOnInit(): void {
@@ -54,13 +55,11 @@ export class DragZoneExcelComponent implements OnInit {
         const ws: xlsx.WorkSheet = wb.Sheets[wsName];
         excelData = (xlsx.utils.sheet_to_json(ws, { header: 1 }));
         console.log(excelData);
-
+        this.listes.addDataList(excelData);
       })
 
-      console.log(jsonData);
-      console.log(this.data);
-      this.listes.setData(this.data);
-
+      // console.log(jsonData);
+      // console.log(this.data);
     };
 
     reader.readAsBinaryString(this.files[0]);
