@@ -17,6 +17,7 @@ import { SelectBlocPipe } from './filters/select-bloc.pipe';
 import { SelectSectionPipe } from './filters/select-section.pipe';
 import { DragZoneExcelComponent } from './excel/drag-zone-excel/drag-zone-excel.component';
 import { ManagerStudentComponent } from './student-card/manager-student/manager-student.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ManagerStudentComponent } from './student-card/manager-student/manager-
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
