@@ -6,9 +6,9 @@ export interface Unit {
     id?: number,
     code: string,
     title: string,
-    activities: Activity[],
+    activities?: Activity[],
     academicYear: string,
-    creditsNumber: number,
+    creditsNumber?: number,
     section: Section,
     bloc: Bloc
 }

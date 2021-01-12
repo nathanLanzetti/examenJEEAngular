@@ -49,6 +49,7 @@ export class TableStudentsComponent implements OnInit {
 
       this.attributeSection();
 
+      this.listes.studentList = this.students;
     }
   }
 
