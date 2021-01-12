@@ -56,6 +56,7 @@ export class DragZoneExcelComponent implements OnInit {
         excelData = (xlsx.utils.sheet_to_json(ws, { header: 1 }));
         console.log(excelData);
         this.listes.addDataList(excelData);
+        this.listes.sections = wsNames;
       })
 
       // console.log(jsonData);

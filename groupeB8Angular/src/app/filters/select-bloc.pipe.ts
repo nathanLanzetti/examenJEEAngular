@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { getDisplayNameBloc } from '../models/Bloc';
+import { getDisplayNameBlocTable } from '../models/Bloc';
 import { StudentToDisplay } from '../models/StudentsToDisplay';
 
 @Pipe({
@@ -14,9 +14,9 @@ export class SelectBlocPipe implements PipeTransform {
 
     return students.filter(student => {
       console.log(`Selected Section :  ${selectedBloc}`);
-      console.log(`Displayed Name = ${student.section} =? ${getDisplayNameBloc(+selectedBloc)}`);
+      console.log(`Displayed Name = ${student.section} =? ${getDisplayNameBlocTable(+selectedBloc)}`);
 
-      if (student.bloc == getDisplayNameBloc(+selectedBloc)) {
+      if (student.bloc == getDisplayNameBlocTable(+selectedBloc)) {
         return student
       }
     })

@@ -20,3 +20,19 @@ export function getDisplayNameBloc(key: number): string {
             break;
     }
 }
+export function getDisplayNameBlocTable(key: number): string {
+  switch (key) {
+    case 1:
+      return "1B"
+      break;
+    case 2:
+      return "2B"
+      break;
+    case 3:
+      return "3B"
+      break;
+
+    default:
+      break;
+  }
+}

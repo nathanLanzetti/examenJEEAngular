@@ -19,6 +19,7 @@ export class TableStudentsComponent implements OnInit {
   name: [];
   bloc: [];
 
+  studentListCopied : StudentToDisplay[] = [];
   constructor(private router: Router,
               private listes: ListesEtudiantsService) { }
 
@@ -33,6 +34,7 @@ export class TableStudentsComponent implements OnInit {
     this.generateBloc();
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
+
     for (let i:number =0; i<cpt; i++){
       console.log(this.matricule[i]);
       // @ts-ignore
@@ -43,6 +45,10 @@ export class TableStudentsComponent implements OnInit {
         bloc: this.bloc[i]
       };
       this.students.push(etudiant);
+      this.studentListCopied = this.students;
+
+      this.attributeSection();
+
     }
   }
 
@@ -105,4 +111,23 @@ export class TableStudentsComponent implements OnInit {
     console.log(this.bloc);
   }
 
+  private attributeSection() {
+    let increment : number = 0;
+
+    this.students.forEach(student=>{
+      if(this.students.indexOf(student)==0){
+        student.section = this.listes.sections[increment];
+      }
+      else{
+        this.studentListCopied.forEach(studentCopied=>{
+          if(this.students.indexOf(student)==this.studentListCopied.indexOf(studentCopied)+1){
+            if(student.lastname < studentCopied.lastname){
+              increment++;
+            }
+            student.section = this.listes.sections[increment];
+          }
+        })
+      }
+    })
+  }
 }

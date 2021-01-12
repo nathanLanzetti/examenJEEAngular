@@ -21,4 +21,19 @@ export function getDisplayName(key: number): string {
     }
 }
 
+export function getDisplayNameSection(key: number): string {
+  switch (key) {
+    case 1:
+      return "AD"
+      break;
+    case 2:
+      return "CT"
+      break;
+    case 3:
+      return "IG"
+      break;
 
+    default:
+      break;
+  }
+}
