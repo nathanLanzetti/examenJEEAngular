@@ -17,17 +17,7 @@ export class DragZoneExcelComponent implements OnInit {
   files: File[] = [];
   data: [][];
 
-  bloc1: Unit[] = new Array();
-  bloc2: Unit[] = new Array();
-  bloc3: Unit[] = new Array();
-
   listUE: Unit[] = [];
-  matricule: string;
-
-  lastChange : string;
-
-  indexSectionStudent: number = 0;
-
 
   incrementUE : number = 0;
   incrementAA : number = 0;
@@ -84,23 +74,7 @@ export class DragZoneExcelComponent implements OnInit {
     reader.readAsBinaryString(this.files[0]);
 
   }
-  getListUE() {
-    this.listUE.forEach(unit => {
-      switch (unit.bloc) {
-        case Bloc.BLOC_1 :
-          this.bloc1.push(unit);
-          break;
-        case Bloc.BLOC_2 :
-          this.bloc2.push(unit);
-          break;
-        case Bloc.BLOC_3:
-          this.bloc3.push(unit);
-          break;
-        default :
-          break;
-      }
-    })
-  }
+
 
   //Obtenir Toutes les UEs
   private getAllUE() {
