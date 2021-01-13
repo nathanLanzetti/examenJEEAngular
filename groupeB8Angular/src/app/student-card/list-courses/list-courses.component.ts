@@ -128,7 +128,7 @@ export class ListCoursesComponent implements OnInit {
     var nameAA: string = "";
     var activity: Activity = null;
     var titleUnit : string = "";
-    var compteurTest = 1;
+    var isLastAA : boolean = false;
 
 
     //Déterminer la section de l'étudiant
@@ -195,14 +195,13 @@ export class ListCoursesComponent implements OnInit {
                       if (data != "AcAp") {
                         dividedText = data.split(" ");
                         console.log(this.incrementUE);
-                        console.log(this.listUE[this.incrementUE]);
                         if (dividedText[1] == "1B") {
 
                           this.listUE[this.incrementUE].bloc = Bloc.BLOC_1
                         } else if (dividedText[1] == "2B") {
-                          //this.listUE[incrementUE].bloc = Bloc.BLOC_2
+                          this.listUE[this.incrementUE].bloc = Bloc.BLOC_2
                         } else {
-                          //this.listUE[incrementUE].bloc = Bloc.BLOC_3
+                          this.listUE[this.incrementUE].bloc = Bloc.BLOC_3
                         }
                         dividedText = [];
 
@@ -217,11 +216,9 @@ export class ListCoursesComponent implements OnInit {
 
                                 activity.bloc = ue.bloc;
                                 this.incrementAA++;
-
                               }
                               if (ue.activities.length <= this.incrementAA) {
-                                this.incrementAA = 0;
-                                this.incrementUE++;
+                                isLastAA = true;
                               }
                             });
                           }
@@ -229,6 +226,11 @@ export class ListCoursesComponent implements OnInit {
                       }
                     }
                   }
+                }
+                if(isLastAA == true){
+                  console.log("je suis là");
+                  isLastAA = false;
+                  this.incrementUE++;
                 }
               });
             }
