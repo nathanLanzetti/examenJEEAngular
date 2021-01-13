@@ -130,7 +130,8 @@ export class ListCoursesComponent implements OnInit {
     var titleUnit : string = "";
     var isLastAA : boolean = false;
 
-
+    var credit : number[] = new Array();
+    var compteurCreditTable : number = 0;
     //Déterminer la section de l'étudiant
     this.listes.studentList.forEach(student => {
       if (student.matricule == this.matricule) {
@@ -221,7 +222,6 @@ export class ListCoursesComponent implements OnInit {
                                 activity.bloc = ue.bloc;
                                 this.incrementAA++;
                               }
-                              console.log(ue.activities.length + " Est supérieur à " + this.incrementAA);
                               if (ue.activities.length == this.incrementAA) {
                                 isLastAA = true;
                                 this.incrementAA = 0;
@@ -234,6 +234,24 @@ export class ListCoursesComponent implements OnInit {
                   }
               });
             }
+
+            //Attribution des crédits aux AA et UE
+            else if(section.indexOf(datas)==2){
+              this.incrementAA = 0;
+              this.incrementUE = 0;
+              datas.forEach(data => {
+                if(data !=" ")credit.push(data);
+              });
+
+              this.listUE.forEach(ue=>{
+                ue.creditsNumber = credit[compteurCreditTable];
+                compteurCreditTable++;
+                ue.activities.forEach(activity=>{
+                  activity.creditsNumber = credit[compteurCreditTable];
+                  compteurCreditTable++;
+                })
+              })
+            }
           }
         });
       }
@@ -241,48 +259,7 @@ export class ListCoursesComponent implements OnInit {
 
     console.log(this.listUE);
   }
-/*
-  //Attribue le nombre de crédit pour chaque UE et AA de la liste listUE
-  getCredit(){
-    var ue : Unit = null;
-    var isAA : number = -1;
-    var credit : number = 0;
 
-      this.listes.data.forEach(section=>{
-        if (this.listes.data.indexOf(section) == this.indexSectionStudent) {
-          section.forEach(datas=>{
-            if(section.indexOf(datas) == 2){
-              datas.forEach(data=>{
-                if(datas.indexOf(data)>=4){
-                  if(ue!=null && isAA == -1){
-                    this.listUE.forEach(ues=>{
-                      if(ues.code == ue.code){
-                        ues = ue;
-                      }
-                    })
-                  }
-                  if(isAA<0){
-                    credit = data;
-                    ue = this.listUE[datas.indexOf(data)-4];
-                    ue.creditsNumber = credit;
-                    isAA ++;
-                  }
-                  else{
-                    ue.activities[isAA].creditsNumber = data;
-                    isAA ++;
-                    if(ue.activities.length >= isAA){
-                      isAA = -1;
-                    }
-                  }
-                }
-
-              })
-            }
-          })
-        }
-      });
-  }
-*/
   ajouter(index) {
     this.lastChange = "";
     var btnAdd, btnRemove;

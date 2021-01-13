@@ -30,7 +30,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong> <button class="btnAdd"(click)="ajouter(i)">Ajouter au PAE</button>
+            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong> <button class="btnAdd"(click)="ajouter(i)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button>
             <br>
           </p>
@@ -40,7 +40,7 @@
               <div class="media-content">
                 <div class="content">
                   <p>
-                    <strong>{{aa.title}}</strong>
+                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
                     <br>
                   </p>
                 </div>
@@ -62,7 +62,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length)">Ajouter au PAE</button>
+            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i + bloc1.length)">Retirer du PAE</button>
             <br>
           </p>
@@ -71,7 +71,7 @@
               <div class="media-content">
                 <div class="content">
                   <p>
-                    <strong>{{aa.title}}</strong>
+                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
                     <br>
                   </p>
                 </div>
@@ -92,7 +92,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length+bloc2.length)">Ajouter au PAE</button>
+            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length+bloc2.length)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i+bloc1.length+bloc2.length)">Retirer du PAE</button>
             <br>
           </p>
@@ -101,7 +101,7 @@
               <div class="media-content">
                 <div class="content">
                   <p>
-                    <strong>{{aa.title}}</strong>
+                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
                     <br>
                   </p>
                 </div>
