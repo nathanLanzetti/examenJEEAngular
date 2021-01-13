@@ -10,7 +10,8 @@ export class ListesEtudiantsService {
   data: any[][][];
   sections : any[];
   studentList : StudentToDisplay[] = new Array();
-  listUE : Unit[] = new Array();
+  listUE : any[] = new Array();
+
   constructor() {
     this.data = new Array();
     this.sections = new Array();
@@ -23,6 +24,5 @@ export class ListesEtudiantsService {
 
   addDataList(data){
     this.data.push(data);
-    console.log(this.data);
   }
 }
