@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
 import {Bloc} from "../../models/Bloc";
+import {EventEmitter} from "events";
+
 
 
 
@@ -15,12 +17,16 @@ import {Bloc} from "../../models/Bloc";
 })
 export class ListCoursesComponent implements OnInit {
 
+  @Output() myEvent = new EventEmitter();
+
   bloc1: Unit[] = new Array();
   bloc2: Unit[] = new Array();
   bloc3: Unit[] = new Array();
 
   listUE: Unit[] = new Array();
   matricule: string;
+
+  lastChange : string;
 
   indexSectionStudent: number = 0;
 
@@ -235,19 +241,28 @@ export class ListCoursesComponent implements OnInit {
   }
 */
   ajouter(index) {
+    this.lastChange = "";
     var btnAdd, btnRemove;
     btnAdd = document.getElementsByClassName("btnAdd");
     btnRemove = document.getElementsByClassName("btnRemove");
+
+    this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " ajoutée";
     btnRemove[index].style.display = "block";
     btnAdd[index].style.display = "none";
+    console.log(this.lastChange);
   }
 
   supprimer(index){
+    this.lastChange = "";
     var btnAdd, btnRemove;
     btnAdd = document.getElementsByClassName("btnAdd");
     btnRemove = document.getElementsByClassName("btnRemove");
+
+    this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " supprimée";
     btnAdd[index].style.display = "block";
     btnRemove[index].style.display = "none";
+
+    console.log(this.lastChange);
 
   }
 }
