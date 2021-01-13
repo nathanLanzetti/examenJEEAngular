@@ -6,5 +6,5 @@ export interface Activity {
     title: string,
     creditsNumber?: number,
     section: Section,
-    bloc: Bloc
+    bloc?: Bloc
 }

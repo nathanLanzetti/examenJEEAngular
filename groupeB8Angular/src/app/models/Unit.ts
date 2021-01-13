@@ -10,5 +10,5 @@ export interface Unit {
     academicYear: string,
     creditsNumber?: number,
     section: Section,
-    bloc: Bloc
+    bloc?: Bloc
 }

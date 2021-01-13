@@ -8,8 +8,6 @@ import {Bloc} from "../../models/Bloc";
 import {EventEmitter} from "events";
 
 
-
-
 @Component({
   selector: 'app-list-courses',
   templateUrl: './list-courses.component.html',
@@ -29,6 +27,10 @@ export class ListCoursesComponent implements OnInit {
   lastChange : string;
 
   indexSectionStudent: number = 0;
+
+
+  incrementUE : number = 0;
+  incrementAA : number = 0;
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService) {
   }
@@ -121,10 +123,13 @@ export class ListCoursesComponent implements OnInit {
     var unit: Unit = null;
     var dividedText: any[] = new Array();
     var nameUE: string = "";
-    var bloc: number = 0;
+    var bloc: Bloc;
     var year: number = new Date().getFullYear();
     var nameAA: string = "";
     var activity: Activity = null;
+    var titleUnit : string = "";
+    var compteurTest = 1;
+
 
     //Déterminer la section de l'étudiant
     this.listes.studentList.forEach(student => {
@@ -138,64 +143,100 @@ export class ListCoursesComponent implements OnInit {
       if (this.listes.data.indexOf(section) == this.indexSectionStudent) {
         section.forEach(datas => {
           if (section.indexOf(datas) < 3) {
-            datas.forEach(data => {
-              if (datas.indexOf(data) >= 4) {
-                data = "" + data;
-                dividedText = data.split(" ");
-                if (dividedText[2] == "UE") {
-                  if (unit != null) this.listUE.push(unit);
-                  dividedText.forEach(text => {
-                    if (dividedText.indexOf(text) >= 4) {
-                      nameUE += text + " ";
-                    } else if (dividedText.indexOf(text) == 0) {
-                      switch (text[2]) {
-                        case "1" :
-                          bloc = Bloc.BLOC_1;
-                          break;
-                        case "2" :
-                          bloc = Bloc.BLOC_2;
-                          break;
-                        case "3" :
-                          bloc = Bloc.BLOC_3;
-                          break;
-                        default :
-                          break;
-                      }
-                    }
-                  });
 
-                  unit = {
-                    code: dividedText[3],
-                    title: nameUE,
-                    section: this.listes.sections[this.indexSectionStudent],
-                    bloc: bloc,
-                    activities: new Array(),
-                    academicYear: year - 1 + "/" + year
-                  }
-                  nameUE = "";
-                } else {
-                  dividedText.forEach(text => {
-                    if (dividedText.indexOf(text) >= 2) {
-                      nameAA += text + " ";
+            //Création des UE et AA et ajout dans une liste
+            if(section.indexOf(datas)==0) {
+              datas.forEach(data => {
+                if (datas.indexOf(data) >= 4) {
+                  data = "" + data;
+                  dividedText = data.split(" ");
+                  if (dividedText[2] == "UE") {
+                    if (unit != null) this.listUE.push(unit);
+                    dividedText.forEach(text => {
+                      if (dividedText.indexOf(text) >= 4) {
+                        nameUE += text + " ";
+                      }
+                    });
+
+                    unit = {
+                      code: dividedText[3],
+                      title: nameUE,
+                      section: this.listes.sections[this.indexSectionStudent],
+                      activities: new Array(),
+                      academicYear: year - 1 + "/" + year
                     }
-                  })
-                  if (nameAA != "") {
-                    activity = {
-                      title: nameAA,
-                      bloc: bloc,
-                      section: this.listes.sections[this.indexSectionStudent]
+                    nameUE = "";
+                  } else {
+                    dividedText.forEach(text => {
+                      if (dividedText.indexOf(text) >= 2) {
+                        nameAA += text + " ";
+                      }
+                    })
+                    if (nameAA != "") {
+                      activity = {
+                        title: nameAA,
+                        section: this.listes.sections[this.indexSectionStudent]
+                      }
+                      nameAA = "";
+                      if (unit != null) unit.activities.push(activity);
                     }
-                    nameAA = "";
-                    if (unit != null) unit.activities.push(activity);
                   }
                 }
-              }
-            })
+                if(datas.lastIndexOf(data)==datas.length - 1)this.listUE.push(unit);
+              })
+            }
+            //ATtribution des bloc d'apprentissage
+            else if(section.indexOf(datas)==1){
+              datas.forEach(data => {
+                if (datas.indexOf(data) >= 4) {
+                  data = "" + data;
+                  if(data != "") {
+                    if(this.listUE.length > this.incrementUE) {
+                      if (data != "AcAp") {
+                        dividedText = data.split(" ");
+                        console.log(this.incrementUE);
+                        console.log(this.listUE[this.incrementUE]);
+                        if (dividedText[1] == "1B") {
+
+                          this.listUE[this.incrementUE].bloc = Bloc.BLOC_1
+                        } else if (dividedText[1] == "2B") {
+                          //this.listUE[incrementUE].bloc = Bloc.BLOC_2
+                        } else {
+                          //this.listUE[incrementUE].bloc = Bloc.BLOC_3
+                        }
+                        dividedText = [];
+
+                        this.incrementAA = 0;
+
+                      } else {
+
+                        this.listUE.forEach(ue => {
+                          if (this.listUE.indexOf(ue) == this.incrementUE) {
+                            ue.activities.forEach(activity => {
+                              if (ue.activities.indexOf(activity) == this.incrementAA) {
+
+                                activity.bloc = ue.bloc;
+                                this.incrementAA++;
+
+                              }
+                              if (ue.activities.length <= this.incrementAA) {
+                                this.incrementAA = 0;
+                                this.incrementUE++;
+                              }
+                            });
+                          }
+                        });
+                      }
+                    }
+                  }
+                }
+              });
+            }
           }
-        })
+        });
       }
     })
-    this.listUE.push(unit);
+
     console.log(this.listUE);
   }
 /*
@@ -253,6 +294,8 @@ export class ListCoursesComponent implements OnInit {
   }
 
   supprimer(index){
+
+    console.log(index);
     this.lastChange = "";
     var btnAdd, btnRemove;
     btnAdd = document.getElementsByClassName("btnAdd");
