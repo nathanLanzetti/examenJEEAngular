@@ -6,6 +6,8 @@ import {Unit} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
 import {Bloc} from "../../models/Bloc";
 
+
+
 @Component({
   selector: 'app-list-courses',
   templateUrl: './list-courses.component.html',
@@ -33,6 +35,22 @@ export class ListCoursesComponent implements OnInit {
     this.hideTabs();
     //this.getCredit();
     this.getListUE();
+
+    //affichage des boutons
+    this.displayButtons()
+
+  }
+
+  private displayButtons() {
+    var i, btnAdd, btnRemove;
+    btnAdd = document.getElementsByClassName("btnAdd");
+    btnRemove = document.getElementsByClassName("btnRemove");
+    for (i = 0; i < btnAdd.length; i++) {
+      btnAdd[i].style.display = "block";
+    }
+    for (i = 0; i < btnRemove.length; i++) {
+      btnRemove[i].style.display = "none";
+    }
   }
 
   private hideTabs() {
@@ -216,4 +234,20 @@ export class ListCoursesComponent implements OnInit {
       });
   }
 */
+  ajouter(index) {
+    var btnAdd, btnRemove;
+    btnAdd = document.getElementsByClassName("btnAdd");
+    btnRemove = document.getElementsByClassName("btnRemove");
+    btnRemove[index].style.display = "block";
+    btnAdd[index].style.display = "none";
+  }
+
+  supprimer(index){
+    var btnAdd, btnRemove;
+    btnAdd = document.getElementsByClassName("btnAdd");
+    btnRemove = document.getElementsByClassName("btnRemove");
+    btnAdd[index].style.display = "block";
+    btnRemove[index].style.display = "none";
+
+  }
 }

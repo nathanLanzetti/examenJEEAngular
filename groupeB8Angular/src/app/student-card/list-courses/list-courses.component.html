@@ -25,12 +25,13 @@
 <!-- Bloc 1 -->
 <div id="1B" class="tabcontent">
   <div>Bloc 1</div>
-  <div *ngFor="let ue of bloc1" class="box">
+  <div *ngFor="let ue of bloc1;let i = index" class="box">
     <article class="media">
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong> <button>Ajouter au PAE</button>
+            <strong>{{ue.title}}</strong> <button class="btnAdd"(click)="ajouter(i)">Ajouter au PAE</button>
+            <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button>
             <br>
           </p>
           <div *ngFor="let aa of ue.activities" class="box">
@@ -56,12 +57,13 @@
 <!-- Bloc 2 -->
 <div id="2B" class="tabcontent">
   <div>Bloc 2</div>
-  <div *ngFor="let ue of bloc2" class="box">
+  <div *ngFor="let ue of bloc2; let i=index" class="box">
     <article class="media">
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong><button>Ajouter au PAE</button>
+            <strong>{{ue.title}}</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length)">Ajouter au PAE</button>
+            <button class="btnRemove" style="display: none" (click)="supprimer(i + bloc1.length)">Retirer du PAE</button>
             <br>
           </p>
           <div *ngFor="let aa of ue.activities" class="box">
@@ -85,12 +87,13 @@
 <!-- Bloc 3 -->
 <div id="3B" class="tabcontent">
   <div>Bloc 3</div>
-  <div *ngFor="let ue of bloc3" class="box">
+  <div *ngFor="let ue of bloc3; let i=index" class="box">
     <article class="media">
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}}</strong><button>Ajouter au PAE</button>
+            <strong>{{ue.title}}</strong><button class="btnAdd" (click)="ajouter(i+bloc1.length+bloc2.length)">Ajouter au PAE</button>
+            <button class="btnRemove" style="display: none" (click)="supprimer(i+bloc1.length+bloc2.length)">Retirer du PAE</button>
             <br>
           </p>
           <div *ngFor="let aa of ue.activities" class="box">
