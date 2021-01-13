@@ -13,17 +13,19 @@ import {Bloc} from "../../models/Bloc";
 })
 export class ListCoursesComponent implements OnInit {
 
-  bloc1 : Unit[] = new Array();
-  bloc2 : Unit[] = new Array();
-  bloc3 : Unit[] = new Array();
+  bloc1: Unit[] = new Array();
+  bloc2: Unit[] = new Array();
+  bloc3: Unit[] = new Array();
 
-  listUE : Unit[] = new Array();
-  matricule : string;
-  constructor(private route:ActivatedRoute , private listes : ListesEtudiantsService) { }
+  listUE: Unit[] = new Array();
+  matricule: string;
+
+  constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
-      params=>this.matricule=params.get('matricule')
+      params => this.matricule = params.get('matricule')
     );
     this.getAllUE();
     this.hideTabs();
@@ -65,9 +67,9 @@ export class ListCoursesComponent implements OnInit {
     evt.currentTarget.className += " active";
   }
 
-  getListUE(){
-    this.listUE.forEach(unit=>{
-      switch(unit.bloc){
+  getListUE() {
+    this.listUE.forEach(unit => {
+      switch (unit.bloc) {
         case Bloc.BLOC_1 :
           this.bloc1.push(unit);
           break;
@@ -77,87 +79,87 @@ export class ListCoursesComponent implements OnInit {
         case Bloc.BLOC_3:
           this.bloc3.push(unit);
           break;
-        default : break;
+        default :
+          break;
       }
     })
   }
 
   private getAllUE() {
     //Attribut
-    var indexSectionStudent : number = 0;
-    var listStudentCopied : StudentToDisplay[] = this.listes.studentList;
-    var unit : Unit = null;
-    var dividedText : any[] = new Array();
-    var nameUE : string = "";
-    var bloc : number = 0;
-    var year : number = new Date().getFullYear();
-    var nameAA  : string = "";
-    var activity : Activity = null;
+    var indexSectionStudent: number = 0;
+    var listStudentCopied: StudentToDisplay[] = this.listes.studentList;
+    var unit: Unit = null;
+    var dividedText: any[] = new Array();
+    var nameUE: string = "";
+    var bloc: number = 0;
+    var year: number = new Date().getFullYear();
+    var nameAA: string = "";
+    var activity: Activity = null;
 
     //Déterminer la section de l'étudiant
-    this.listes.studentList.forEach(student=>{
-      if(student.matricule == this.matricule){
+    this.listes.studentList.forEach(student => {
+      if (student.matricule == this.matricule) {
         indexSectionStudent = this.listes.sections.indexOf(student.section);
       }
     })
 
 
-    this.listes.data.forEach(section=>{
-      if(this.listes.data.indexOf(section) == indexSectionStudent){
-        section.forEach(datas=>{
-          if(section.indexOf(datas)<3){
-            datas.forEach(data=>{
-              if(datas.indexOf(data)>=4) {
-                    data = ""+data;
-                    dividedText = data.split(" ");
-                    if(dividedText[2] == "UE"){
-                      if(unit != null) this.listUE.push(unit);
-                      dividedText.forEach(text=>{
-                        if(dividedText.indexOf(text)>=4){
-                          nameUE+=text+" ";
-                        }
-                        else if(dividedText.indexOf(text)==0){
-                          switch (text[2]){
-                            case "1" :
-                              bloc = Bloc.BLOC_1;
-                              break;
-                            case "2" :
-                              bloc = Bloc.BLOC_2;
-                              break;
-                            case "3" :
-                              bloc = Bloc.BLOC_3;
-                              break;
-                            default : break;
-                          }
-                        }
-                      });
+    this.listes.data.forEach(section => {
+      if (this.listes.data.indexOf(section) == indexSectionStudent) {
+        section.forEach(datas => {
+          if (section.indexOf(datas) < 3) {
+            datas.forEach(data => {
+              if (datas.indexOf(data) >= 4) {
+                data = "" + data;
+                dividedText = data.split(" ");
+                if (dividedText[2] == "UE") {
+                  if (unit != null) this.listUE.push(unit);
+                  dividedText.forEach(text => {
+                    if (dividedText.indexOf(text) >= 4) {
+                      nameUE += text + " ";
+                    } else if (dividedText.indexOf(text) == 0) {
+                      switch (text[2]) {
+                        case "1" :
+                          bloc = Bloc.BLOC_1;
+                          break;
+                        case "2" :
+                          bloc = Bloc.BLOC_2;
+                          break;
+                        case "3" :
+                          bloc = Bloc.BLOC_3;
+                          break;
+                        default :
+                          break;
+                      }
+                    }
+                  });
 
-                      unit = {
-                        code : dividedText[3],
-                        title : nameUE,
-                        section : this.listes.sections[indexSectionStudent],
-                        bloc : bloc,
-                        activities : new  Array(),
-                        academicYear: year-1+"/"+year
-                      }
-                      nameUE = "";
+                  unit = {
+                    code: dividedText[3],
+                    title: nameUE,
+                    section: this.listes.sections[indexSectionStudent],
+                    bloc: bloc,
+                    activities: new Array(),
+                    academicYear: year - 1 + "/" + year
+                  }
+                  nameUE = "";
+                } else {
+                  dividedText.forEach(text => {
+                    if (dividedText.indexOf(text) >= 2) {
+                      nameAA += text + " ";
                     }
-                    else{
-                      dividedText.forEach(text=>{
-                        if(dividedText.indexOf(text)>=2){
-                          nameAA+=text+" ";
-                        }
-                      })
-                      if(nameAA!="") {
-                        activity = {
-                          title: nameAA,
-                          bloc: bloc,
-                          section: this.listes.sections[indexSectionStudent]
-                        }
-                        nameAA = "";
-                        if (unit != null) unit.activities.push(activity);
-                      }
+                  })
+                  if (nameAA != "") {
+                    activity = {
+                      title: nameAA,
+                      bloc: bloc,
+                      section: this.listes.sections[indexSectionStudent]
                     }
+                    nameAA = "";
+                    if (unit != null) unit.activities.push(activity);
+                  }
+                }
               }
             })
           }

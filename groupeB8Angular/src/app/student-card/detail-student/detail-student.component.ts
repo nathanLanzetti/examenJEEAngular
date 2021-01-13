@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {ActivatedRoute} from "@angular/router";
+import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 
 @Component({
   selector: 'app-detail-student',
@@ -10,14 +11,27 @@ import {ActivatedRoute} from "@angular/router";
 export class DetailStudentComponent implements OnInit {
 
   students: StudentToDisplay;
-  firstname: string;
+  matricule: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private listesEtudiants: ListesEtudiantsService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
-      params=>this.firstname=params.get('firstname')
+      params=>this.matricule=params.get('matricule')
     );
+    this.getStudent();
+
+  }
+
+  getStudent(){
+    this.listesEtudiants.studentList.forEach(student =>{
+      if(student.matricule == this.matricule){
+        this.students = student;
+        console.log(this.students);
+      }
+    });
+    return this.students;
   }
 
 }
