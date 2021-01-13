@@ -36,7 +36,6 @@ export class TableStudentsComponent implements OnInit {
     let etudiant: StudentToDisplay;
 
     for (let i:number =0; i<cpt; i++){
-      console.log(this.matricule[i]);
       // @ts-ignore
       etudiant = {
         matricule: this.matricule[i],
@@ -48,6 +47,8 @@ export class TableStudentsComponent implements OnInit {
       this.studentListCopied = this.students;
 
       this.attributeSection();
+
+      this.listes.studentList = this.students;
 
     }
   }
@@ -69,7 +70,6 @@ export class TableStudentsComponent implements OnInit {
         })
       })
     });
-    console.log(this.matricule);
   }
 
   generateNom(){
@@ -94,7 +94,6 @@ export class TableStudentsComponent implements OnInit {
         })
       })
     });
-    console.log(this.name);
   }
 
   generateBloc(){
@@ -108,7 +107,6 @@ export class TableStudentsComponent implements OnInit {
         })
       })
     });
-    console.log(this.bloc);
   }
 
   private attributeSection() {

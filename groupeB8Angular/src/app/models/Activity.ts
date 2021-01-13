@@ -4,7 +4,7 @@ import { Section } from "./Section";
 export interface Activity {
     id?: number,
     title: string,
-    creditsNumber: number,
+    creditsNumber?: number,
     section: Section,
     bloc: Bloc
 }

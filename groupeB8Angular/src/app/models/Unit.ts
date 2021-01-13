@@ -8,7 +8,7 @@ export interface Unit {
     title: string,
     activities: Activity[],
     academicYear: string,
-    creditsNumber: number,
+    creditsNumber?: number,
     section: Section,
     bloc: Bloc
 }
