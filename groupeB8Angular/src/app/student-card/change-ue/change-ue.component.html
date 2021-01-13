@@ -1,9 +1,11 @@
-<div class="field" id="changeUe">
+<div *ngIf="ue!=null" class="field" id="changeUe" ><!-- *ngIf="ue!=null" -->
   <label class="label">Changement</label>
-  <p class="title is-4">hello</p>
+  <p class="title is-4">Ue {{ue.title}} a été ajouté</p>
   <p class="title is-4">hello</p>
   <p class="title is-4">hello</p>
   <div class="control">
     <input class="input" type="button" value="Confirmer"/>
   </div>
 </div>
+
+
