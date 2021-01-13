@@ -190,9 +190,13 @@ export class ListCoursesComponent implements OnInit {
               datas.forEach(data => {
                 if (datas.indexOf(data) >= 4) {
                   data = "" + data;
-                  if(data != "") {
-                    if(this.listUE.length > this.incrementUE) {
+
+                    if(this.listUE.length >= this.incrementUE) {
                       if (data != "AcAp") {
+                        if(isLastAA == true){
+                          isLastAA = false;
+                          this.incrementUE++;
+                        }
                         dividedText = data.split(" ");
                         console.log(this.incrementUE);
                         if (dividedText[1] == "1B") {
@@ -217,8 +221,10 @@ export class ListCoursesComponent implements OnInit {
                                 activity.bloc = ue.bloc;
                                 this.incrementAA++;
                               }
-                              if (ue.activities.length <= this.incrementAA) {
+                              console.log(ue.activities.length + " Est supérieur à " + this.incrementAA);
+                              if (ue.activities.length == this.incrementAA) {
                                 isLastAA = true;
+                                this.incrementAA = 0;
                               }
                             });
                           }
@@ -226,12 +232,6 @@ export class ListCoursesComponent implements OnInit {
                       }
                     }
                   }
-                }
-                if(isLastAA == true){
-                  console.log("je suis là");
-                  isLastAA = false;
-                  this.incrementUE++;
-                }
               });
             }
           }
