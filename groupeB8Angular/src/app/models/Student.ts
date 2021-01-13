@@ -13,3 +13,14 @@ export interface Student {
     section: Section,
     bloc: Bloc
 }
+
+export interface Student2 {
+    id?: number,
+    matricule: string,
+    fullname: string,
+    units: Unit[],
+    creditsNumber: number,
+    academicYear: string,
+    section: Section,
+    bloc: Bloc
+}
