@@ -10,47 +10,17 @@ import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
 })
 export class TableStudentsComponent implements OnInit {
 
-  @Input() students: StudentToDisplay[] = []
+  @Input()students : StudentToDisplay[] = [];
   @Input() selectedSection: number = 0;
   @Input() selectedBloc: number = 0;
   @Input() searchTerm: string = ""
-  matricule: [];
-  firstname: [];
-  name: [];
-  bloc: [];
 
   studentListCopied : StudentToDisplay[] = [];
   constructor(private router: Router,
               private listes: ListesEtudiantsService) { }
 
   ngOnInit(): void {
-    this.students = []
-    this.matricule = [];
-    this.firstname = [];
-    this.name = [];
-    this.bloc = [];
-    this.generateMatricule();
-    this.generateNom();
-    this.generateBloc();
-    let cpt = this.matricule.length;
-    let etudiant: StudentToDisplay;
-
-    for (let i:number =0; i<cpt; i++){
-      // @ts-ignore
-      etudiant = {
-        matricule: this.matricule[i],
-        lastname: this.name[i],
-        firstname: this.firstname[i],
-        bloc: this.bloc[i]
-      };
-      this.students.push(etudiant);
-      this.studentListCopied = this.students;
-
-      this.attributeSection();
-
-      this.listes.studentList = this.students;
-
-    }
+    this.students = this.listes.studentList;
   }
 
   onClickedRow($event) {
@@ -59,73 +29,5 @@ export class TableStudentsComponent implements OnInit {
     this.router.navigate(['/etudiants/', matricule])
   }
 
-  generateMatricule(){
-    this.listes.data.forEach(sections=>{
-      sections.forEach(data => {
-        data.forEach(a => {
-          if (data.indexOf(a)==2){
-            // @ts-ignore
-            this.matricule.push(a);
-          }
-        })
-      })
-    });
-  }
 
-  generateNom(){
-    var name: string;
-    var firstName: string = "";
-    var lastName: string = "";
-    var morceau: string[] = [];
-    this.listes.data.forEach(section=>{
-      section.forEach(data =>{
-        data.forEach(n =>{
-          if(data.indexOf(n)==1 && n!="Etudiants"){
-
-            name = ""+n;
-            morceau = name.split(" ",2);
-            lastName = morceau[0];
-            firstName = morceau[1];
-            // @ts-ignore
-            this.firstname.push(firstName);
-            // @ts-ignore
-            this.name.push(lastName);
-          }
-        })
-      })
-    });
-  }
-
-  generateBloc(){
-    this.listes.data.forEach(section=>{
-      section.forEach(data => {
-        data.forEach(a => {
-          if (data.indexOf(a)==3){
-            // @ts-ignore
-            this.bloc.push(a)
-          }
-        })
-      })
-    });
-  }
-
-  private attributeSection() {
-    let increment : number = 0;
-
-    this.students.forEach(student=>{
-      if(this.students.indexOf(student)==0){
-        student.section = this.listes.sections[increment];
-      }
-      else{
-        this.studentListCopied.forEach(studentCopied=>{
-          if(this.students.indexOf(student)==this.studentListCopied.indexOf(studentCopied)+1){
-            if(student.lastname < studentCopied.lastname){
-              increment++;
-            }
-            student.section = this.listes.sections[increment];
-          }
-        })
-      }
-    })
-  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import * as xlsx from 'xlsx';
 import { ListesEtudiantsService } from '../../services/listes-etudiants.service';
@@ -17,7 +17,14 @@ export class DragZoneExcelComponent implements OnInit {
   files: File[] = [];
   data: [][];
 
+  @Input() students: StudentToDisplay[] = []
   listUE: Unit[] = [];
+  matricule: [];
+  firstname: [];
+  name: [];
+  bloc: [];
+
+  studentListCopied : StudentToDisplay[] = [];
 
   incrementUE : number = 0;
   incrementAA : number = 0;
@@ -69,6 +76,8 @@ export class DragZoneExcelComponent implements OnInit {
       })
       this.getAllUE();
       console.log(this.listes.listUE);
+      this.createStudentList();
+      console.log(this.listes.studentList);
     };
 
     reader.readAsBinaryString(this.files[0]);
@@ -104,7 +113,6 @@ export class DragZoneExcelComponent implements OnInit {
                   dividedText = data.split(" ");
                   if (dividedText[2] == "UE") {
                     if (unit != null){
-                      console.log(unit);
                       this.listUE.push(unit);
                     }
                     dividedText.forEach(text => {
@@ -155,7 +163,6 @@ export class DragZoneExcelComponent implements OnInit {
                         this.incrementUE++;
                       }
                       dividedText = data.split(" ");
-                      console.log(this.incrementUE);
                       if (dividedText[1] == "1B") {
                         this.listUE[this.incrementUE].bloc = Bloc.BLOC_1
                       } else if (dividedText[1] == "2B") {
@@ -218,6 +225,103 @@ export class DragZoneExcelComponent implements OnInit {
     })
   }
 
+  createStudentList() {
+    this.students = []
+    this.matricule = [];
+    this.firstname = [];
+    this.name = [];
+    this.bloc = [];
+    this.generateMatricule();
+    this.generateNom();
+    this.generateBloc();
+    let cpt = this.matricule.length;
+    let etudiant: StudentToDisplay;
+
+    for (let i: number = 0; i < cpt; i++) {
+      // @ts-ignore
+      etudiant = {
+        matricule: this.matricule[i],
+        lastname: this.name[i],
+        firstname: this.firstname[i],
+        bloc: this.bloc[i]
+      };
+      this.students.push(etudiant);
+      this.studentListCopied = this.students;
+
+      this.attributeSection();
+
+      this.listes.studentList = this.students;
+    }
+  }
+  generateMatricule(){
+    this.listes.data.forEach(sections=>{
+      sections.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==2){
+            // @ts-ignore
+            this.matricule.push(a);
+          }
+        })
+      })
+    });
+  }
+
+  generateNom(){
+    var name: string;
+    var firstName: string = "";
+    var lastName: string = "";
+    var morceau: string[] = [];
+    this.listes.data.forEach(section=>{
+      section.forEach(data =>{
+        data.forEach(n =>{
+          if(data.indexOf(n)==1 && n!="Etudiants"){
+
+            name = ""+n;
+            morceau = name.split(" ",2);
+            lastName = morceau[0];
+            firstName = morceau[1];
+            // @ts-ignore
+            this.firstname.push(firstName);
+            // @ts-ignore
+            this.name.push(lastName);
+          }
+        })
+      })
+    });
+  }
+
+  generateBloc(){
+    this.listes.data.forEach(section=>{
+      section.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==3){
+            // @ts-ignore
+            this.bloc.push(a)
+          }
+        })
+      })
+    });
+  }
+
+  attributeSection() {
+    let increment : number = 0;
+
+    this.students.forEach(student=>{
+      if(this.students.indexOf(student)==0){
+        student.section = this.listes.sections[increment];
+      }
+      else{
+        this.studentListCopied.forEach(studentCopied=>{
+          if(this.students.indexOf(student)==this.studentListCopied.indexOf(studentCopied)+1){
+            if(student.lastname < studentCopied.lastname){
+              increment++;
+            }
+            student.section = this.listes.sections[increment];
+          }
+        })
+      }
+    })
+  }
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
