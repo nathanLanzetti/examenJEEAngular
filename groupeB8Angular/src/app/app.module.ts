@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DetailStudentComponent } from './student-card/detail-student/detail-student.component';
 import { ChangeUEComponent } from './student-card/change-ue/change-ue.component';
 import { ListCoursesComponent } from './student-card/list-courses/list-courses.component';
+import { ModalComponent } from './student-card/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ListCoursesComponent } from './student-card/list-courses/list-courses.c
     ManagerStudentComponent,
     DetailStudentComponent,
     ChangeUEComponent,
-    ListCoursesComponent
+    ListCoursesComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
