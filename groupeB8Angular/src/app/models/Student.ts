@@ -10,7 +10,7 @@ export interface Student {
   creditsNumber: number, //
   academicYear: string, //
   section: Section,
-  bloc: Bloc
+  bloc: Bloc,
 }
 
 export interface StudentToDB {
