@@ -6,7 +6,7 @@ import {Bloc} from "../../models/Bloc";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
-import {Student2} from "../../models/Student";
+import {Student} from "../../models/Student";
 
 @Component({
   selector: 'app-drag-zone-excel',
@@ -24,11 +24,13 @@ export class DragZoneExcelComponent implements OnInit {
   fullname: [];
   bloc: [];
   year: number = new Date().getFullYear();
+  unit : Unit[];
+  creditValidated : number[];
 
   studentListCopied : StudentToDisplay[] = [];
 
-  studentResultList : Student2[] = [];
-  studentResultListCopied : Student2[] = [];
+  studentResultList : Student[] = [];
+  studentResultListCopied : Student[] = [];
 
   incrementUE : number = 0;
   incrementAA : number = 0;
@@ -83,8 +85,8 @@ export class DragZoneExcelComponent implements OnInit {
       console.log(this.listes.listUE);
       this.createStudentList();
       console.log(this.listes.studentList);
-      // this.createStudentListWithResult();
-      // console.log(this.listes.studentResultList);
+      this.createStudentListWithResult();
+      console.log(this.listes.studentResultList);
     };
 
     reader.readAsBinaryString(this.files[0]);
@@ -264,9 +266,7 @@ export class DragZoneExcelComponent implements OnInit {
     this.matricule = [];
     this.fullname = [];
     this.bloc = [];
-    this.generateMatricule();
-    this.generateNom();
-    this.generateBloc();
+    this.generateDataStudentDisplay();
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
 
@@ -283,21 +283,21 @@ export class DragZoneExcelComponent implements OnInit {
     }
     this.studentListCopied = this.students;
 
-    this.attributeSection();
+    this.attributeSection(this.students,this.studentListCopied);
 
     this.listes.studentList = this.students;
   }
 
-  private createStudentListWithResult() {
+  //Création d'une liste d'étudiant => DB
+  createStudentListWithResult() {
     this.studentResultList = []
     this.matricule = [];
     this.fullname = [];
     this.bloc = [];
-    this.generateMatricule();
-    this.generateNom();
-    this.generateBloc();
+    this.creditValidated = []
+    this.generateDataStudentResult();
     let cpt = this.matricule.length;
-    let etudiantResult: Student2;
+    let etudiantResult: Student;
 
     for (let i: number = 0; i < cpt; i++) {
       // @ts-ignore
@@ -305,18 +305,20 @@ export class DragZoneExcelComponent implements OnInit {
         matricule: this.matricule[i],
         fullname: this.fullname[i],
         bloc: this.bloc[i],
-        academicYear : this.year - 1 + "/" + this.year
+        academicYear : this.year - 1 + "/" + this.year,
+        units : new Array(),
+        creditsNumber : this.creditValidated[i]
       };
       this.studentResultList.push(etudiantResult);
       this.studentResultListCopied = this.studentResultList;
 
-      this.attributeSection();
-      this.attributeAllUE();
+      this.attributeSection(this.studentResultList,this.studentResultListCopied);
       this.listes.studentResultList = this.studentResultList;
     }
   }
 
-  generateMatricule(){
+
+  generateDataStudentDisplay(){
     this.listes.data.forEach(sections=>{
       sections.forEach(data => {
         data.forEach(a => {
@@ -327,13 +329,6 @@ export class DragZoneExcelComponent implements OnInit {
         })
       })
     });
-  }
-
-  generateNom(){
-    // var name: string;
-    // var firstName: string = "";
-    // var lastName: string = "";
-    // var morceau: string[] = [];
     this.listes.data.forEach(section=>{
       section.forEach(data =>{
         data.forEach(n =>{
@@ -345,9 +340,6 @@ export class DragZoneExcelComponent implements OnInit {
         })
       })
     });
-  }
-
-  generateBloc(){
     this.listes.data.forEach(section=>{
       section.forEach(data => {
         data.forEach(a => {
@@ -360,16 +352,62 @@ export class DragZoneExcelComponent implements OnInit {
     });
   }
 
-  attributeSection() {
+
+  private generateDataStudentResult() {
+    this.listes.data.forEach(sections=>{
+      sections.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==2){
+            // @ts-ignore
+            this.matricule.push(a);
+          }
+        })
+      })
+    });
+    this.listes.data.forEach(section=>{
+      section.forEach(data =>{
+        data.forEach(n =>{
+          if(data.indexOf(n)==1 && n!="Etudiants"){
+
+            // @ts-ignore
+            this.fullname.push(n);
+          }
+        })
+      })
+    });
+    this.listes.data.forEach(section=>{
+      section.forEach(data => {
+        data.forEach(a => {
+          if (data.indexOf(a)==3){
+            // @ts-ignore
+            this.bloc.push(a)
+          }
+        })
+      })
+    });
+
+    this.listes.data.forEach((section=>{
+      this.creditValidated.slice(this.creditValidated.length - 1,1);
+      section.forEach(datas=>{
+        if(section.indexOf(datas)>2){
+          console.log(section.indexOf(datas) + " : " + datas[datas.length-2]);
+          this.creditValidated.push(datas[datas.length-2]);
+        }
+      })
+    }))
+  }
+
+
+  attributeSection(studentList,studentListCopied) {
     let increment : number = 0;
 
-    this.students.forEach(student=>{
-      if(this.students.indexOf(student)==0){
+    studentList.forEach(student=>{
+      if(studentList.indexOf(student)==0){
         student.section = this.listes.sections[increment];
       }
       else{
-        this.studentListCopied.forEach(studentCopied=>{
-          if(this.students.indexOf(student)==this.studentListCopied.indexOf(studentCopied)+1){
+        studentListCopied.forEach(studentCopied=>{
+          if(studentList.indexOf(student)==studentListCopied.indexOf(studentCopied)+1){
             if(student.fullname < studentCopied.fullname){
               increment++;
             }
@@ -379,6 +417,10 @@ export class DragZoneExcelComponent implements OnInit {
       }
     })
   }
+
+
+
+
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
@@ -397,8 +439,4 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
 
-
-  attributeAllUE() {
-
-  }
 }

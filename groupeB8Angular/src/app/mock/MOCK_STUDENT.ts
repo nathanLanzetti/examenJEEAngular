@@ -6,8 +6,7 @@ import { Unit } from "../models/Unit"
 export const students: Student[] = [
     {
         matricule: "la123456",
-        lastname: "Stinson",
-        firstname: "Barney",
+        fullname: "Barney",
         units: [null],
         creditsNumber: 0,
         academicYear: "2020/2021",
@@ -16,8 +15,7 @@ export const students: Student[] = [
     },
     {
         matricule: "la118899",
-        lastname: "Mosby",
-        firstname: "Ted",
+        fullname: "Ted",
         units: [null],
         creditsNumber: 15,
         academicYear: "2020/2021",
@@ -26,8 +24,7 @@ export const students: Student[] = [
     },
     {
         matricule: "la558899",
-        lastname: "Erikson",
-        firstname: "Marshall",
+        fullname: "Erikson",
         units: [null],
         creditsNumber: 29,
         academicYear: "2020/2021",
@@ -36,8 +33,7 @@ export const students: Student[] = [
     },
     {
         matricule: "la558899",
-        lastname: "Auldren",
-        firstname: "Lily",
+        fullname: "Auldren",
         units: [null],
         creditsNumber: 29,
         academicYear: "2020/2021",
@@ -46,8 +42,7 @@ export const students: Student[] = [
     },
     {
         matricule: "la222222",
-        lastname: "WhateverIsHerName",
-        firstname: "Robin",
+        fullname: "WhateverIsHerName",
         units: [null],
         creditsNumber: 29,
         academicYear: "2020/2021",
