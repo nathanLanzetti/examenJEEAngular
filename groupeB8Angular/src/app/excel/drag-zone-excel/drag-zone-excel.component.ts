@@ -7,6 +7,7 @@ import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
 import {Student} from "../../models/Student";
+import {ScoredUnit} from '../../models/ScoredUnit';
 
 @Component({
   selector: 'app-drag-zone-excel',
@@ -26,6 +27,7 @@ export class DragZoneExcelComponent implements OnInit {
   year: number = new Date().getFullYear();
   unit : Unit[];
   creditValidated : number[];
+  score: ScoredUnit[][];
 
   studentListCopied : StudentToDisplay[] = [];
 
@@ -274,6 +276,10 @@ export class DragZoneExcelComponent implements OnInit {
     this.matricule = [];
     this.fullname = [];
     this.bloc = [];
+
+    this.score = [];
+    this.generateScore();
+
     this.generateDataStudentDisplay();
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
@@ -426,7 +432,27 @@ export class DragZoneExcelComponent implements OnInit {
     })
   }
 
-
+  generateScore(){
+    this.listes.data.forEach( (section,page )=> {
+      section.forEach((data,row) =>{
+        if(row <= 2)return;
+        let i = 4; //passe 5 colonnes
+        let tmp = [];
+        while (section[0][i] != '%' && i < 200){  //securité maximum 200 colonnes
+          if((section[0][i] + "").match(/^\s*$/) || !section[0][i]){
+            tmp.push({
+              unit: this.listes.listUE[page][tmp.length],
+              score: data[i-1],
+              validated: data[i] == 'O'
+            });
+          }
+          i++;
+        }
+        this.score.push(tmp);
+      })
+    });
+    console.log("score:", this.score);
+  }
 
 
   onRemove(event) {

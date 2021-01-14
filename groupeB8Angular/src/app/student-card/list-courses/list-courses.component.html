@@ -44,6 +44,7 @@
             <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong> <button class="btnAdd"(click)="ajouter(i)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button>
             <br>
+            <input type="checkbox" (change)="onCheck()">
           </p>
           <div *ngFor="let aa of ue.activities" class="box">
             <article class="media">
