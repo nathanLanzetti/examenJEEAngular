@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {StudentToDisplay} from "../models/StudentsToDisplay";
 import {Unit} from "../models/Unit";
+import {Student2} from "../models/Student";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class ListesEtudiantsService {
   sections : any[];
   studentList : StudentToDisplay[] = new Array();
   listUE : any[] = new Array();
+  studentResultList: Student2[] = new Array();
 
   constructor() {
     this.data = new Array();

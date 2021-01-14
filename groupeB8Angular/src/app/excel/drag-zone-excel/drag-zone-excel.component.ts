@@ -6,6 +6,7 @@ import {Bloc} from "../../models/Bloc";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {Unit} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
+import {Student2} from "../../models/Student";
 
 @Component({
   selector: 'app-drag-zone-excel',
@@ -22,8 +23,12 @@ export class DragZoneExcelComponent implements OnInit {
   matricule: [];
   fullname: [];
   bloc: [];
+  year: number = new Date().getFullYear();
 
   studentListCopied : StudentToDisplay[] = [];
+
+  studentResultList : Student2[] = [];
+  studentResultListCopied : Student2[] = [];
 
   incrementUE : number = 0;
   incrementAA : number = 0;
@@ -78,23 +83,24 @@ export class DragZoneExcelComponent implements OnInit {
       console.log(this.listes.listUE);
       this.createStudentList();
       console.log(this.listes.studentList);
+      // this.createStudentListWithResult();
+      // console.log(this.listes.studentResultList);
     };
-    alert("Lecture terminée");
+
     reader.readAsBinaryString(this.files[0]);
 
-
+    alert("Lecture terminée");
   }
 
 
-  //Obtenir Toutes les UEs
+  //Obtenir Toutes les UEs du fichier Excel
   private getAllUE() {
     //Attribut
-
     var listStudentCopied: StudentToDisplay[] = this.listes.studentList;
     var unit: Unit = null;
     var dividedText: any[] = new Array();
     var nameUE: string = "";
-    var year: number = new Date().getFullYear();
+
     var nameAA: string = "";
     var activity: Activity = null;
     var isLastAA : boolean = false;
@@ -103,15 +109,28 @@ export class DragZoneExcelComponent implements OnInit {
     var compteurCreditTable : number = 0;
     var compteurSection : number = 0;
 
+    //Chaque feuilles Excel correspond à une section
     this.listes.data.forEach(section => {
       section.forEach(datas => {
 
-            //Création des UE et AA et ajout dans une liste
-            if(section.indexOf(datas)==0) {
+        //Création des UE et AA et ajout dans une liste
+        /**
+         * Ligne 1 : Listes des UE et AA
+         * Nous obtenons sur la première ligne différentes données utiles pour les UE et AA
+         * UE : title / code / activities
+         * AA : title
+         * La section est déterminé en fonction du numéro de feuilles que l'on compare par après avec la liste de section.
+         * L'année académique équivaut à l'année actuelle
+         */
+        if(section.indexOf(datas)==0) {
               datas.forEach(data => {
+                //Les UE et AA ne commençant que sur la colonne E => Index est supérieur à 4
                 if (datas.indexOf(data) >= 4) {
                   data = "" + data;
                   dividedText = data.split(" ");
+                  /**Vérifier si UE ou AA grâce à la séparation du texte =>
+                   * le troisième élément de l'attribut 'dividedText' est UE lorsqu'il s'agit d'une UE
+                   **/
                   if (dividedText[2] == "UE") {
                     if (unit != null){
                       this.listUE.push(unit);
@@ -126,7 +145,7 @@ export class DragZoneExcelComponent implements OnInit {
                       title: nameUE,
                       section: this.listes.sections[compteurSection],
                       activities: new Array(),
-                      academicYear: year - 1 + "/" + year
+                      academicYear: this.year - 1 + "/" + this.year
                     }
                     nameUE = "";
                   } else {
@@ -145,10 +164,20 @@ export class DragZoneExcelComponent implements OnInit {
                     }
                   }
                 }
+
+                /**
+                 * Si il s'agit de la dernière colonne => On ajoute l'UE dans la liste
+                 * On fait une condition ici car les UE à plusieurs Activités vont s'ajouter dans la liste n fois
+                 * (n correspond au nombre d'activités de l'UE)
+                 */
                 if(datas.lastIndexOf(data)==datas.length - 1)this.listUE.push(unit);
               })
             }
             //Attribution des bloc d'apprentissage
+            /**
+             * Ligne 2 : Tous les blocs des UE et AA
+             * On gère l'attribution des blocs aux UE et AA de la liste précédemment créée
+             */
             else if(section.indexOf(datas)==1){
               unit = null;
               this.incrementAA = 0;
@@ -199,7 +228,10 @@ export class DragZoneExcelComponent implements OnInit {
             }
 
             //Attribution des crédits aux AA et UE
-            else if(section.indexOf(datas)==2){
+        /**
+         * Ligne 3 : Ligne des crédits des UE et AA
+         */
+        else if(section.indexOf(datas)==2){
               this.incrementAA = 0;
               this.incrementUE = 0;
               datas.forEach(data => {
@@ -226,6 +258,7 @@ export class DragZoneExcelComponent implements OnInit {
     })
   }
 
+  //Création d'une liste d'étudiant (Simplement pour l'affichage => table-student.component.html)
   createStudentList() {
     this.students = []
     this.matricule = [];
@@ -237,6 +270,7 @@ export class DragZoneExcelComponent implements OnInit {
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
 
+    //création des étudiants
     for (let i: number = 0; i < cpt; i++) {
       // @ts-ignore
       etudiant = {
@@ -245,13 +279,43 @@ export class DragZoneExcelComponent implements OnInit {
         bloc: this.bloc[i]
       };
       this.students.push(etudiant);
-      this.studentListCopied = this.students;
+
+    }
+    this.studentListCopied = this.students;
+
+    this.attributeSection();
+
+    this.listes.studentList = this.students;
+  }
+
+  private createStudentListWithResult() {
+    this.studentResultList = []
+    this.matricule = [];
+    this.fullname = [];
+    this.bloc = [];
+    this.generateMatricule();
+    this.generateNom();
+    this.generateBloc();
+    let cpt = this.matricule.length;
+    let etudiantResult: Student2;
+
+    for (let i: number = 0; i < cpt; i++) {
+      // @ts-ignore
+      etudiantResult = {
+        matricule: this.matricule[i],
+        fullname: this.fullname[i],
+        bloc: this.bloc[i],
+        academicYear : this.year - 1 + "/" + this.year
+      };
+      this.studentResultList.push(etudiantResult);
+      this.studentResultListCopied = this.studentResultList;
 
       this.attributeSection();
-
-      this.listes.studentList = this.students;
+      this.attributeAllUE();
+      this.listes.studentResultList = this.studentResultList;
     }
   }
+
   generateMatricule(){
     this.listes.data.forEach(sections=>{
       sections.forEach(data => {
@@ -329,6 +393,12 @@ export class DragZoneExcelComponent implements OnInit {
       };
     });
     return (isExcelFile == 1);
+
+  }
+
+
+
+  attributeAllUE() {
 
   }
 }
