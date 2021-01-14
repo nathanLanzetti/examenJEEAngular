@@ -19,9 +19,9 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthenticateService) { }
 
   ngOnInit(): void {
-    // check if user is connected
-    // if not, dont show nav-links
-    //this.authService.currentUserSub.subscribe(x => this.currentUser = x);
+    // vérifie si l'utilisateur est connecté
+    // s'il ne l'est pas, la barre de navigation est "caché"
+    this.authService.currentUserSub.subscribe(x => this.currentUser = x);
   }
 
   logOut() {
