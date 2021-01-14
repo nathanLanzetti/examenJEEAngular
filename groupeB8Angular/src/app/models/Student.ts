@@ -18,6 +18,7 @@ export interface Student2 {
     id?: number,
     matricule: string,
     fullname: string,
+    validatedUnits: string[] // O | N | -
     unitsGlobal: Unit[],
     unitsInPae: Unit[],
     creditsNumber: number,
