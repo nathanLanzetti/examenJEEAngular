@@ -100,12 +100,13 @@ export class DragZoneExcelComponent implements OnInit {
     //Attribut
     var listStudentCopied: StudentToDisplay[] = this.listes.studentList;
     var unit: Unit = null;
-    var dividedText: any[] = new Array();
+    var dividedText: string[] = new Array();
     var nameUE: string = "";
 
     var nameAA: string = "";
     var activity: Activity = null;
     var isLastAA : boolean = false;
+    var isNotUnit : boolean = false;
 
     var credit : number[] = new Array();
     var compteurCreditTable : number = 0;
@@ -126,53 +127,60 @@ export class DragZoneExcelComponent implements OnInit {
          */
         if(section.indexOf(datas)==0) {
               datas.forEach(data => {
-                //Les UE et AA ne commençant que sur la colonne E => Index est supérieur à 4
-                if (datas.indexOf(data) >= 4) {
-                  data = "" + data;
-                  dividedText = data.split(" ");
-                  /**Vérifier si UE ou AA grâce à la séparation du texte =>
-                   * le troisième élément de l'attribut 'dividedText' est UE lorsqu'il s'agit d'une UE
-                   **/
-                  if (dividedText[2] == "UE") {
-                    if (unit != null){
-                      this.listUE.push(unit);
-                    }
-                    dividedText.forEach(text => {
-                      if (dividedText.indexOf(text) >= 4) {
-                        nameUE += text + " ";
+
+                  //Les UE et AA ne commençant que sur la colonne E => Index est supérieur à 4
+                  if (datas.indexOf(data) >= 4 && datas.indexOf(data)<=datas.length - 4) {
+
+
+
+                    dividedText = data.split(" ");
+                    /**Vérifier si UE ou AA grâce à la séparation du texte =>
+                     * le troisième élément de l'attribut 'dividedText' est UE lorsqu'il s'agit d'une UE
+                     **/
+                    if (dividedText[2] == "UE") {
+                      isNotUnit = true;
+                      if (unit != null){
+                        this.listUE.push(unit);
                       }
-                    });
-                    unit = {
-                      code: dividedText[3],
-                      title: nameUE,
-                      section: this.listes.sections[compteurSection],
-                      activities: new Array(),
-                      academicYear: this.year - 1 + "/" + this.year
-                    }
-                    nameUE = "";
-                  } else {
-                    dividedText.forEach(text => {
-                      if (dividedText.indexOf(text) >= 2) {
-                        nameAA += text + " ";
+                      dividedText.forEach(text => {
+                        if (dividedText.indexOf(text) >= 4) {
+                          nameUE += text + " ";
+                        }
+                      });
+                      unit = {
+                        code: dividedText[3],
+                        title: nameUE,
+                        section: this.listes.sections[compteurSection],
+                        activities: new Array(),
+                        academicYear: this.year - 1 + "/" + this.year
                       }
-                    })
-                    if (nameAA != "") {
-                      activity = {
-                        title: nameAA,
-                        section: this.listes.sections[compteurSection]
+                      nameUE = "";
+                    } else{
+                      dividedText.forEach(word=>{
+                        console.log(word);
+                        for(let i : number = 0; i<word.length;i++){
+                          if(!isNaN(parseInt(word[i]))){
+                            isNotUnit = false;
+                          }
+                        }
+                      })
+                      if (isNotUnit == false) {
+                        activity = {
+                          title: data,
+                          section: this.listes.sections[compteurSection]
+                        }
+                        if (unit != null) unit.activities.push(activity);
                       }
-                      nameAA = "";
-                      if (unit != null) unit.activities.push(activity);
                     }
                   }
-                }
 
-                /**
-                 * Si il s'agit de la dernière colonne => On ajoute l'UE dans la liste
-                 * On fait une condition ici car les UE à plusieurs Activités vont s'ajouter dans la liste n fois
-                 * (n correspond au nombre d'activités de l'UE)
-                 */
-                if(datas.lastIndexOf(data)==datas.length - 1)this.listUE.push(unit);
+                  /**
+                   * Si il s'agit de la dernière colonne => On ajoute l'UE dans la liste
+                   * On fait une condition ici car les UE à plusieurs Activités vont s'ajouter dans la liste n fois
+                   * (n correspond au nombre d'activités de l'UE)
+                   */
+                  if(datas.lastIndexOf(data)==datas.length - 1)this.listUE.push(unit);
+
               })
             }
             //Attribution des bloc d'apprentissage
@@ -390,7 +398,6 @@ export class DragZoneExcelComponent implements OnInit {
       this.creditValidated.slice(this.creditValidated.length - 1,1);
       section.forEach(datas=>{
         if(section.indexOf(datas)>2){
-          console.log(section.indexOf(datas) + " : " + datas[datas.length-2]);
           this.creditValidated.push(datas[datas.length-2]);
         }
       })
