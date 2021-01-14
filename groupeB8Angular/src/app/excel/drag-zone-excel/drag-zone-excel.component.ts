@@ -318,11 +318,12 @@ export class DragZoneExcelComponent implements OnInit {
         creditsNumber : this.creditValidated[i]
       };
       this.studentResultList.push(etudiantResult);
-      this.studentResultListCopied = this.studentResultList;
 
-      this.attributeSection(this.studentResultList,this.studentResultListCopied);
-      this.listes.studentResultList = this.studentResultList;
+
     }
+    this.studentResultListCopied = this.studentResultList;
+    this.attributeSection(this.studentResultList,this.studentResultListCopied);
+    this.listes.studentResultList = this.studentResultList;
   }
 
 
