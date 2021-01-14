@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { UserCredentials } from '../models/UserCredentials';
+import { AuthenticateService } from '../repositories/authenticate.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,18 +12,22 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SignInComponent implements OnInit {
 
-  connected : boolean[] = [true,true];
-  color : string = 'black';
-  form : FormGroup = this.formbuilder.group({
-    email: ['', [Validators.required, Validators.email]],
+  connected: boolean[] = [true, true];
+  color: string = 'black';
+  form: FormGroup = this.formbuilder.group({
+    email: ['', [Validators.required]],
     password: ['', Validators.required]
   });
   colorEmail: string = 'black';
-  colorPassword : string = "black";
+  colorPassword: string = "black";
   loading = false;
   submitted = false;
 
-  constructor(private formbuilder : FormBuilder) { }
+  constructor(private formbuilder: FormBuilder, private authenticateService: AuthenticateService, private router: Router) {
+    if (this.authenticateService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -38,23 +46,22 @@ export class SignInComponent implements OnInit {
     console.log(this.form.value);
     const password = this.form.value['password'];
     console.log(password);
-    const email = this.form.value['email'];
-    if(password == "helha"){
-      if(this.form.controls['email'].valid)
-      {
-        alert("Vous êtes connecté");
-      }
-      else this.connected[1] = false;
-    }
-    else{
-      if(this.form.controls['email'].invalid)
-      {
-        this.connected[1] = false;
-      }
-      alert("Vous n'êtes pas connecté");
-      this.getColor();
-      this.connected[0] = false;
-    }
+    const login = this.form.value['email'];
+    //const credentials: UserCredentials = {login, password}
+
+    this.authenticateService.login(login, password)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate(["/"]);
+          console.log(data);
+          //this.error = false;
+        }, error => {
+          //this.error = true;
+          this.form.reset();
+          this.getColor()
+        }
+      );
 
   }
 
