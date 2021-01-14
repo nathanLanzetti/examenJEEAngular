@@ -2,8 +2,7 @@
         <thead>
                 <tr>
                         <th><abbr title="Matricule">Mat</abbr></th>
-                        <th><abbr title="Nom">Nom</abbr></th>
-                        <th><abbr title="Prénom">Prenom</abbr></th>
+                        <th><abbr title="Nom">Nom & prénom</abbr></th>
                         <th><abbr title="Section">Section</abbr></th>
                         <th><abbr title="Bloc">Bloc</abbr></th>
                 </tr>
@@ -12,8 +11,7 @@
                 <tr *ngFor="let student of students | searchTerm: searchTerm | selectSection: selectedSection | selectBloc: selectedBloc"
                         (click)="onClickedRow($event)">
                         <td>{{student.matricule}}</td>
-                        <td>{{student.lastname}}</td>
-                        <td>{{student.firstname}}</td>
+                        <td>{{student.fullname}}</td>
                         <td>{{student.section}}</td>
                         <td>{{student.bloc}}</td>
                 </tr>

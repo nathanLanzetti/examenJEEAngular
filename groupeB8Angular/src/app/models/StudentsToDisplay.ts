@@ -1,7 +1,6 @@
 export interface StudentToDisplay {
     matricule: string,
-    lastname: string,
-    firstname: string,
+    fullname: string,
     section: string,
     bloc: string
 }

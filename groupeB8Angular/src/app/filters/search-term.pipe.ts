@@ -12,7 +12,7 @@ export class SearchTermPipe implements PipeTransform {
     }
 
     return students.filter(student => {
-      if (student.lastname.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (student.fullname.toLowerCase().includes(searchTerm.toLowerCase())) {
         return student
       }
       if (student.matricule.toLowerCase().includes(searchTerm.toLowerCase())) {

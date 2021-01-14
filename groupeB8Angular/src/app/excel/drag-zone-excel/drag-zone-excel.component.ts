@@ -20,8 +20,7 @@ export class DragZoneExcelComponent implements OnInit {
   @Input() students: StudentToDisplay[] = []
   listUE: Unit[] = [];
   matricule: [];
-  firstname: [];
-  name: [];
+  fullname: [];
   bloc: [];
 
   studentListCopied : StudentToDisplay[] = [];
@@ -80,10 +79,10 @@ export class DragZoneExcelComponent implements OnInit {
       this.createStudentList();
       console.log(this.listes.studentList);
     };
-
+    alert("Lecture terminée");
     reader.readAsBinaryString(this.files[0]);
 
-    alert("Lecture terminée");
+
   }
 
 
@@ -230,8 +229,7 @@ export class DragZoneExcelComponent implements OnInit {
   createStudentList() {
     this.students = []
     this.matricule = [];
-    this.firstname = [];
-    this.name = [];
+    this.fullname = [];
     this.bloc = [];
     this.generateMatricule();
     this.generateNom();
@@ -243,8 +241,7 @@ export class DragZoneExcelComponent implements OnInit {
       // @ts-ignore
       etudiant = {
         matricule: this.matricule[i],
-        lastname: this.name[i],
-        firstname: this.firstname[i],
+        fullname: this.fullname[i],
         bloc: this.bloc[i]
       };
       this.students.push(etudiant);
@@ -269,23 +266,17 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   generateNom(){
-    var name: string;
-    var firstName: string = "";
-    var lastName: string = "";
-    var morceau: string[] = [];
+    // var name: string;
+    // var firstName: string = "";
+    // var lastName: string = "";
+    // var morceau: string[] = [];
     this.listes.data.forEach(section=>{
       section.forEach(data =>{
         data.forEach(n =>{
           if(data.indexOf(n)==1 && n!="Etudiants"){
 
-            name = ""+n;
-            morceau = name.split(" ",2);
-            lastName = morceau[0];
-            firstName = morceau[1];
             // @ts-ignore
-            this.firstname.push(firstName);
-            // @ts-ignore
-            this.name.push(lastName);
+            this.fullname.push(n);
           }
         })
       })
@@ -315,7 +306,7 @@ export class DragZoneExcelComponent implements OnInit {
       else{
         this.studentListCopied.forEach(studentCopied=>{
           if(this.students.indexOf(student)==this.studentListCopied.indexOf(studentCopied)+1){
-            if(student.lastname < studentCopied.lastname){
+            if(student.fullname < studentCopied.fullname){
               increment++;
             }
             student.section = this.listes.sections[increment];
