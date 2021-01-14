@@ -1,6 +1,6 @@
 import { Bloc } from "./Bloc";
 import { Section } from "./Section";
-import { Unit } from "./Unit";
+import { Unit, UnitToDB } from "./Unit";
 
 export interface Student {
   id?: number,
@@ -11,4 +11,15 @@ export interface Student {
   academicYear: string, //
   section: Section,
   bloc: Bloc
+}
+
+export interface StudentToDB {
+  id?: number,
+  matricule: string,
+  fullname: string,
+  units: UnitToDB[], //
+  creditsNumber: number, //
+  academicYear: string, //
+  section: string,
+  bloc: string
 }

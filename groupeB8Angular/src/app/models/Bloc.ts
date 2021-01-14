@@ -53,3 +53,20 @@ export function getBlocFromDisplay(displayedName: string): Bloc {
       break;
   }
 }
+
+export function getBlocToDB(displayedName: string): string {
+  switch (displayedName) {
+    case "1B":
+      return "BLOC_1"
+      break;
+    case "2B":
+      return "BLOC_2"
+      break;
+    case "3B":
+      return "BLOC_3"
+      break;
+
+    default:
+      break;
+  }
+}

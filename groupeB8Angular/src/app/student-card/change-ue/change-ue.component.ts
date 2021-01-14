@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Unit} from '../../models/Unit';
-import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
+import { Unit } from '../../models/Unit';
+import { ListesEtudiantsService } from '../../services/listes-etudiants.service';
 
 @Component({
   selector: 'app-change-ue',
@@ -19,11 +19,10 @@ export class ChangeUEComponent implements OnInit {
     this.updateChange();
   }
 
-  updateChange()
-  {
+  updateChange() {
     //var title: string[] = this
     this.liste.listUE.forEach(ueselect => {
-      if (ueselect.title == this.title){
+      if (ueselect.title == this.title) {
         this.ue = ueselect;
         console.log(this.title);
       }

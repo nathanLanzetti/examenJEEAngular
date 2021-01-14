@@ -8,3 +8,11 @@ export interface Activity {
     section: Section,
     bloc?: Bloc
 }
+
+export interface ActivityToDB {
+    id?: number,
+    title: string,
+    creditsNumber?: number,
+    section: string,
+    bloc?: string
+}

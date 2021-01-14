@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Unit} from "../models/Unit";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Unit, UnitToDB } from "../models/Unit";
 
 const URL_API: string = "api/unit"
 @Injectable({
@@ -11,26 +11,34 @@ export class UnitService {
 
   constructor(private http: HttpClient) { }
 
-  query(): Observable<Unit[]> {
-    return this.http.get<Unit[]>(URL_API);
+  query(): Observable<UnitToDB[]> {
+    return this.http.get<UnitToDB[]>(URL_API);
   }
 
-  getById(id: number): Observable<Unit> {
-    return this.http.get<Unit>(`${URL_API}/${id}`);
+  getById(id: number): Observable<UnitToDB> {
+    return this.http.get<UnitToDB>(`${URL_API}/${id}`);
   }
-  getByCode(code: string): Observable<Unit> {
-    return this.http.get<Unit>(`${URL_API}/${code}`);
-  }
-
-  post(unit: Unit): Observable<Unit> {
-    return this.http.post<Unit>(URL_API, unit)
+  getByCode(code: string): Observable<UnitToDB> {
+    return this.http.get<UnitToDB>(`${URL_API}/${code}`);
   }
 
-  put(unit: Unit): Observable<any> {
+  post(unit: UnitToDB): Observable<UnitToDB> {
+    return this.http.post<UnitToDB>(URL_API, unit)
+  }
+
+  postAll(units: UnitToDB[]): Observable<UnitToDB[]> {
+    return this.http.post<UnitToDB[]>(`${URL_API}/all`, units)
+  }
+
+  put(unit: UnitToDB): Observable<any> {
     return this.http.put(URL_API, unit);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${URL_API}/${id}`);
+  }
+
+  deleteAll(): Observable<any> {
+    return this.http.delete(`${URL_API}/all`);
   }
 }

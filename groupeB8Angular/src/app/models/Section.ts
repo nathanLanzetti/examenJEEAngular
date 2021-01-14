@@ -54,3 +54,20 @@ export function getSectionFromDisplay(displayedName: string): Section {
       break;
   }
 }
+
+export function getSectionToDB(displayedName: string): string {
+  switch (displayedName) {
+    case "IG":
+      return "INFORMATIQUE_DE_GESTION"
+      break;
+    case "AD":
+      return "ASSISTANT_E_DE_DIRECTION"
+      break;
+    case "CT":
+      return "COMPTABILITE"
+      break;
+
+    default:
+      break;
+  }
+}
