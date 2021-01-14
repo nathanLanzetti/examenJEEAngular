@@ -41,8 +41,7 @@ export class ContainerStudentsComponent implements OnInit {
     students.map(students => {
       this.studentsToDisplay.push({
         matricule: students.matricule,
-        lastname: students.lastname,
-        firstname: students.firstname,
+        fullname: `${students.lastname + students.firstname}`,
         section: getDisplayName(students.section),
         bloc: getDisplayNameBloc(students.bloc)
       })
