@@ -16,6 +16,8 @@ import {Section} from "../../models/Section";
 })
 export class ListCoursesComponent implements OnInit {
 
+  credits: number;
+
   @Output() myEvent = new EventEmitter();
 
   bloc1: Unit[] = new Array();
@@ -47,6 +49,7 @@ export class ListCoursesComponent implements OnInit {
 
     //affichage des boutons
     this.displayButtons()
+    this.credits = 0;
 
   }
 
@@ -138,6 +141,8 @@ export class ListCoursesComponent implements OnInit {
     btnAdd = document.getElementsByClassName("btnAdd");
     btnRemove = document.getElementsByClassName("btnRemove");
 
+    this.credits += this.listUE[index].creditsNumber;
+
     this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " ajoutée";
     btnRemove[index].style.display = "block";
     btnAdd[index].style.display = "none";
@@ -151,6 +156,8 @@ export class ListCoursesComponent implements OnInit {
     var btnAdd, btnRemove;
     btnAdd = document.getElementsByClassName("btnAdd");
     btnRemove = document.getElementsByClassName("btnRemove");
+
+    this.credits -= this.listUE[index].creditsNumber;
 
     this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " supprimée";
     btnAdd[index].style.display = "block";
