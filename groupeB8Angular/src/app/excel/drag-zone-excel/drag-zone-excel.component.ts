@@ -41,6 +41,7 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   onSelect(event: any) {
+    alert("Lecture du fichier en cours");
     console.log(event);
     this.files = []
     this.files.push(...event.addedFiles);
@@ -82,6 +83,7 @@ export class DragZoneExcelComponent implements OnInit {
 
     reader.readAsBinaryString(this.files[0]);
 
+    alert("Lecture terminée");
   }
 
 
