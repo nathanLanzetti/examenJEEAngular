@@ -142,7 +142,7 @@ export class DragZoneExcelComponent implements OnInit {
       console.log(this.listes.studentResultList);
       this.postStudents()
       this.postUnits()
-      // subscribe 
+      // subscribe
     };
     reader.readAsBinaryString(this.files[0]);
   }
@@ -265,7 +265,7 @@ export class DragZoneExcelComponent implements OnInit {
                   title: nameUE,
                   section: this.listes.sections[compteurSection],
                   activities: new Array(),
-                  academicYear: this.year - 1 + "/" + this.year
+                  academicYear: this.year + "/" + this.year + 1
                 }
                 nameUE = "";
               } else {
@@ -432,7 +432,7 @@ export class DragZoneExcelComponent implements OnInit {
         matricule: this.matricule[i],
         fullname: this.fullname[i],
         bloc: getBlocToDB(this.bloc[i]),
-        academicYear: this.year - 1 + "/" + this.year,
+        academicYear: this.year + "/" + this.year + 1,
         units: new Array(),
         creditsNumber: this.creditValidated[i]
       };

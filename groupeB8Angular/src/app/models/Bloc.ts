@@ -23,13 +23,13 @@ export function getDisplayNameBloc(key: number): string {
 export function getDisplayNameBlocTable(key: number): string {
   switch (key) {
     case 1:
-      return "1B"
+      return "BLOC_1"
       break;
     case 2:
-      return "2B"
+      return "BLOC_2"
       break;
     case 3:
-      return "3B"
+      return "BLOC_3"
       break;
 
     default:
