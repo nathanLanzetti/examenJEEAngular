@@ -19,7 +19,7 @@ export class StudentService {
     return this.http.get<StudentToDB>(`${URL_API}/${id}`);
   }
   getByMatricule(matricule: string): Observable<StudentToDB> {
-    return this.http.get<StudentToDB>(`${URL_API}/${matricule}`);
+    return this.http.get<StudentToDB>(`${URL_API}/matricule/${matricule}`);
   }
 
   post(student: StudentToDB): Observable<StudentToDB> {

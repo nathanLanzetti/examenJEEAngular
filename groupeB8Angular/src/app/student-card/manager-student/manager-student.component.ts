@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StudentService} from "../../repositories/student.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDB} from "../../models/Student";
@@ -11,18 +11,24 @@ import {Subscription} from "rxjs";
 })
 export class ManagerStudentComponent implements OnInit {
   matricule : string;
-  studentDisplay : StudentToDB;
+  student : StudentToDB = null;
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private student: StudentService,
+  constructor(private studentService: StudentService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
       params=>this.matricule=params.get('matricule')
     );
-    this.subscriptions.push(this.student.getByMatricule(this.matricule).subscribe(student=> this.studentDisplay = student));
+    console.log(this.matricule);
+    const sub = this.studentService
+      .getByMatricule(this.matricule)
+      .subscribe(student=> {
+        this.student = student;
+        console.log(this.student)})
+    this.subscriptions.push(sub);
   }
 
   ngOnDestroy(): void {

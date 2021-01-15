@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
 import {ActivatedRoute} from "@angular/router";
 import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
+import {StudentToDB} from "../../models/Student";
 
 @Component({
   selector: 'app-detail-student',
@@ -10,7 +11,7 @@ import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 })
 export class DetailStudentComponent implements OnInit {
 
-  students: StudentToDisplay;
+  @Input() students: StudentToDB;
   matricule: string;
 
   constructor(private route: ActivatedRoute,
@@ -27,7 +28,6 @@ export class DetailStudentComponent implements OnInit {
   getStudent(){
     this.listesEtudiants.studentList.forEach(student =>{
       if(student.matricule == this.matricule){
-        this.students = student;
         console.log(this.students);
       }
     });

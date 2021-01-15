@@ -2,11 +2,13 @@ import {Component, OnInit, Output} from '@angular/core';
 import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
-import {Unit} from "../../models/Unit";
+import {Unit, UnitToDB} from "../../models/Unit";
 import {Activity} from "../../models/Activity";
 import {Bloc} from "../../models/Bloc";
 import {EventEmitter} from "events";
 import {Section} from "../../models/Section";
+import {UnitService} from "../../repositories/unit.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -24,7 +26,7 @@ export class ListCoursesComponent implements OnInit {
   bloc2: Unit[] = new Array();
   bloc3: Unit[] = new Array();
 
-  listUE: Unit[] = new Array();
+  listUE: UnitToDB[] = new Array();
   matricule: string;
   sectionStudent;
 
@@ -36,17 +38,22 @@ export class ListCoursesComponent implements OnInit {
   incrementUE : number = 0;
   incrementAA : number = 0;
 
-  constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService) {
+  private subscription : Subscription[] = [];
+
+  constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
+              private unit: UnitService) {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => this.matricule = params.get('matricule')
-    );
     this.hideTabs();
-    this.getUEBySection();
-    this.getListUE();
+    const sub = this.unit.query().subscribe(unit => this.listUE = unit)
+    this.subscription.push(sub);
 
+    //this.listUE.filter(ue=>ue.section =  )
+    //this.getUEBySection();
+    //this.getListUE();
+
+    console.log(this.listUE);
     //affichage des boutons
     this.displayButtons()
     this.credits = 0;
@@ -115,24 +122,24 @@ export class ListCoursesComponent implements OnInit {
       }
     })
   }
-  //Obtenir toutes les UE filtrés dans chaque bloc en fonction de la section de l'étudiant
-  getListUE() {
-    this.listUE.forEach(unit => {
-      switch (unit.bloc) {
-        case Bloc.BLOC_1 :
-          this.bloc1.push(unit);
-          break;
-        case Bloc.BLOC_2 :
-          this.bloc2.push(unit);
-          break;
-        case Bloc.BLOC_3:
-          this.bloc3.push(unit);
-          break;
-        default :
-          break;
-      }
-    })
-  }
+  // //Obtenir toutes les UE filtrés dans chaque bloc en fonction de la section de l'étudiant
+  // getListUE() {
+  //   this.listUE.forEach(unit => {
+  //     switch (unit.bloc) {
+  //       case Bloc.BLOC_1 :
+  //         this.bloc1.push(unit);
+  //         break;
+  //       case Bloc.BLOC_2 :
+  //         this.bloc2.push(unit);
+  //         break;
+  //       case Bloc.BLOC_3:
+  //         this.bloc3.push(unit);
+  //         break;
+  //       default :
+  //         break;
+  //     }
+  //   })
+  // }
 
 
   ajouter(index) {
