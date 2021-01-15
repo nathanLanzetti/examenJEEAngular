@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { StudentToDisplay } from 'src/app/models/StudentsToDisplay';
 import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
+import {StudentService} from "../../repositories/student.service";
+import {StudentToDB} from "../../models/Student";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-table-students',
@@ -10,17 +12,20 @@ import {ListesEtudiantsService} from '../../services/listes-etudiants.service';
 })
 export class TableStudentsComponent implements OnInit {
 
-  @Input()students : StudentToDisplay[] = [];
+  @Input()students : StudentToDB[] = [];
   @Input() selectedSection: number = 0;
   @Input() selectedBloc: number = 0;
   @Input() searchTerm: string = ""
 
-  studentListCopied : StudentToDisplay[] = [];
+  private subscriptions: Subscription[] = [];
+
+  studentListCopied : StudentToDB[] = [];
   constructor(private router: Router,
-              private listes: ListesEtudiantsService) { }
+              private listes: ListesEtudiantsService,
+              private student: StudentService) { }
 
   ngOnInit(): void {
-    this.students = this.listes.studentList;
+    this.subscriptions.push(this.student.query().subscribe(studentList => this.students = studentList));
   }
 
   onClickedRow($event) {
@@ -29,5 +34,12 @@ export class TableStudentsComponent implements OnInit {
     this.router.navigate(['/etudiants/', matricule])
   }
 
+  ngOnDestroy(): void {
+    for (let i = this.subscriptions.length - 1; i >= 0; i--) {
+      const subscription = this.subscriptions[i];
+      subscription && subscription.unsubscribe();
+      this.subscriptions.pop();
+    }
+  }
 
 }
