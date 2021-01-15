@@ -3,6 +3,7 @@ import {StudentService} from "../../repositories/student.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDB} from "../../models/Student";
 import {Subscription} from "rxjs";
+import {Section} from "../../models/Section";
 
 @Component({
   selector: 'app-manager-student',

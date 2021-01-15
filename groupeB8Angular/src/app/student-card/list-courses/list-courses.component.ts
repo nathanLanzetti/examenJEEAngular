@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
 import {ActivatedRoute} from "@angular/router";
 import {StudentToDisplay} from "../../models/StudentsToDisplay";
@@ -9,6 +9,7 @@ import {EventEmitter} from "events";
 import {Section} from "../../models/Section";
 import {UnitService} from "../../repositories/unit.service";
 import {Subscription} from "rxjs";
+import {StudentToDB} from "../../models/Student";
 
 
 @Component({
@@ -38,6 +39,8 @@ export class ListCoursesComponent implements OnInit {
   incrementUE : number = 0;
   incrementAA : number = 0;
 
+  @Input() student : StudentToDB;
+
   private subscription : Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
@@ -46,10 +49,14 @@ export class ListCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.hideTabs();
-    const sub = this.unit.query().subscribe(unit => this.listUE = unit)
+    const sub = this.unit.query()
+      .subscribe(unit => {
+        this.listUE = unit;
+        this.listUE = this.listUE.filter(ue=>ue.section == this.student.section)
+      });
     this.subscription.push(sub);
 
-    //this.listUE.filter(ue=>ue.section =  )
+
     //this.getUEBySection();
     //this.getListUE();
 
