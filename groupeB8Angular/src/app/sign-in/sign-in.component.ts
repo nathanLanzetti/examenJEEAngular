@@ -13,15 +13,14 @@ import { AuthenticateService } from '../repositories/authenticate.service';
 export class SignInComponent implements OnInit {
 
   connected: boolean[] = [true, true];
+  submitted = false;
+  error = false;
+  errorMessage: String;
   color: string = 'black';
-  form: FormGroup = this.formbuilder.group({
-    email: ['', [Validators.required]],
-    password: ['', Validators.required]
-  });
+  signinForm: FormGroup;
   colorEmail: string = 'black';
   colorPassword: string = "black";
   loading = false;
-  submitted = false;
 
   constructor(private formbuilder: FormBuilder, private authenticateService: AuthenticateService, private router: Router) {
     if (this.authenticateService.currentUserValue) {
@@ -30,23 +29,27 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm();
   }
 
-  get f() { return this.form.controls; }
+  initForm() {
+    this.signinForm = this.formbuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
-  connection() {
+  get f() { return this.signinForm.controls; }
+
+  onSubmit() {
     this.submitted = true;
-
-    if (this.form.invalid) {
-      return;
-    }
 
     this.loading = true;
 
-    console.log(this.form.value);
-    const password = this.form.value['password'];
+    console.log(this.signinForm.value);
+    const password = this.signinForm.value['password'];
     console.log(password);
-    const login = this.form.value['email'];
+    const login = this.signinForm.value['email'];
     //const credentials: UserCredentials = {login, password}
 
     this.authenticateService.login(login, password)
@@ -58,7 +61,7 @@ export class SignInComponent implements OnInit {
           //this.error = false;
         }, error => {
           //this.error = true;
-          this.form.reset();
+          this.signinForm.reset();
           this.getColor()
         }
       );
@@ -70,7 +73,7 @@ export class SignInComponent implements OnInit {
   }
 
   isValidInput(fieldName): boolean {
-    return this.form.controls[fieldName].invalid &&
-      (this.form.controls[fieldName].dirty || this.form.controls[fieldName].touched);
+    return this.signinForm.controls[fieldName].invalid &&
+      (this.signinForm.controls[fieldName].dirty || this.signinForm.controls[fieldName].touched);
   }
 }
