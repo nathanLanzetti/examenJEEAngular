@@ -71,15 +71,11 @@ export class ListCoursesComponent implements OnInit {
     //this.getUEBySection();
     //this.getListUE();
 
-    this.displayBloc3Tabs();
+
     console.log(this.listUE);
     //affichage des boutons
     this.displayButtons()
     this.credits = 0;
-
-  }
-
-  private displayBloc3Tabs() {
 
   }
 
