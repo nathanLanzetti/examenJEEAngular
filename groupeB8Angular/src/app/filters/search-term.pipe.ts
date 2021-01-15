@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { StudentToDisplay } from '../models/StudentsToDisplay';
+import {StudentToDB} from "../models/Student";
 
 @Pipe({
   name: 'searchTerm'
 })
 export class SearchTermPipe implements PipeTransform {
 
-  transform(students: StudentToDisplay[], searchTerm: string): StudentToDisplay[] {
+  transform(students: StudentToDB[], searchTerm: string): StudentToDB[] {
     if (searchTerm === "") {
       return students;
     }
