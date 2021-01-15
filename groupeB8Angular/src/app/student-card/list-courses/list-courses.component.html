@@ -48,7 +48,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong> <button class="btnAdd"
+            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong> <button class="btnAdd"
               (click)="ajouter(i)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button>
             <br>
@@ -82,7 +82,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
+            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
               (click)="ajouter(i+bloc1.length)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i + bloc1.length)">Retirer du
               PAE</button>
@@ -114,7 +114,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
+            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
               (click)="ajouter(i+bloc1.length+bloc2.length)">Ajouter au PAE</button>
             <button class="btnRemove" style="display: none" (click)="supprimer(i+bloc1.length+bloc2.length)">Retirer du
               PAE</button>

@@ -64,7 +64,6 @@ export class ListCoursesComponent implements OnInit {
         this.bloc1 = this.listUE.filter(ue=>ue.bloc == "BLOC_1");
         this.bloc2 = this.listUE.filter(ue=>ue.bloc == "BLOC_2");
         this.bloc3 = this.listUE.filter(ue=>ue.bloc == "BLOC_3");
-
       });
     this.subscription.push(sub);
 
@@ -72,10 +71,15 @@ export class ListCoursesComponent implements OnInit {
     //this.getUEBySection();
     //this.getListUE();
 
+    this.displayBloc3Tabs();
     console.log(this.listUE);
     //affichage des boutons
     this.displayButtons()
     this.credits = 0;
+
+  }
+
+  private displayBloc3Tabs() {
 
   }
 
