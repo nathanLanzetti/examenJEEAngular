@@ -23,9 +23,9 @@ export class ListCoursesComponent implements OnInit {
 
   @Output() myEvent = new EventEmitter();
 
-  bloc1: Unit[] = new Array();
-  bloc2: Unit[] = new Array();
-  bloc3: Unit[] = new Array();
+  bloc1: UnitToDB[] = new Array();
+  bloc2: UnitToDB[] = new Array();
+  bloc3: UnitToDB[] = new Array();
 
   listUE: UnitToDB[] = new Array();
   matricule: string;
@@ -52,7 +52,12 @@ export class ListCoursesComponent implements OnInit {
     const sub = this.unit.query()
       .subscribe(unit => {
         this.listUE = unit;
-        this.listUE = this.listUE.filter(ue=>ue.section == this.student.section)
+        this.listUE = this.listUE.filter(ue=>ue.section == this.student.section);
+        //this.listUE = this.listUE.sort(function(ueA,ueB){return ueA.code < ueB.code;});
+        this.bloc1 = this.listUE.filter(ue=>ue.bloc == "BLOC_1");
+        this.bloc2 = this.listUE.filter(ue=>ue.bloc == "BLOC_2");
+        this.bloc3 = this.listUE.filter(ue=>ue.bloc == "BLOC_3");
+
       });
     this.subscription.push(sub);
 
