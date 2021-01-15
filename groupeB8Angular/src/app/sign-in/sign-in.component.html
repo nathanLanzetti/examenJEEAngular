@@ -33,7 +33,8 @@
         </div>
 
         <!--<button [disabled]="form.controls['email'].invalid" class="button is-fullwidth is-medium helha primary-background white">Se connecter</button>-->
-        <button [disabled]="signinForm.invalid" class="button is-fullwidth is-medium helha primary-background white">Se
+        <button [disabled]="signinForm.invalid" [ngClass]="{'is-loading': loading}"
+          class="button is-fullwidth is-medium helha primary-background white">Se
           connecter</button>
       </form>
     </div>

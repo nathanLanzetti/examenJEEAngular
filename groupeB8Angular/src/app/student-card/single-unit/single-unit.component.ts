@@ -28,17 +28,17 @@ export class SingleUnitComponent implements OnInit {
     console.log(this.unitsInPae);
 
     const unitExist = this.unitsInPae.find(tmpUnit => this.unit.code === tmpUnit.code)
-    console.log(unitExist);
+    //console.log(unitExist);
 
     if (unitExist === undefined) {
       this.toAdd = true
-      console.log("weeeeeee");
+      // console.log("weeeeeee");
 
     } else {
       this.toAdd = false
-      console.log("woooooooo");
+      // console.log("woooooooo");
     }
-    console.log(this.toAdd);
+    //console.log(this.toAdd);
 
   }
 

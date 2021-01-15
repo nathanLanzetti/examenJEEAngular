@@ -58,12 +58,15 @@ export class SignInComponent implements OnInit {
         data => {
           this.router.navigate(["/"]);
           console.log(data);
+          this.loading = false
           //this.error = false;
         }, error => {
           //this.error = true;
           this.signinForm.reset();
           this.getColor()
+          this.loading = false
         }
+
       );
 
   }

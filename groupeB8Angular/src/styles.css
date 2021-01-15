@@ -8,6 +8,7 @@
 .helha.primary-background {
   background: #009790 !important;
   border: none;
+  color: #fff;
 }
 .helha.secondary-background {
   background: #424d58 !important;
@@ -21,7 +22,7 @@ fa-icon {
 }
 
 /* Hover */
-.button.helha.primary-background:hover {
+.helha.primary-background:hover {
   transition: all 0.2s;
   background: #018881 !important;
 }

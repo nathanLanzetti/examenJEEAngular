@@ -1,7 +1,6 @@
-div#changeUe {
-  position: absolute;
-  top: 350px;
-  right: 0px;
-  width: 600px;
-  height: 400px;
+.card > .card-header {
+  background: #f5f5f5;
+  box-shadow: none;
+}
+.card > footer.card-footer.card-footer-item {
 }
