@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { getDisplayNameSection } from '../models/Section';
-import { StudentToDisplay } from '../models/StudentsToDisplay';
+import {StudentToDB} from "../models/Student";
 
 @Pipe({
   name: 'selectSection'
 })
 export class SelectSectionPipe implements PipeTransform {
 
-  transform(students: StudentToDisplay[], selectedSection: number): StudentToDisplay[] {
+  transform(students: StudentToDB[], selectedSection: number): StudentToDB[] {
     if (selectedSection == 0) {
       return students;
     }

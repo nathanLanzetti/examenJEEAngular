@@ -24,13 +24,13 @@ export function getDisplayName(key: number): string {
 export function getDisplayNameSection(key: number): string {
   switch (key) {
     case 1:
-      return "AD"
+      return "ASSISTANT_E_DE_DIRECTION"
       break;
     case 2:
-      return "CT"
+      return "COMPTABILITE"
       break;
     case 3:
-      return "IG"
+      return "INFORMATIQUE_DE_GESTION"
       break;
 
     default:
