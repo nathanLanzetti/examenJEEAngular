@@ -25,7 +25,16 @@ export class TableStudentsComponent implements OnInit {
               private student: StudentService) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.student.query().subscribe(studentList => this.students = studentList));
+    this.subscriptions.push(
+      this.student.query()
+        .subscribe(studentList =>{this.students = studentList;
+        this.students = this.students.sort(function(stdA,stdB){
+          if(stdA.fullname > stdB.fullname){
+            return 1;
+          }
+          else
+            return -1
+        });}));
   }
 
   onClickedRow($event) {
