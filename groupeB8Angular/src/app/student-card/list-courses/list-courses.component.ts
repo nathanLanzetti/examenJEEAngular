@@ -27,6 +27,7 @@ export class ListCoursesComponent implements OnInit {
   bloc2: UnitToDB[] = new Array();
   bloc3: UnitToDB[] = new Array();
 
+  ueTmp : UnitToDB = null;
   listUE: UnitToDB[] = new Array();
   matricule: string;
   sectionStudent;
@@ -53,7 +54,13 @@ export class ListCoursesComponent implements OnInit {
       .subscribe(unit => {
         this.listUE = unit;
         this.listUE = this.listUE.filter(ue=>ue.section == this.student.section);
-        //this.listUE = this.listUE.sort(function(ueA,ueB){return ueA.code < ueB.code;});
+        this.listUE = this.listUE.sort(function(ueA,ueB){
+          if(ueA.code > ueB.code){
+            return 1;
+          }
+          else
+          return -1
+        });
         this.bloc1 = this.listUE.filter(ue=>ue.bloc == "BLOC_1");
         this.bloc2 = this.listUE.filter(ue=>ue.bloc == "BLOC_2");
         this.bloc3 = this.listUE.filter(ue=>ue.bloc == "BLOC_3");
