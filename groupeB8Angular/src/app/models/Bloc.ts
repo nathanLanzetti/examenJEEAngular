@@ -70,3 +70,20 @@ export function getBlocToDB(displayedName: string): string {
       break;
   }
 }
+
+export function convertBlocNumberToDB(index: number): string {
+  switch (index) {
+    case 0:
+      return "BLOC_1"
+      break;
+    case 1:
+      return "BLOC_2"
+      break;
+    case 2:
+      return "BLOC_3"
+      break;
+
+    default:
+      break;
+  }
+}

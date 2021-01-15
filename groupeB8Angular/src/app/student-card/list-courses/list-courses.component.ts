@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {ListesEtudiantsService} from "../../services/listes-etudiants.service";
-import {ActivatedRoute} from "@angular/router";
-import {StudentToDisplay} from "../../models/StudentsToDisplay";
-import {Unit, UnitToDB} from "../../models/Unit";
-import {Activity} from "../../models/Activity";
-import {Bloc} from "../../models/Bloc";
-import {EventEmitter} from "events";
-import {Section} from "../../models/Section";
-import {UnitService} from "../../repositories/unit.service";
-import {Subscription} from "rxjs";
-import {StudentToDB} from "../../models/Student";
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { ListesEtudiantsService } from "../../services/listes-etudiants.service";
+import { ActivatedRoute } from "@angular/router";
+import { StudentToDisplay } from "../../models/StudentsToDisplay";
+import { Unit, UnitToDB } from "../../models/Unit";
+import { Activity } from "../../models/Activity";
+import { Bloc, convertBlocNumberToDB } from "../../models/Bloc";
+import { EventEmitter } from "events";
+import { Section } from "../../models/Section";
+import { UnitService } from "../../repositories/unit.service";
+import { Subscription } from "rxjs";
+import { StudentToDB } from "../../models/Student";
 
 
 @Component({
@@ -20,50 +20,57 @@ import {StudentToDB} from "../../models/Student";
 export class ListCoursesComponent implements OnInit {
 
   credits: number;
+  currentTab: number = 0;
 
   @Output() myEvent = new EventEmitter();
 
+  currentUnitsByBloc: UnitToDB[] = new Array()
   bloc1: UnitToDB[] = new Array();
   bloc2: UnitToDB[] = new Array();
   bloc3: UnitToDB[] = new Array();
+  blocs: string[] = new Array();
 
-  ueTmp : UnitToDB = null;
+
+  ueTmp: UnitToDB = null;
   listUE: UnitToDB[] = new Array();
   matricule: string;
   sectionStudent;
 
-  lastChange : string;
+  lastChange: string;
 
   indexSectionStudent: number = 0;
 
 
-  incrementUE : number = 0;
-  incrementAA : number = 0;
+  incrementUE: number = 0;
+  incrementAA: number = 0;
 
-  @Input() student : StudentToDB;
+  @Input() student: StudentToDB;
 
-  private subscription : Subscription[] = [];
+  private subscription: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
-              private unit: UnitService) {
+    private unit: UnitService) {
+    this.blocs = ["Bloc 1", "Bloc 2", "Bloc 3"]
   }
 
   ngOnInit(): void {
-    this.hideTabs();
+    //this.hideTabs();
+    this.filterUnitListByBloc();
     const sub = this.unit.query()
       .subscribe(unit => {
         this.listUE = unit;
-        this.listUE = this.listUE.filter(ue=>ue.section == this.student.section);
-        this.listUE = this.listUE.sort(function(ueA,ueB){
-          if(ueA.code > ueB.code){
+        this.listUE = this.listUE.filter(ue => ue.section == this.student.section);
+        this.listUE = this.listUE.sort(function (ueA, ueB) {
+          if (ueA.code > ueB.code) {
             return 1;
           }
           else
-          return -1
+            return -1
         });
-        this.bloc1 = this.listUE.filter(ue=>ue.bloc == "BLOC_1");
-        this.bloc2 = this.listUE.filter(ue=>ue.bloc == "BLOC_2");
-        this.bloc3 = this.listUE.filter(ue=>ue.bloc == "BLOC_3");
+        this.filterUnitListByBloc();
+        //this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == "BLOC_1");
+        this.bloc2 = this.listUE.filter(ue => ue.bloc == "BLOC_2");
+        this.bloc3 = this.listUE.filter(ue => ue.bloc == "BLOC_3");
       });
     this.subscription.push(sub);
 
@@ -91,56 +98,69 @@ export class ListCoursesComponent implements OnInit {
     }
   }
 
-  private hideTabs() {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.color = "black";
-    }
+  // private hideTabs() {
+  //   var i, tabcontent, tablinks;
+  //   tabcontent = document.getElementsByClassName("tabcontent");
+  //   tablinks = document.getElementsByClassName("tablinks");
+  //   for (i = 0; i < tabcontent.length; i++) {
+  //     tabcontent[i].style.display = "none";
+  //   }
+  //   for (i = 0; i < tablinks.length; i++) {
+  //     tablinks[i].style.color = "black";
+  //   }
 
+  // }
+
+  onClickTab(event, index) {
+    console.log(`${event} : ${index}`);
+    this.currentTab = index;
+    this.filterUnitListByBloc();
+    console.log(this.currentUnitsByBloc);
   }
 
+  filterUnitListByBloc() {
+    console.log(this.currentTab);
+    console.log(convertBlocNumberToDB(this.currentTab));
 
-  openCity(evt, bloc) {
-    var i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.color = "black";
-    }
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-      tablinks.style.color = "green";
-    }
-
-    document.getElementById(bloc).style.display = "block";
-    evt.currentTarget.className += " active";
+    this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(this.currentTab));
   }
 
-  private getUEBySection() {
-    var indexSection : number;
-    this.listes.studentList.forEach(student=>{
-      if(student.matricule == this.matricule){
-        this.sectionStudent = student.section;
-      }
-    })
-    indexSection = this.listes.sections.indexOf(this.sectionStudent);
-    console.log(indexSection + " : "+this.sectionStudent);
-    this.listes.listUE.forEach(section=>{
-      if(this.listes.listUE.indexOf(section) == indexSection){
-        this.listUE = this.listes.listUE[indexSection];
-      }
-    })
-  }
+  // openCity(evt, bloc) {
+  //   var i, tabcontent, tablinks;
+
+  //   tabcontent = document.getElementsByClassName("tabcontent");
+  //   for (i = 0; i < tabcontent.length; i++) {
+  //     tabcontent[i].style.display = "none";
+  //   }
+
+  //   tablinks = document.getElementsByClassName("tablinks");
+  //   for (i = 0; i < tablinks.length; i++) {
+  //     tablinks[i].style.color = "black";
+  //   }
+  //   for (i = 0; i < tablinks.length; i++) {
+  //     tablinks[i].className = tablinks[i].className.replace(" active", "");
+  //     tablinks.style.color = "green";
+  //   }
+
+  //   document.getElementById(bloc).style.display = "block";
+  //   evt.currentTarget.className += " active";
+  // }
+
+  // private getUEBySection() {
+  //   var indexSection: number;
+  //   this.listes.studentList.forEach(student => {
+  //     if (student.matricule == this.matricule) {
+  //       this.sectionStudent = student.section;
+  //     }
+  //   })
+  //   indexSection = this.listes.sections.indexOf(this.sectionStudent);
+  //   console.log(indexSection + " : " + this.sectionStudent);
+  //   this.listes.listUE.forEach(section => {
+  //     if (this.listes.listUE.indexOf(section) == indexSection) {
+  //       this.listUE = this.listes.listUE[indexSection];
+  //     }
+  //   })
+  // }
   // //Obtenir toutes les UE filtrés dans chaque bloc en fonction de la section de l'étudiant
   // getListUE() {
   //   this.listUE.forEach(unit => {
@@ -169,13 +189,13 @@ export class ListCoursesComponent implements OnInit {
 
     this.credits += this.listUE[index].creditsNumber;
 
-    this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " ajoutée";
+    this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " ajoutée";
     btnRemove[index].style.display = "block";
     btnAdd[index].style.display = "none";
     console.log(this.lastChange);
   }
 
-  supprimer(index){
+  supprimer(index) {
 
     console.log(index);
     this.lastChange = "";
@@ -185,7 +205,7 @@ export class ListCoursesComponent implements OnInit {
 
     this.credits -= this.listUE[index].creditsNumber;
 
-    this.lastChange = "UE "+this.listUE[index].code + " : "+this.listUE[index].title + " supprimée";
+    this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " supprimée";
     btnAdd[index].style.display = "block";
     btnRemove[index].style.display = "none";
 

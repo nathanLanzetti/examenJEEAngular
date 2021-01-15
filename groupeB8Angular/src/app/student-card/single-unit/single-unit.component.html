@@ -1,0 +1,28 @@
+<article class="media">
+    <div class="media-content">
+        <div class="content">
+            <p>
+                <strong>{{unit.code}} - {{unit.title}} : {{unit.creditsNumber}} Credits</strong>
+                <button class="button" (click)="onClickManageUnit($event)">
+                    {{toAdd ? "Ajouter l'UE": "Retirer l'UE"}}
+                </button>
+                <!-- <button class="btn" (click)="ajouter(i)">Ajouter au PAE</button> -->
+                <!-- <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button> -->
+                <!-- <input type="checkbox" (change)="onCheck()"> -->
+
+            </p>
+            <div *ngFor="let activity of unit.activities" class="box">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{activity.title}} : {{activity.creditsNumber}} Credits</strong>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</article>

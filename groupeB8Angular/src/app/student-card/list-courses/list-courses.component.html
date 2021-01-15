@@ -20,12 +20,19 @@
     </li>
   </ul>
 </div> -->
-
+<!-- 
 <div class="tabs is-boxed" id="courses">
   <ul>
     <li class="is-active"><a (click)="openCity($event,'1B')">Bloc 1</a></li>
     <li><a (click)="openCity($event,'2B')">Bloc 2</a></li>
     <li><a *ngIf="student.bloc!='BLOC_1'" (click)="openCity($event,'3B')">Bloc 3</a></li>
+  </ul>
+</div> -->
+
+<div class="tabs is-boxed" id="courses">
+  <ul>
+    <li *ngFor="let bloc of blocs; let index = index;" [ngClass]="{'is-active': currentTab === index}"><a
+        (click)="onClickTab($event, index)">{{bloc}}</a></li>
   </ul>
 </div>
 
@@ -40,7 +47,13 @@
   </div>
 </div>
 
-<!-- Bloc 1 -->
+<div class="tabcontent">
+  <div>{{blocs[currentTab]}}</div>
+  <div *ngFor="let ue of currentUnitsByBloc;let i = index" class="box">
+    <app-single-unit [unit]="ue" [unitsInPae]="student.units"></app-single-unit>
+  </div>
+</div>
+<!-- 
 <div id="1B" class="tabcontent">
   <div>Bloc 1</div>
   <div *ngFor="let ue of bloc1;let i = index" class="box">
@@ -74,7 +87,6 @@
 </div>
 
 
-<!-- Bloc 2 -->
 <div id="2B" class="tabcontent">
   <div>Bloc 2</div>
   <div *ngFor="let ue of bloc2; let i=index" class="box">
@@ -106,7 +118,6 @@
   </div>
 </div>
 
-<!-- Bloc 3 -->
 <div id="3B" class="tabcontent">
   <div>Bloc 3</div>
   <div *ngFor="let ue of bloc3; let i=index" class="box">
@@ -136,4 +147,4 @@
       </div>
     </article>
   </div>
-</div>
+</div> -->
