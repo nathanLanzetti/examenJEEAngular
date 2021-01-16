@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ListesEtudiantsService } from "../../services/listes-etudiants.service";
 import { ActivatedRoute } from "@angular/router";
 import { StudentToDisplay } from "../../models/StudentsToDisplay";
 import { Unit, UnitToDB } from "../../models/Unit";
 import { Activity } from "../../models/Activity";
-import { Bloc, convertBlocNumberToDB } from "../../models/Bloc";
+import { Bloc, convertBlocNumberToDB, convertBlocStringToNumber } from "../../models/Bloc";
 import { EventEmitter } from "events";
 import { Section } from "../../models/Section";
 import { UnitService } from "../../repositories/unit.service";
@@ -17,17 +17,12 @@ import { StudentToDB } from "../../models/Student";
   templateUrl: './list-courses.component.html',
   styleUrls: ['./list-courses.component.css']
 })
-export class ListCoursesComponent implements OnInit {
+export class ListCoursesComponent implements OnInit, OnChanges {
 
   credits: number;
   currentTab: number = 0;
 
-  @Output() myEvent = new EventEmitter();
-
   currentUnitsByBloc: UnitToDB[] = new Array()
-  bloc1: UnitToDB[] = new Array();
-  bloc2: UnitToDB[] = new Array();
-  bloc3: UnitToDB[] = new Array();
   blocs: string[] = new Array();
 
 
@@ -53,10 +48,20 @@ export class ListCoursesComponent implements OnInit {
     this.blocs = ["Bloc 1", "Bloc 2", "Bloc 3"]
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes.student);
+    if (changes.student.previousValue === undefined) {
+      this.currentTab = convertBlocStringToNumber(this.student.bloc)
+      console.log(`${this.currentTab} === ${convertBlocStringToNumber(this.student.bloc)}`);
+
+    }
+  }
+
   ngOnInit(): void {
     //this.hideTabs();
+    //this.currentTab = convertBlocStringToNumber(this.student.bloc)
     this.filterUnitListByBloc();
-    const sub = this.unit.query()
+    const sub = this.unit.queryWithoutDuplicates()
       .subscribe(unit => {
         this.listUE = unit;
         this.listUE = this.listUE.filter(ue => ue.section == this.student.section);
@@ -68,9 +73,6 @@ export class ListCoursesComponent implements OnInit {
             return -1
         });
         this.filterUnitListByBloc();
-        //this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == "BLOC_1");
-        this.bloc2 = this.listUE.filter(ue => ue.bloc == "BLOC_2");
-        this.bloc3 = this.listUE.filter(ue => ue.bloc == "BLOC_3");
       });
     this.subscription.push(sub);
 
@@ -81,22 +83,22 @@ export class ListCoursesComponent implements OnInit {
 
     console.log(this.listUE);
     //affichage des boutons
-    this.displayButtons()
-    this.credits = 0;
+    //this.displayButtons()
+    //this.credits = 0;
 
   }
 
-  private displayButtons() {
-    var i, btnAdd, btnRemove;
-    btnAdd = document.getElementsByClassName("btnAdd");
-    btnRemove = document.getElementsByClassName("btnRemove");
-    for (i = 0; i < btnAdd.length; i++) {
-      btnAdd[i].style.display = "block";
-    }
-    for (i = 0; i < btnRemove.length; i++) {
-      btnRemove[i].style.display = "none";
-    }
-  }
+  // private displayButtons() {
+  //   var i, btnAdd, btnRemove;
+  //   btnAdd = document.getElementsByClassName("btnAdd");
+  //   btnRemove = document.getElementsByClassName("btnRemove");
+  //   for (i = 0; i < btnAdd.length; i++) {
+  //     btnAdd[i].style.display = "block";
+  //   }
+  //   for (i = 0; i < btnRemove.length; i++) {
+  //     btnRemove[i].style.display = "none";
+  //   }
+  // }
 
   // private hideTabs() {
   //   var i, tabcontent, tablinks;
@@ -119,9 +121,12 @@ export class ListCoursesComponent implements OnInit {
   }
 
   filterUnitListByBloc() {
-    console.log(this.currentTab);
-    console.log(convertBlocNumberToDB(this.currentTab));
 
+    console.log(this.currentTab);
+    console.log(this.student);
+
+    console.log(convertBlocNumberToDB(this.currentTab));
+    //this.currentTab = convertBlocStringToNumber(this.student.bloc)
     this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(this.currentTab));
   }
 
@@ -181,40 +186,35 @@ export class ListCoursesComponent implements OnInit {
   // }
 
 
-  ajouter(index) {
-    this.lastChange = "";
-    var btnAdd, btnRemove;
-    btnAdd = document.getElementsByClassName("btnAdd");
-    btnRemove = document.getElementsByClassName("btnRemove");
+  // ajouter(index) {
+  //   this.lastChange = "";
+  //   var btnAdd, btnRemove;
+  //   btnAdd = document.getElementsByClassName("btnAdd");
+  //   btnRemove = document.getElementsByClassName("btnRemove");
 
-    this.credits += this.listUE[index].creditsNumber;
+  //   this.credits += this.listUE[index].creditsNumber;
 
-    this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " ajoutée";
-    btnRemove[index].style.display = "block";
-    btnAdd[index].style.display = "none";
-    console.log(this.lastChange);
-  }
+  //   this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " ajoutée";
+  //   btnRemove[index].style.display = "block";
+  //   btnAdd[index].style.display = "none";
+  //   console.log(this.lastChange);
+  // }
 
-  supprimer(index) {
+  // supprimer(index) {
 
-    console.log(index);
-    this.lastChange = "";
-    var btnAdd, btnRemove;
-    btnAdd = document.getElementsByClassName("btnAdd");
-    btnRemove = document.getElementsByClassName("btnRemove");
+  //   console.log(index);
+  //   this.lastChange = "";
+  //   var btnAdd, btnRemove;
+  //   btnAdd = document.getElementsByClassName("btnAdd");
+  //   btnRemove = document.getElementsByClassName("btnRemove");
 
-    this.credits -= this.listUE[index].creditsNumber;
+  //   this.credits -= this.listUE[index].creditsNumber;
 
-    this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " supprimée";
-    btnAdd[index].style.display = "block";
-    btnRemove[index].style.display = "none";
+  //   this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " supprimée";
+  //   btnAdd[index].style.display = "block";
+  //   btnRemove[index].style.display = "none";
 
-    console.log(this.lastChange);
+  //   console.log(this.lastChange);
 
-  }
-
-
-  onCheck() {
-
-  }
+  // }
 }

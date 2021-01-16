@@ -87,3 +87,20 @@ export function convertBlocNumberToDB(index: number): string {
       break;
   }
 }
+
+export function convertBlocStringToNumber(index: string): number {
+  switch (index) {
+    case "BLOC_1":
+      return 0
+      break;
+    case "BLOC_2":
+      return 1
+      break;
+    case "BLOC_3":
+      return 2
+      break;
+
+    default:
+      break;
+  }
+}

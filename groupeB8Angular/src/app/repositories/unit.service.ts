@@ -15,6 +15,10 @@ export class UnitService {
     return this.http.get<UnitToDB[]>(URL_API);
   }
 
+  queryWithoutDuplicates(): Observable<UnitToDB[]> {
+    return this.http.get<UnitToDB[]>(`${URL_API}/unique`);
+  }
+
   getById(id: number): Observable<UnitToDB> {
     return this.http.get<UnitToDB>(`${URL_API}/${id}`);
   }

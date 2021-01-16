@@ -31,24 +31,13 @@
 
 <div class="tabs is-boxed" id="courses">
   <ul>
-    <li *ngFor="let bloc of blocs; let index = index;" [ngClass]="{'is-active': currentTab === index}"><a
+    <li *ngFor="let bloc of blocs; let index = index;"
+      [ngClass]="{'is-active': currentTab === index, 'is-disabled': bloc === 'Bloc 3' && student.bloc === 'BLOC_1'}"><a
         (click)="onClickTab($event, index)">{{bloc}}</a></li>
   </ul>
 </div>
 
-<div class="card" id="nbcredits">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <label>Nombre de credits</label>
-        <p class="title is-4">{{credits}}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="tabcontent">
-  <div>{{blocs[currentTab]}}</div>
   <div *ngFor="let ue of currentUnitsByBloc;let i = index" class="box">
     <app-single-unit [unit]="ue" [unitsInPae]="student.units"></app-single-unit>
   </div>

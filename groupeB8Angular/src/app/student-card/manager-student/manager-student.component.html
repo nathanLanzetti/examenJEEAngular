@@ -11,7 +11,7 @@
                 <app-list-courses [student]="student"></app-list-courses>
             </div>
             <div class="column is-4">
-                <app-change-ue></app-change-ue>
+                <app-change-ue [student]="student" [summaryUnits]="student.units"></app-change-ue>
                 <!-- <app-modal></app-modal> -->
             </div>
         </div>

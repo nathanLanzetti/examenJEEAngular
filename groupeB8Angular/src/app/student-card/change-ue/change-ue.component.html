@@ -17,6 +17,18 @@
     </p>
   </header>
   <div class="card-content">
+    <div class="card" id="nbcredits">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content">
+            <label>Nombre de credits</label>
+            <p class="title is-4">
+              {{ creditsTotal }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="content" *ngIf="summaryUnits.length > 0; else emptyList">
       <p *ngFor="let unit of summaryUnits"> - {{unit.code}} </p>
     </div>
@@ -27,6 +39,6 @@
     </ng-template>
   </div>
   <footer class="card-footer">
-    <a href="#" class="card-footer-item helha primary-background">Confirmer</a>
+    <a (click)="updateStudent($event)" class="card-footer-item helha primary-background">Confirmer</a>
   </footer>
 </div>

@@ -2,3 +2,7 @@
   width: 750px;
   height: 400px;
 } */
+.is-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
