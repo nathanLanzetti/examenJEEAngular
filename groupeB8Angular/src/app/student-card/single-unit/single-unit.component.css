@@ -1,0 +1,51 @@
+.unit {
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+    0 0px 0 1px rgba(10, 10, 10, 0.02);
+  margin-bottom: 1rem;
+  border-radius: 0 0 5px 5px;
+}
+.unit:hover .activities {
+  padding: 0.5rem;
+  height: auto;
+  overflow: visible;
+}
+
+.unit > .header {
+  border-radius: 5px;
+  background: #009790;
+  position: relative;
+  padding: 0.5rem;
+  color: #fff;
+}
+.unit-button {
+  color: white;
+  background: #f5f5f5;
+  padding: 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  float: right;
+  right: 0rem;
+  transform: translate(-50%, -50%);
+}
+.unit-button:hover {
+  background: #ecebeb;
+}
+.activities {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.15s;
+}
+.activities > .activity {
+  padding: 0.25rem 1rem;
+  background: whitesmoke;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.activities > .activity:last-child {
+  margin: 0;
+}
+.activity > p > span {
+  float: right;
+}
