@@ -27,11 +27,11 @@
     <div class="header">
 
         <p>UE {{unit.code}} : {{unit.title}}</p>
-        <div class="button-and-nb-credits">
+        <a class="unit-button" (click)="onClickManageUnit($event)">
+            <fa-icon [ngClass]=" toAdd ? 'has-text-success' : 'has-text-danger' " [icon]="currentIcon"></fa-icon>
+        </a>
+        <div class="unit-nb-credits">
             {{unit.creditsNumber }} crédits
-            <a class="unit-button" (click)="onClickManageUnit($event)">
-                <fa-icon [ngClass]=" toAdd ? 'has-text-success' : 'has-text-danger' " [icon]="currentIcon"></fa-icon>
-            </a>
         </div>
 
 
