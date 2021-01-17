@@ -38,109 +38,14 @@
       </li>
     </ul>
   </div>
-  <button class="button"
+  <button (click)="addAllUnitNextBloc($event)" class="button"
     [ngStyle]="{'border-color': colorArray[student.section], 'background': colorArray[student.section]}">Ajouter les
-    cours du
-    {{student.bloc}}</button>
+    cours {{getNextBlocName()}}</button>
 </div>
 
 <div class="tabcontent">
   <div *ngFor="let ue of currentUnitsByBloc;let i = index" class="unit-list">
-    <app-single-unit [indexToRemove]="indexToRemove" [unit]="ue" [unitsInPae]="student.units"></app-single-unit>
+    <app-single-unit [nextUnitsByBloc]="nextUnitsByBloc" [indexToRemove]="indexToRemove" [unit]="ue"
+      [unitsInPae]="student.units"></app-single-unit>
   </div>
 </div>
-<!-- 
-<div id="1B" class="tabcontent">
-  <div>Bloc 1</div>
-  <div *ngFor="let ue of bloc1;let i = index" class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong> <button class="btnAdd"
-              (click)="ajouter(i)">Ajouter au PAE</button>
-            <button class="btnRemove" style="display: none" (click)="supprimer(i)">Retirer du PAE</button>
-            <br>
-            <input type="checkbox" (change)="onCheck()">
-          </p>
-          <div *ngFor="let aa of ue.activities" class="box">
-            <article class="media">
-
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
-                    <br>
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </article>
-  </div>
-</div>
-
-
-<div id="2B" class="tabcontent">
-  <div>Bloc 2</div>
-  <div *ngFor="let ue of bloc2; let i=index" class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
-              (click)="ajouter(i+bloc1.length)">Ajouter au PAE</button>
-            <button class="btnRemove" style="display: none" (click)="supprimer(i + bloc1.length)">Retirer du
-              PAE</button>
-            <br>
-          </p>
-          <div *ngFor="let aa of ue.activities" class="box">
-            <article class="media">
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
-                    <br>
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </article>
-  </div>
-</div>
-
-<div id="3B" class="tabcontent">
-  <div>Bloc 3</div>
-  <div *ngFor="let ue of bloc3; let i=index" class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content">
-          <p>
-            <strong>{{ue.code}} - {{ue.title}} : {{ue.creditsNumber}} Credits</strong><button class="btnAdd"
-              (click)="ajouter(i+bloc1.length+bloc2.length)">Ajouter au PAE</button>
-            <button class="btnRemove" style="display: none" (click)="supprimer(i+bloc1.length+bloc2.length)">Retirer du
-              PAE</button>
-            <br>
-          </p>
-          <div *ngFor="let aa of ue.activities" class="box">
-            <article class="media">
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>{{aa.title}} : {{aa.creditsNumber}} Credits</strong>
-                    <br>
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </article>
-  </div>
-</div> -->

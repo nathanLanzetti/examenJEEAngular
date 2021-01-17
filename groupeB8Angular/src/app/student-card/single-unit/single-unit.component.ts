@@ -20,6 +20,8 @@ export class SingleUnitComponent implements OnInit, OnChanges {
   @Input()
   unitsInPae: UnitToDB[];
   @Input()
+  nextUnitsByBloc: UnitToDB[];
+  @Input()
   indexToRemove: number
   toAdd: boolean;
 
@@ -28,15 +30,47 @@ export class SingleUnitComponent implements OnInit, OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(`${changes.indexToRemove.currentValue} === ? ${this.unit.id}`);
-    console.log(changes);
+    // console.log(`${changes.indexToRemove.currentValue} === ? ${this.unit.id}`);
+    // console.log(changes);
+    // console.log(this.indexToRemove);
+    //console.log(changes);
+    console.log(changes.nextUnitsByBloc);
 
-    if (changes.indexToRemove.currentValue === this.unit.id) {
-      this.toAdd = true
-      this.currentIcon = faPlus
-      console.log("Changing stuff");
 
+    if (changes.indexToRemove !== undefined) {
+
+      if (changes.indexToRemove.currentValue === this.unit.id) {
+        this.toAdd = true
+        this.currentIcon = faPlus
+        //console.log("Changing stuff");
+
+      }
     }
+
+    // if (changes.indexToRemove.currentValue !== undefined) {
+
+
+    // }
+
+    if (changes.nextUnitsByBloc !== undefined) {
+      console.log(this.nextUnitsByBloc);
+
+      //console.log("Heyyyyyy ooooooh");
+      if (this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id)) {
+        console.log("Added units ");
+
+        console.log(this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id));
+
+        this.toAdd = false
+        this.currentIcon = faMinus
+        this.addedUnitService.addUnit(this.unit)
+        console.log("Adding unit form single : " + this.unit.code);
+        //changes.nextUnitsByBloc.currentValue
+
+      }
+    }
+
+    // }
   }
 
   ngOnInit(): void {

@@ -4,13 +4,14 @@ import { ActivatedRoute } from "@angular/router";
 import { StudentToDisplay } from "../../models/StudentsToDisplay";
 import { Unit, UnitToDB } from "../../models/Unit";
 import { Activity } from "../../models/Activity";
-import { Bloc, convertBlocNumberToDB, convertBlocStringToNumber } from "../../models/Bloc";
+import { Bloc, convertBlocNumberToDB, convertBlocStringToNumber, fromBlocDBToDisplay } from "../../models/Bloc";
 import { EventEmitter } from "events";
 import { Section } from "../../models/Section";
 import { UnitService } from "../../repositories/unit.service";
 import { Subscription } from "rxjs";
 import { StudentToDB } from "../../models/Student";
 import { RemovedUnitService } from 'src/app/services/removed-unit.service';
+import { AddedUnitService } from 'src/app/services/added-unit.service';
 
 
 @Component({
@@ -23,8 +24,10 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
   credits: number;
   currentTab: number = 0;
   indexToRemove: number
+  nextBlocIndex: number
 
   currentUnitsByBloc: UnitToDB[] = new Array()
+  nextUnitsByBloc: UnitToDB[] = new Array()
   blocs: string[] = new Array();
 
 
@@ -48,7 +51,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
   private subscription: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
-    private unit: UnitService, private removedUnitService: RemovedUnitService) {
+    private unit: UnitService, private removedUnitService: RemovedUnitService, private addedUnitService: AddedUnitService) {
     this.blocs = ["Bloc 1", "Bloc 2", "Bloc 3"]
   }
 
@@ -64,7 +67,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     //this.hideTabs();
     //this.currentTab = convertBlocStringToNumber(this.student.bloc)
-    this.filterUnitListByBloc();
+    this.filterUnitListByBloc(this.currentTab);
     const sub = this.unit.queryWithoutDuplicates()
       .subscribe(unit => {
         this.listUE = unit;
@@ -76,7 +79,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
           else
             return -1
         });
-        this.filterUnitListByBloc();
+        this.filterUnitListByBloc(this.currentTab);
       });
     this.subscription.push(sub);
     const rmvdUnitSub = this.removedUnitService.unitsSubject.subscribe(id => {
@@ -85,16 +88,8 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
 
     })
     this.subscription.push(rmvdUnitSub)
-
-    //this.getUEBySection();
-    //this.getListUE();
-
-
+    this.getNextIndex()
     console.log(this.listUE);
-    //affichage des boutons
-    //this.displayButtons()
-    //this.credits = 0;
-
   }
 
   ngOnDestroy(): void {
@@ -105,133 +100,73 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  // private displayButtons() {
-  //   var i, btnAdd, btnRemove;
-  //   btnAdd = document.getElementsByClassName("btnAdd");
-  //   btnRemove = document.getElementsByClassName("btnRemove");
-  //   for (i = 0; i < btnAdd.length; i++) {
-  //     btnAdd[i].style.display = "block";
-  //   }
-  //   for (i = 0; i < btnRemove.length; i++) {
-  //     btnRemove[i].style.display = "none";
-  //   }
-  // }
+  getNextBlocName(): string {
+    switch (this.student.bloc) {
+      case "BLOC_1":
+        return "du bloc 2"
+        break;
+      case "BLOC_2":
+        return "du bloc 3"
+        break;
+      case "BLOC_3":
+        return "restants"
 
-  // private hideTabs() {
-  //   var i, tabcontent, tablinks;
-  //   tabcontent = document.getElementsByClassName("tabcontent");
-  //   tablinks = document.getElementsByClassName("tablinks");
-  //   for (i = 0; i < tabcontent.length; i++) {
-  //     tabcontent[i].style.display = "none";
-  //   }
-  //   for (i = 0; i < tablinks.length; i++) {
-  //     tablinks[i].style.color = "black";
-  //   }
+      default:
+        break;
+    }
+  }
 
-  // }
+  getNextIndex() {
+    switch (this.student.bloc) {
+      case "BLOC_1":
+        this.nextBlocIndex = 1
+        break;
+      case "BLOC_2":
+        this.nextBlocIndex = 2
+        break;
+      case "BLOC_3":
+        this.nextBlocIndex = 2
+
+      default:
+        break;
+    }
+    console.log(this.nextBlocIndex);
+
+  }
+
+  addAllUnitNextBloc($event) {
+    //this.currentTab = this.nextBlocIndex
+    //this.filterUnitListByNextBloc(this.nextBlocIndex)
+    //this.currentUnitsByBloc = []
+    //console.log(this.nextUnitsByBloc);
+  }
 
   onClickTab(event, index) {
-    console.log(`${event} : ${index}`);
+    // console.log(`${event} : ${index}`);
     this.currentTab = index;
-    this.filterUnitListByBloc();
-    console.log(this.currentUnitsByBloc);
+    this.filterUnitListByBloc(this.currentTab);
+    // console.log(this.currentUnitsByBloc);
   }
 
-  filterUnitListByBloc() {
+  filterUnitListByBloc(blocIndex: number) {
 
-    console.log(this.currentTab);
-    console.log(this.student);
+    // console.log(this.currentTab);
+    // console.log(this.student);
 
-    console.log(convertBlocNumberToDB(this.currentTab));
-    //this.currentTab = convertBlocStringToNumber(this.student.bloc)
-    this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(this.currentTab));
+    // console.log(convertBlocNumberToDB(blocIndex));
+    this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(blocIndex));
   }
 
-  // openCity(evt, bloc) {
-  //   var i, tabcontent, tablinks;
+  filterUnitListByNextBloc(blocIndex: number) {
 
-  //   tabcontent = document.getElementsByClassName("tabcontent");
-  //   for (i = 0; i < tabcontent.length; i++) {
-  //     tabcontent[i].style.display = "none";
-  //   }
+    // console.log(this.currentTab);
+    // console.log(this.student);
 
-  //   tablinks = document.getElementsByClassName("tablinks");
-  //   for (i = 0; i < tablinks.length; i++) {
-  //     tablinks[i].style.color = "black";
-  //   }
-  //   for (i = 0; i < tablinks.length; i++) {
-  //     tablinks[i].className = tablinks[i].className.replace(" active", "");
-  //     tablinks.style.color = "green";
-  //   }
+    // console.log(convertBlocNumberToDB(blocIndex));
+    this.nextUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(blocIndex));
+    //console.log(this.nextUnitsByBloc);
 
-  //   document.getElementById(bloc).style.display = "block";
-  //   evt.currentTarget.className += " active";
-  // }
-
-  // private getUEBySection() {
-  //   var indexSection: number;
-  //   this.listes.studentList.forEach(student => {
-  //     if (student.matricule == this.matricule) {
-  //       this.sectionStudent = student.section;
-  //     }
-  //   })
-  //   indexSection = this.listes.sections.indexOf(this.sectionStudent);
-  //   console.log(indexSection + " : " + this.sectionStudent);
-  //   this.listes.listUE.forEach(section => {
-  //     if (this.listes.listUE.indexOf(section) == indexSection) {
-  //       this.listUE = this.listes.listUE[indexSection];
-  //     }
-  //   })
-  // }
-  // //Obtenir toutes les UE filtrés dans chaque bloc en fonction de la section de l'étudiant
-  // getListUE() {
-  //   this.listUE.forEach(unit => {
-  //     switch (unit.bloc) {
-  //       case Bloc.BLOC_1 :
-  //         this.bloc1.push(unit);
-  //         break;
-  //       case Bloc.BLOC_2 :
-  //         this.bloc2.push(unit);
-  //         break;
-  //       case Bloc.BLOC_3:
-  //         this.bloc3.push(unit);
-  //         break;
-  //       default :
-  //         break;
-  //     }
-  //   })
-  // }
+  }
 
 
-  // ajouter(index) {
-  //   this.lastChange = "";
-  //   var btnAdd, btnRemove;
-  //   btnAdd = document.getElementsByClassName("btnAdd");
-  //   btnRemove = document.getElementsByClassName("btnRemove");
-
-  //   this.credits += this.listUE[index].creditsNumber;
-
-  //   this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " ajoutée";
-  //   btnRemove[index].style.display = "block";
-  //   btnAdd[index].style.display = "none";
-  //   console.log(this.lastChange);
-  // }
-
-  // supprimer(index) {
-
-  //   console.log(index);
-  //   this.lastChange = "";
-  //   var btnAdd, btnRemove;
-  //   btnAdd = document.getElementsByClassName("btnAdd");
-  //   btnRemove = document.getElementsByClassName("btnRemove");
-
-  //   this.credits -= this.listUE[index].creditsNumber;
-
-  //   this.lastChange = "UE " + this.listUE[index].code + " : " + this.listUE[index].title + " supprimée";
-  //   btnAdd[index].style.display = "block";
-  //   btnRemove[index].style.display = "none";
-
-  //   console.log(this.lastChange);
-
-  // }
 }
