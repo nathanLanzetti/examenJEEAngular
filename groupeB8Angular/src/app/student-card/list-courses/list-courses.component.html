@@ -28,13 +28,20 @@
     <li><a *ngIf="student.bloc!='BLOC_1'" (click)="openCity($event,'3B')">Bloc 3</a></li>
   </ul>
 </div> -->
+<div class="menu-container">
 
-<div class="tabs is-toggle" id="courses">
-  <ul>
-    <li *ngFor="let bloc of blocs; let index = index;"
-      [ngClass]="{'is-active': currentTab === index, 'is-disabled': bloc === 'Bloc 3' && student.bloc === 'BLOC_1'}"><a
-        (click)="onClickTab($event, index)">{{bloc}}</a></li>
-  </ul>
+  <div class="tabs is-toggle" id="courses">
+    <ul>
+      <li *ngFor="let bloc of blocs; let index = index;"
+        [ngClass]="{'is-active': currentTab === index, 'is-disabled': bloc === 'Bloc 3' && student.bloc === 'BLOC_1'}">
+        <a (click)="onClickTab($event, index)">{{bloc}}</a>
+      </li>
+    </ul>
+  </div>
+  <button class="button"
+    [ngStyle]="{'border-color': colorArray[student.section], 'background': colorArray[student.section]}">Ajouter les
+    cours du
+    {{student.bloc}}</button>
 </div>
 
 <div class="tabcontent">

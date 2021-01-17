@@ -12,7 +12,22 @@
 }
 .tabcontent {
   padding: 0.5rem 0.5rem 0.01rem 0.5rem;
-  background: #6d6d6d08;
+  /* background: #6d6d6d08; */
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
     0 0px 0 1px rgba(10, 10, 10, 0.02);
+}
+.menu-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.menu-container button {
+  background: #c95511;
+  color: #fff;
+  border-color: #c95511;
+  transition: transform 0.15s;
+}
+
+.menu-container button:hover {
+  transform: scale(103%);
 }

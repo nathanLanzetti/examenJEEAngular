@@ -32,6 +32,8 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
   listUE: UnitToDB[] = new Array();
   matricule: string;
   sectionStudent;
+  colorArray = { "ASSISTANT_E_DE_DIRECTION": "#BE8CF3", "INFORMATIQUE_DE_GESTION": "#417EBF", "COMPTABILITE": "#C95511" } // Purple, Blue, Orange
+
 
   lastChange: string;
 
