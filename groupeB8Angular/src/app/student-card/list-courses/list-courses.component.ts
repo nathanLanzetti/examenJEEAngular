@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ListesEtudiantsService } from "../../services/listes-etudiants.service";
 import { ActivatedRoute } from "@angular/router";
 import { StudentToDisplay } from "../../models/StudentsToDisplay";
@@ -10,6 +10,7 @@ import { Section } from "../../models/Section";
 import { UnitService } from "../../repositories/unit.service";
 import { Subscription } from "rxjs";
 import { StudentToDB } from "../../models/Student";
+import { RemovedUnitService } from 'src/app/services/removed-unit.service';
 
 
 @Component({
@@ -17,10 +18,11 @@ import { StudentToDB } from "../../models/Student";
   templateUrl: './list-courses.component.html',
   styleUrls: ['./list-courses.component.css']
 })
-export class ListCoursesComponent implements OnInit, OnChanges {
+export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
 
   credits: number;
   currentTab: number = 0;
+  indexToRemove: number
 
   currentUnitsByBloc: UnitToDB[] = new Array()
   blocs: string[] = new Array();
@@ -44,7 +46,7 @@ export class ListCoursesComponent implements OnInit, OnChanges {
   private subscription: Subscription[] = [];
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
-    private unit: UnitService) {
+    private unit: UnitService, private removedUnitService: RemovedUnitService) {
     this.blocs = ["Bloc 1", "Bloc 2", "Bloc 3"]
   }
 
@@ -75,7 +77,12 @@ export class ListCoursesComponent implements OnInit, OnChanges {
         this.filterUnitListByBloc();
       });
     this.subscription.push(sub);
+    const rmvdUnitSub = this.removedUnitService.unitsSubject.subscribe(id => {
+      this.indexToRemove = id
+      console.log(`Index to remove : ${this.indexToRemove}`);
 
+    })
+    this.subscription.push(rmvdUnitSub)
 
     //this.getUEBySection();
     //this.getListUE();
@@ -86,6 +93,14 @@ export class ListCoursesComponent implements OnInit, OnChanges {
     //this.displayButtons()
     //this.credits = 0;
 
+  }
+
+  ngOnDestroy(): void {
+    for (let i = this.subscription.length - 1; i >= 0; i--) {
+      const subscription = this.subscription[i];
+      subscription && subscription.unsubscribe();
+      this.subscription.pop();
+    }
   }
 
   // private displayButtons() {

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UnitToDB } from 'src/app/models/Unit';
 import { AddedUnitService } from 'src/app/services/added-unit.service';
 import { RemovedUnitService } from 'src/app/services/removed-unit.service';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './single-unit.component.html',
   styleUrls: ['./single-unit.component.css']
 })
-export class SingleUnitComponent implements OnInit, OnDestroy {
+export class SingleUnitComponent implements OnInit, OnChanges {
 
   faPlus = faPlus
   faMinus = faMinus
@@ -19,50 +19,43 @@ export class SingleUnitComponent implements OnInit, OnDestroy {
   unit: UnitToDB;
   @Input()
   unitsInPae: UnitToDB[];
+  @Input()
+  indexToRemove: number
   toAdd: boolean;
-  subscriptions: Subscription[] = []
+
 
   constructor(private addedUnitService: AddedUnitService, private removedUnitService: RemovedUnitService) {
 
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(`${changes.indexToRemove.currentValue} === ? ${this.unit.id}`);
+    console.log(changes);
 
-  ngOnInit(): void {
-    this.checkUnitOperation()
-    // const sub = this.removedUnitService.unitsSubject.subscribe(id => {
-    //   if (id === this.unit.id) {
-    //     this.toAdd = true
-    //     this.currentIcon = faPlus
-    //   }
-    // })
-    // this.subscriptions.push(sub)
-  }
+    if (changes.indexToRemove.currentValue === this.unit.id) {
+      this.toAdd = true
+      this.currentIcon = faPlus
+      console.log("Changing stuff");
 
-  ngOnDestroy(): void {
-    for (let i = this.subscriptions.length - 1; i >= 0; i--) {
-      const subscription = this.subscriptions[i];
-      subscription && subscription.unsubscribe();
-      this.subscriptions.pop();
     }
   }
 
+  ngOnInit(): void {
+    this.checkUnitOperation()
+
+  }
+
   checkUnitOperation() {
-    console.log(this.unitsInPae);
+    //console.log(this.unitsInPae);
 
     const unitExist = this.unitsInPae.find(tmpUnit => this.unit.code === tmpUnit.code)
-    //console.log(unitExist);
 
     if (unitExist === undefined) {
       this.toAdd = true
       this.currentIcon = faPlus
-      // console.log("weeeeeee");
-
     } else {
       this.toAdd = false
       this.currentIcon = faMinus
-
-      // console.log("woooooooo");
     }
-    //console.log(this.toAdd);
 
   }
 
@@ -76,7 +69,6 @@ export class SingleUnitComponent implements OnInit, OnDestroy {
       this.removedUnitService.removeUnit(this.unit)
     }
     this.toAdd = !this.toAdd
-
   }
 
 }

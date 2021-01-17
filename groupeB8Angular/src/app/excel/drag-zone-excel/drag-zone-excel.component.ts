@@ -64,7 +64,7 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   onClickReadFile(event) {
-    console.log("lol");
+    this.listes.resetData()
     this.loading = true
     this.readAndTreatExcel()
   }
@@ -163,6 +163,7 @@ export class DragZoneExcelComponent implements OnInit {
       .postAll(listOfTypeUnit)
       .subscribe();
     this.subscriptions.push(sub);
+    this.listes.listUE = []
   }
 
   async postStudents() {
@@ -171,6 +172,7 @@ export class DragZoneExcelComponent implements OnInit {
       .postAll(this.listes.studentResultList)
       .subscribe();
     this.subscriptions.push(sub);
+    this.listes.studentResultList = []
   }
 
   onSelect(event: any) {

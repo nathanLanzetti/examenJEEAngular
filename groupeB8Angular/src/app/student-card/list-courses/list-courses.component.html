@@ -39,7 +39,7 @@
 
 <div class="tabcontent">
   <div *ngFor="let ue of currentUnitsByBloc;let i = index" class="unit-list">
-    <app-single-unit [unit]="ue" [unitsInPae]="student.units"></app-single-unit>
+    <app-single-unit [indexToRemove]="indexToRemove" [unit]="ue" [unitsInPae]="student.units"></app-single-unit>
   </div>
 </div>
 <!-- 
