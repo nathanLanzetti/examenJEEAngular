@@ -88,21 +88,6 @@ export class ChangeUEComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe()
     this.subscriptions.push(sub)
   }
-  // updateChange() {
-  //   //var title: string[] = this
-  //   this.liste.listUE.forEach(ueselect => {
-  //     if (ueselect.title == this.title) {
-  //       this.ue = ueselect;
-  //       console.log(this.title);
-  //     }
-  //     console.log(ueselect);
-  //   });
-  //   return this.ue;
-  // }
 
-  // calculateTotalCredits(): number {
-  //   //const { creditsNumber } = this.summaryUnits
-  //   this.summaryUnits.reduce((0, {creditsNumber}) => acc + creditsNumber)
-  // }
 }
 

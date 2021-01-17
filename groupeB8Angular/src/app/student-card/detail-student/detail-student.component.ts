@@ -58,13 +58,13 @@ export class DetailStudentComponent implements OnInit {
   fromSectionDBToDisplay(sectionStringFromDB: string): string {
     switch (sectionStringFromDB) {
       case "INFORMATIQUE_DE_GESTION":
-        return "Assistant(e) de direction"
+        return "Informatique de gestion"
         break;
       case "ASSISTANT_E_DE_DIRECTION":
-        return "Comptabilité"
+        return "Assistant(e) de direction"
         break;
       case "COMPTABILITE":
-        return "Informatique de gestion"
+        return "Comptabilité"
         break;
 
       default:

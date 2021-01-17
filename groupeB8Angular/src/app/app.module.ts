@@ -23,6 +23,7 @@ import { ChangeUEComponent } from './student-card/change-ue/change-ue.component'
 import { ListCoursesComponent } from './student-card/list-courses/list-courses.component';
 import { ModalComponent } from './student-card/modal/modal.component';
 import { SingleUnitComponent } from './student-card/single-unit/single-unit.component';
+import { AddedUnitComponent } from './student-card/added-unit/added-unit.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { SingleUnitComponent } from './student-card/single-unit/single-unit.comp
     ChangeUEComponent,
     ListCoursesComponent,
     ModalComponent,
-    SingleUnitComponent
+    SingleUnitComponent,
+    AddedUnitComponent
   ],
   imports: [
     BrowserModule,

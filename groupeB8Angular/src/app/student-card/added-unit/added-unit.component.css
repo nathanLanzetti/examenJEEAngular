@@ -1,0 +1,11 @@
+p.added-ue {
+  margin: 0 !important;
+}
+a.delete {
+  position: absolute;
+  top: 0;
+  top: 50%;
+  float: right;
+  right: 0rem;
+  transform: translate(-50%, -50%);
+}

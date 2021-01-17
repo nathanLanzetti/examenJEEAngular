@@ -3,12 +3,32 @@
     <section id="dragzone" class="column is-6">
         <ngx-dropzone (change)="onSelect($event)" [multiple]="false"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-            <fa-icon [icon]="faUpload"></fa-icon>
+            <fa-icon *ngIf="files.length <= 0" [icon]="faUpload"></fa-icon>
             <ngx-dropzone-label>Glissez ou clickez pour déposez le fichier excel</ngx-dropzone-label>
             <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                 <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
             </ngx-dropzone-preview>
         </ngx-dropzone>
-        <button (click)="onClickReadFile($event)" class="button is-full-width">Lire le fichier</button>
+        <button [disabled]="files.length <= 0" (click)="onClickReadFile($event)"
+            class="button is-fullwidth helha eco-background">Lire le
+            fichier</button>
     </section>
+
+    <div class="modal" [ngClass]="{'is-active' : loading}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="lds-ring">
+                    <div></div>
+                    <div style="border-color: gray;"></div>
+                    <!-- Ring of the loader -->
+                    <div></div>
+                    <div></div>
+                </div>
+                <p class="has-text-centered">Le fichier est en cours de lecture, veuillez patientez ...</p>
+            </div>
+            <!-- Any other Bulma elements you want -->
+        </div>
+        <!-- <button class="modal-close is-large" aria-label="close"></button> -->
+    </div>
 </div>

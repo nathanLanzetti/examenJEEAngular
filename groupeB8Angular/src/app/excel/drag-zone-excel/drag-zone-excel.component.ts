@@ -22,8 +22,6 @@ export class DragZoneExcelComponent implements OnInit {
   faUpload = faUpload
   files: File[] = [];
   data: [][];
-  // unitsInDB: UnitToDB[]
-  // studentsInDB: StudentToDB[]
   private subscriptions: Subscription[] = [];
 
 
@@ -36,6 +34,7 @@ export class DragZoneExcelComponent implements OnInit {
 
   units: Unit[];
   creditValidated: number[];
+  loading = false;
   // unit : Unit[];
   // creditValidated : number[];
   // score: ScoredUnit[][];
@@ -54,20 +53,7 @@ export class DragZoneExcelComponent implements OnInit {
     // this.studentsInDB = new Array()
   }
 
-  ngOnInit(): void {
-    // const sub = this.unitService
-    //   .query()
-    //   .subscribe(units => {
-    //     this.unitsInDB = units
-    //   })
-    // this.subscriptions.push(sub)
-    // const subStudent = this.studentService
-    //   .query()
-    //   .subscribe(students => {
-    //     this.studentsInDB = students
-    //   })
-    // this.subscriptions.push(subStudent)
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     for (let i = this.subscriptions.length - 1; i >= 0; i--) {
@@ -79,8 +65,8 @@ export class DragZoneExcelComponent implements OnInit {
 
   onClickReadFile(event) {
     console.log("lol");
-
-
+    this.loading = true
+    this.readAndTreatExcel()
   }
 
   async deleteStudents() {
@@ -142,6 +128,8 @@ export class DragZoneExcelComponent implements OnInit {
       console.log(this.listes.studentResultList);
       this.postStudents()
       this.postUnits()
+
+      this.loading = false
       // subscribe
     };
     reader.readAsBinaryString(this.files[0]);
@@ -154,8 +142,6 @@ export class DragZoneExcelComponent implements OnInit {
     // supprime tous les étudiants et unités
     await this.deleteStudents()
     await this.deleteUnits()
-    // this.unitsInDB = new Array()
-    // this.studentsInDB = new Array()
     // lis le fichier excel
     await this.readExcelFile()
 
@@ -163,7 +149,7 @@ export class DragZoneExcelComponent implements OnInit {
     await this.postStudents()
     await this.postUnits()
 
-    alert("Lecture terminée");
+    //alert("Lecture terminée");
   }
 
   async postUnits() {
@@ -175,36 +161,24 @@ export class DragZoneExcelComponent implements OnInit {
 
     let sub = this.unitService
       .postAll(listOfTypeUnit)
-      .subscribe(() => {
-        // this.getTestsComplet(+this.route.snapshot.params['id']);
-        // this.launchNotification('This Test has been saved ! 🌈', 'info')
-      });
+      .subscribe();
     this.subscriptions.push(sub);
   }
 
   async postStudents() {
-    // this.listes.studentResultList.forEach(student => {
-    //   const sub = this.studentService.post(student).subscribe();
-    //   this.subscriptions.push(sub)
-    // })
 
     let sub = this.studentService
       .postAll(this.listes.studentResultList)
-      .subscribe(() => {
-        // this.getTestsComplet(+this.route.snapshot.params['id']);
-        // this.launchNotification('This Test has been saved ! 🌈', 'info')
-      });
+      .subscribe();
     this.subscriptions.push(sub);
   }
 
   onSelect(event: any) {
     this.listes.resetData()
-    alert("Lecture du fichier en cours");
+    //alert("Lecture du fichier en cours");
     console.log(event);
     this.files = []
     this.files.push(...event.addedFiles);
-
-    this.readAndTreatExcel()
   }
 
 

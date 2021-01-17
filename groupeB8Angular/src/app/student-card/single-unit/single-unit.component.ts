@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UnitToDB } from 'src/app/models/Unit';
 import { AddedUnitService } from 'src/app/services/added-unit.service';
 import { RemovedUnitService } from 'src/app/services/removed-unit.service';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-single-unit',
   templateUrl: './single-unit.component.html',
   styleUrls: ['./single-unit.component.css']
 })
-export class SingleUnitComponent implements OnInit {
+export class SingleUnitComponent implements OnInit, OnDestroy {
 
   faPlus = faPlus
   faMinus = faMinus
@@ -19,6 +20,7 @@ export class SingleUnitComponent implements OnInit {
   @Input()
   unitsInPae: UnitToDB[];
   toAdd: boolean;
+  subscriptions: Subscription[] = []
 
   constructor(private addedUnitService: AddedUnitService, private removedUnitService: RemovedUnitService) {
 
@@ -26,6 +28,21 @@ export class SingleUnitComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkUnitOperation()
+    // const sub = this.removedUnitService.unitsSubject.subscribe(id => {
+    //   if (id === this.unit.id) {
+    //     this.toAdd = true
+    //     this.currentIcon = faPlus
+    //   }
+    // })
+    // this.subscriptions.push(sub)
+  }
+
+  ngOnDestroy(): void {
+    for (let i = this.subscriptions.length - 1; i >= 0; i--) {
+      const subscription = this.subscriptions[i];
+      subscription && subscription.unsubscribe();
+      this.subscriptions.pop();
+    }
   }
 
   checkUnitOperation() {

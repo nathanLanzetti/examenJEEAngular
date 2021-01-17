@@ -35,5 +35,6 @@ fa-icon {
 
 .helha.eco-background:hover {
   transition: all 0.2s;
-  background: #157aa5 !important;
+  background: #0082b9 !important;
+  color: white;
 }
