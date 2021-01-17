@@ -4,10 +4,11 @@
         <ngx-dropzone (change)="onSelect($event)" [multiple]="false"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
             <fa-icon [icon]="faUpload"></fa-icon>
-            <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+            <ngx-dropzone-label>Glissez ou clickez pour déposez le fichier excel</ngx-dropzone-label>
             <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                 <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
             </ngx-dropzone-preview>
         </ngx-dropzone>
+        <button (click)="onClickReadFile($event)" class="button is-full-width">Lire le fichier</button>
     </section>
 </div>

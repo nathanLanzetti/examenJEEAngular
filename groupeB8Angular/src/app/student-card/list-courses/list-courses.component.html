@@ -29,7 +29,7 @@
   </ul>
 </div> -->
 
-<div class="tabs is-boxed" id="courses">
+<div class="tabs is-toggle" id="courses">
   <ul>
     <li *ngFor="let bloc of blocs; let index = index;"
       [ngClass]="{'is-active': currentTab === index, 'is-disabled': bloc === 'Bloc 3' && student.bloc === 'BLOC_1'}"><a

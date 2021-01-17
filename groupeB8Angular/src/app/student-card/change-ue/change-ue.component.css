@@ -4,3 +4,59 @@
 }
 .card > footer.card-footer.card-footer-item {
 }
+
+.credits {
+  display: flex;
+  /* border-radius: 5px; */
+  margin: 0.5rem 1rem;
+  /* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
+}
+.credits > .credits-in-pae,
+.credits > .credits-validated {
+  flex: 1 1;
+}
+.credits-in-pae {
+  border-right: 0.25px solid #f5f5f5;
+}
+.credits-validated {
+  border-left: 0.25px solid black;
+}
+.credit-label {
+  border-bottom: 1px solid #f5f5f5;
+  width: 100%;
+  padding: 0.25rem 0;
+  font-size: 12px;
+}
+.credit-label + p {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 22px;
+}
+.added-ue-container {
+  position: relative;
+  padding: 0.5rem 1rem;
+  /* border-radius: 5px; */
+  background: #88d4d042;
+}
+.card .content {
+  /* overflow: hidden; */
+  max-height: 400px;
+  margin: 0 !important;
+}
+.is-overflowing {
+  overflow-y: scroll;
+}
+.card .content > .added-ue-container:nth-child(odd) {
+  background: #63d8d21c;
+}
+.added-ue-container > p.added-ue {
+  margin: 0 !important;
+}
+.added-ue-container > a.delete {
+  position: absolute;
+  top: 0;
+  top: 50%;
+  float: right;
+  right: 0rem;
+  transform: translate(-50%, -50%);
+}

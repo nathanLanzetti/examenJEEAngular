@@ -104,3 +104,20 @@ export function convertBlocStringToNumber(index: string): number {
       break;
   }
 }
+
+export function fromBlocDBToDisplay(index: string): string {
+  switch (index) {
+    case "BLOC_1":
+      return "1B"
+      break;
+    case "BLOC_2":
+      return "2B"
+      break;
+    case "BLOC_3":
+      return "3B"
+      break;
+
+    default:
+      break;
+  }
+}

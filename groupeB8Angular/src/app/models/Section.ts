@@ -71,3 +71,20 @@ export function getSectionToDB(displayedName: string): string {
       break;
   }
 }
+
+export function fromSectionDBToDisplay(index: string): string {
+  switch (index) {
+    case "INFORMATIQUE_DE_GESTION":
+      return "Assistant(e) de direction"
+      break;
+    case "ASSISTANT_E_DE_DIRECTION":
+      return "Comptabilité"
+      break;
+    case "COMPTABILITE":
+      return "Informatique de gestion"
+      break;
+
+    default:
+      break;
+  }
+}

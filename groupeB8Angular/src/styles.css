@@ -26,3 +26,14 @@ fa-icon {
   transition: all 0.2s;
   background: #018881 !important;
 }
+
+.helha.eco-background {
+  background: #0089c4 !important;
+  border: none;
+  color: #fff;
+}
+
+.helha.eco-background:hover {
+  transition: all 0.2s;
+  background: #157aa5 !important;
+}

@@ -16,7 +16,18 @@
       Résumé du PAE
     </p>
   </header>
-  <div class="card-content">
+  <div class="credits">
+    <div class="credits-in-pae">
+      <p class="credit-label has-text-centered">Crédits PAE</p>
+      <p>{{creditsTotal}}</p>
+    </div>
+    <div class="credits-validated">
+      <p class="credit-label has-text-centered">Crédits validés</p>
+      <p>{{student.creditsNumber}}</p>
+    </div>
+  </div>
+
+  <!-- <div class="card-content">
     <div class="card" id="nbcredits">
       <div class="card-content">
         <div class="media">
@@ -28,17 +39,20 @@
           </div>
         </div>
       </div>
+    </div> -->
+  <!-- *ngIf="summaryUnits.length > 0; else emptyList" -->
+  <div class="content" [ngClass]="{'is-overflowing' : summaryUnits.length > 10}">
+    <div *ngFor="let unit of summaryUnits" class="added-ue-container">
+      <p class="added-ue"> - UE : {{unit.code}} {{unit.title}} </p>
+      <a class="delete is-medium"></a>
     </div>
-    <div class="content" *ngIf="summaryUnits.length > 0; else emptyList">
-      <p *ngFor="let unit of summaryUnits"> - {{unit.code}} </p>
-    </div>
-    <ng-template #emptyList>
-      <div class="content">
-        <p class="has-text-centered">PAE vide</p>
-      </div>
-    </ng-template>
   </div>
+  <!-- <ng-template #emptyList>
+    <div class="content">
+      <p class="has-text-centered">PAE vide</p>
+    </div>
+  </ng-template> -->
   <footer class="card-footer">
-    <a (click)="updateStudent($event)" class="card-footer-item helha primary-background">Confirmer</a>
+    <a (click)="updateStudent($event)" class="card-footer-item helha eco-background">Confirmer</a>
   </footer>
 </div>

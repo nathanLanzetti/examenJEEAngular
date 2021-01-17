@@ -2,3 +2,33 @@
   width:600px;
   height:100px;
 } */
+#details {
+  border-radius: 10px;
+  border: 2px solid aliceblue;
+}
+#details > .card-content {
+  padding: 1rem;
+}
+.media {
+  flex-direction: row;
+  align-items: center;
+}
+.rounded-picture {
+  padding: 1rem 1.2rem;
+  border-radius: 50%;
+  background: aliceblue;
+  font-size: 22px;
+}
+
+#details p.title {
+  display: flex;
+  justify-content: space-between;
+  align-content: baseline;
+  margin: 0;
+}
+.detail-bloc-section {
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  top: 0.5rem;
+}

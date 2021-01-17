@@ -6,3 +6,13 @@
   pointer-events: none;
   opacity: 0.6;
 }
+#courses.tabs.is-toggle li.is-active a {
+  background-color: #0089c4;
+  border-color: #0089c4;
+}
+.tabcontent {
+  padding: 0.5rem 0.5rem 0.01rem 0.5rem;
+  background: #6d6d6d08;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+    0 0px 0 1px rgba(10, 10, 10, 0.02);
+}
