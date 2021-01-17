@@ -136,7 +136,14 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
 
   addAllUnitNextBloc($event) {
     //this.currentTab = this.nextBlocIndex
-    //this.filterUnitListByNextBloc(this.nextBlocIndex)
+    this.filterUnitListByNextBloc(this.nextBlocIndex)
+    console.log(this.nextUnitsByBloc);
+    console.log(this.nextBlocIndex);
+
+    this.nextUnitsByBloc.forEach(unit => {
+
+      this.addedUnitService.addUnit(unit)
+    })
     //this.currentUnitsByBloc = []
     //console.log(this.nextUnitsByBloc);
   }

@@ -34,7 +34,7 @@ export class SingleUnitComponent implements OnInit, OnChanges {
     // console.log(changes);
     // console.log(this.indexToRemove);
     //console.log(changes);
-    console.log(changes.nextUnitsByBloc);
+    //console.log(changes.nextUnitsByBloc);
 
 
     if (changes.indexToRemove !== undefined) {
@@ -53,18 +53,20 @@ export class SingleUnitComponent implements OnInit, OnChanges {
     // }
 
     if (changes.nextUnitsByBloc !== undefined) {
-      console.log(this.nextUnitsByBloc);
+      //console.log(this.nextUnitsByBloc);
 
       //console.log("Heyyyyyy ooooooh");
-      if (this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id)) {
-        console.log("Added units ");
+      //console.log(this.nextUnitsByBloc.find(nextU => nextU.code === this.unit.code));
 
-        console.log(this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id));
+      if (this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id) !== undefined) {
+        //console.log("Added units ");
+
+        //console.log(this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id));
 
         this.toAdd = false
         this.currentIcon = faMinus
-        this.addedUnitService.addUnit(this.unit)
-        console.log("Adding unit form single : " + this.unit.code);
+        //this.addedUnitService.addUnit(this.unit)
+        //console.log("Adding unit form single : " + this.unit.code);
         //changes.nextUnitsByBloc.currentValue
 
       }

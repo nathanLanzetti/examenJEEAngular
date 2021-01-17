@@ -1,27 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { students } from 'src/app/mock/MOCK_STUDENT';
 import { Bloc, getDisplayNameBloc } from 'src/app/models/Bloc';
 import { Section, getDisplayName } from 'src/app/models/Section';
-import { Student } from 'src/app/models/Student';
+import { Student, StudentToDB } from 'src/app/models/Student';
 import { StudentToDisplay } from 'src/app/models/StudentsToDisplay';
+import { StudentService } from 'src/app/repositories/student.service';
 
 @Component({
   selector: 'app-container-students',
   templateUrl: './container-students.component.html',
   styleUrls: ['./container-students.component.css']
 })
-export class ContainerStudentsComponent implements OnInit {
-  students: Student[] = students;
+export class ContainerStudentsComponent implements OnInit, OnDestroy {
+  students: StudentToDB[] = [];
   studentsToDisplay: StudentToDisplay[] = [];
   selectedSection: number = 0;
   selectedBloc: number = 0;
   searchTerm: string = ""
+  loading = true
+  private subscriptions: Subscription[] = [];
 
-  constructor() { }
+  constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.getStudents()
+    this.subscriptions.push(
+      this.studentService.query()
+        .subscribe(studentList => {
+          this.students = studentList;
+          this.students = this.students.sort(function (stdA, stdB) {
+            if (stdA.fullname > stdB.fullname) {
+              return 1;
+            }
+            else
+              return -1
+          });
+        })
+
+    );
+    this.loading = false
   }
+
+  ngOnDestroy(): void {
+    for (let i = this.subscriptions.length - 1; i >= 0; i--) {
+      const subscription = this.subscriptions[i];
+      subscription && subscription.unsubscribe();
+      this.subscriptions.pop();
+    }
+  }
+
   getSection($event) {
     console.log($event);
     this.selectedSection = $event
