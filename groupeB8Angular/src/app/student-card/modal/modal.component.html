@@ -22,7 +22,8 @@
       <!-- <button class="delete" aria-label="close"></button> -->
     </header>
     <section class="modal-card-body">
-      <p>{{getConfirmationMsg() === "" ? "Le PAE respecte les conditions" : confirmationMsg}}</p>
+      <!-- <p>{{getConfirmationMsg() === "" ? "Le PAE respecte les conditions" : confirmationMsg}}</p> -->
+      <p class="has-text-centered">Etes-vous sur de vouloir confirmer le PAE ? </p>
       <div class="button-container">
         <button (click)="updateAndSaveToPdf($event)" class="button is-success">Sauvegarder le PAE</button>
         <button (click)="closeModal($event)" class="button">Annuler</button>

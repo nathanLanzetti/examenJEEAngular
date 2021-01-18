@@ -1,15 +1,3 @@
-<!-- <div class="change-ue">
-  <div class="header">
-    Résumé du PAE
-  </div>
-  <div class="content">
-    <p *ngFor="let unit of summaryUnits"> - {{unit.code}} </p>
-  </div>
-  <div class="footer">
-    <button class="button is-fullwidth">Confirmer le PAE</button>
-  </div>
-</div> -->
-
 <div class="card">
   <header class="card-header">
     <p class="card-header-title">
@@ -27,31 +15,13 @@
     </div>
   </div>
 
-  <!-- <div class="card-content">
-    <div class="card" id="nbcredits">
-      <div class="card-content">
-        <div class="media">
-          <div class="media-content">
-            <label>Nombre de credits</label>
-            <p class="title is-4">
-              {{ creditsTotal }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div> -->
   <!-- *ngIf="summaryUnits.length > 0; else emptyList" -->
   <div class="content" [ngClass]="{'is-overflowing' : summaryUnits.length > 10}">
     <div *ngFor="let unit of summaryUnits" class="added-ue-container">
       <app-added-unit [unit]="unit"></app-added-unit>
-
     </div>
   </div>
-  <!-- <ng-template #emptyList>
-    <div class="content">
-      <p class="has-text-centered">PAE vide</p>
-    </div>
-  </ng-template> -->
+
   <footer class="card-footer">
     <a (click)="onClickShowModal($event)" [ngClass]="{'a-is-disabled' : creditsTotal === 0 }"
       class="card-footer-item helha eco-background">Confirmer</a>

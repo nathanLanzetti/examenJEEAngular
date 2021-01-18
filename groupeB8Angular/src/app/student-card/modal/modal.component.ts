@@ -49,10 +49,10 @@ export class ModalComponent implements OnInit, OnDestroy {
         this.confirmationMsg = "Cet étudiant du bloc 1 a réussi moins de 45 crédits. Etes-vous sur de vouloir lui accorder plus de 60 crédits ? "
       }
     }
-    // if (this.student.creditsNumber === 60 && this.creditsTotal !== 60 && this.student.bloc !== "BLOC_3") {
+    if (this.student.creditsNumber === 60 && this.creditsTotal !== 60 && this.student.bloc !== "BLOC_3") {
 
-    //   this.confirmationMsg = "Cet étudiant a réussi 60 crédits. Celui-ci devrait se voir accorder les 60 crédits du bloc suivant. Etes-vous sur de vouloir continuer ? "
-    // }
+      this.confirmationMsg = "Cet étudiant a réussi 60 crédits. Celui-ci devrait se voir accorder les 60 crédits du bloc suivant. Etes-vous sur de vouloir continuer ? "
+    }
     if (!cantHave55Credits && this.creditsTotal < 55) {
       this.confirmationMsg += "\nCet étudiant a moins de 55 crédits dans son PAE. Etes-vous sur de vouloir continuer ?"
     }
@@ -75,7 +75,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     doc.text(`PAE de ${this.student.fullname}, ${this.student.matricule}`, 20, 10)
 
     doc.setFontSize(16)
-    doc.text(`Etudiant en ${fromBlocDBToDisplay(this.student.bloc)} ${fromSectionDBToDisplay(this.student.section)}, `, 20, 20)
+    doc.text(`Etudiant en ${fromBlocDBToDisplay(this.student.bloc)}, ${fromSectionDBToDisplay(this.student.section)}`, 20, 20)
 
     doc.setFontSize(14)
     doc.text(`Crédits totaux : ${this.creditsTotal} `, 20, 30)
