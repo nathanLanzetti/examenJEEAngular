@@ -12,7 +12,7 @@ import { Subscription } from "rxjs";
 })
 export class TableStudentsComponent implements OnInit {
 
-  @Input() students: StudentToDB[] = [];
+  @Input() students: StudentToDB[] = []; // liste de tous les étudiants
   @Input() selectedSection: number = 0;
   @Input() selectedBloc: number = 0;
   @Input() searchTerm: string = ""
@@ -24,13 +24,14 @@ export class TableStudentsComponent implements OnInit {
     private listes: ListesEtudiantsService,
     private student: StudentService) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   onClickedRow($event) {
+    // récupère la ligne 
     const row = $event.target.parentNode;
+    // récupère le matricule 
     const matricule = row.firstChild.innerHTML
+    // navigue sur la fiche de l'étudiant
     this.router.navigate(['/etudiants/', matricule])
   }
 

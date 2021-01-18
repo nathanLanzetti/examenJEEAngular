@@ -9,6 +9,8 @@ import { RemovedUnitService } from 'src/app/services/removed-unit.service';
 })
 export class AddedUnitComponent implements OnInit {
 
+  // Component qui contient une unité, affiché dans le résumé du PAE
+
   @Input()
   unit: UnitToDB
   constructor(private removedUnitService: RemovedUnitService) { }
@@ -16,6 +18,7 @@ export class AddedUnitComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Click sur le bouton delete, renvoie l'unité supprimé à tous les observers
   removeUnit($event) {
     console.log(this.unit.id);
     this.removedUnitService.removeUnit(this.unit)

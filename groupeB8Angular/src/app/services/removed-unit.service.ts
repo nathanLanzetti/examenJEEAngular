@@ -7,11 +7,8 @@ import { Unit, UnitToDB } from '../models/Unit';
 })
 export class RemovedUnitService {
 
+  // Observable qui envoie une unité supprimé aux components abonnés au subject
   unitsSubject = new Subject<number>();
-
-  // emitUnitsSubject(unit: Unit) {
-  //   this.unitsSubject.next();
-  // }
 
   removeUnit(unit: UnitToDB) {
     this.unitsSubject.next(unit.id)

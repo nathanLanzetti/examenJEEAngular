@@ -8,15 +8,18 @@ import { AuthenticateService } from '../repositories/authenticate.service';
 })
 export class AuthGuard implements CanActivate {
 
+  // Cette classe à le role d'implémenter la sécurité des pages
+  // Précise une ou plusieur conditions pour bloquer l'accès au page
   constructor(private router: Router,
     private authenticate: AuthenticateService) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    // récupère l'utilisateur
     const currentUser = this.authenticate.currentUserValue;
     if (currentUser) {
-      // logged in so true
+      // si connecté renvoie vrai => la guarde est levé dans ce cas
       return true;
     }
-    // isn't logged in => go back to signin page
+    // si pas connecté => retourne à la page de connexion
     this.router.navigate(["/auth", "signin"]);
     return false;
   }

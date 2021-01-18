@@ -35,10 +35,6 @@ export class DragZoneExcelComponent implements OnInit {
   units: Unit[];
   creditValidated: number[];
   loading = false;
-  // unit : Unit[];
-  // creditValidated : number[];
-  // score: ScoredUnit[][];
-
   studentListCopied: StudentToDisplay[] = [];
 
   studentResultList: StudentToDB[] = [];
@@ -48,10 +44,7 @@ export class DragZoneExcelComponent implements OnInit {
   incrementAA: number = 0;
 
   dataList: [] = [];
-  constructor(private listes: ListesEtudiantsService, private unitService: UnitService, private studentService: StudentService) {
-    // this.unitsInDB = new Array()
-    // this.studentsInDB = new Array()
-  }
+  constructor(private listes: ListesEtudiantsService, private unitService: UnitService, private studentService: StudentService) { }
 
   ngOnInit(): void { }
 
@@ -70,10 +63,6 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   async deleteStudents() {
-    // this.studentsInDB.forEach(student => {
-    //   const sub = this.studentService.delete(student.id).subscribe();
-    //   this.subscriptions.push(sub)
-    // })
 
     const sub = this.studentService.deleteAll().subscribe();
     this.subscriptions.push(sub)
@@ -81,10 +70,6 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   async deleteUnits() {
-    // this.unitsInDB.forEach(unit => {
-    //   const sub = this.unitService.delete(unit.id).subscribe();
-    //   this.subscriptions.push(sub)
-    // })
 
     const sub = this.unitService.deleteAll().subscribe();
     this.subscriptions.push(sub)
@@ -92,9 +77,11 @@ export class DragZoneExcelComponent implements OnInit {
   }
 
   async readExcelFile() {
+    // Instancie un objet FileReader
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
       const bstr: string = e.target.result;
+
 
       const wb: xlsx.WorkBook = xlsx.read(bstr, { type: 'binary' });
       const wsEtudiants: string = wb.SheetNames[0];
@@ -103,53 +90,47 @@ export class DragZoneExcelComponent implements OnInit {
 
       console.log(ws);
       this.data = (xlsx.utils.sheet_to_json(ws, { header: 1 }));
+      // parcours le fichier une première fois et le transforme en json
       const jsonData = wb.SheetNames.reduce((initial, name) => {
         const sheet = wb.Sheets[name];
+        // remplie la liste contenant les noms des feuilles excel
         wsNames.push(name);
         initial[name] = xlsx.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      //console.log(wsNames);
+
       let excelData: [][]
       wsNames.forEach(wsName => {
         const ws: xlsx.WorkSheet = wb.Sheets[wsName];
         excelData = (xlsx.utils.sheet_to_json(ws, { header: 1 }));
-        //console.log(excelData);
         this.listes.addDataList(excelData);
         this.listes.sections.push(getSectionToDB(wsName));
       })
       this.getAllUE();
       console.log(this.listes.listUE);
-      //console.log({ ...this.listes.listUE })
-      // this.createStudentList();
-      // console.log(this.listes.studentList);
 
       this.createStudentListWithResult();
       console.log(this.listes.studentResultList);
       this.postStudents()
       this.postUnits()
 
+      // préviens l'utilisateur que le chargemnt est terminé
+      // le modal se ferme
       this.loading = false
-      // subscribe
     };
     reader.readAsBinaryString(this.files[0]);
   }
 
+  // fonction asynchrone reprenant toutes les différentes opérations
   async readAndTreatExcel() {
-    //const target: DataTransfer = <DataTransfer>(event.target);
-    //if (this.verifyExtension() == false) return;
-
-    // supprime tous les étudiants et unités
+    // supprime toutes les UE et étudiants
     await this.deleteStudents()
     await this.deleteUnits()
     // lis le fichier excel
     await this.readExcelFile()
-
-    // crée les étudiants et les unités
+    // après lecture, crée toutes les UE et étudiants
     await this.postStudents()
     await this.postUnits()
-
-    //alert("Lecture terminée");
   }
 
   async postUnits() {
@@ -175,9 +156,9 @@ export class DragZoneExcelComponent implements OnInit {
     this.listes.studentResultList = []
   }
 
+  // Fonction qui se lance lorsque l'utilisateur dépose un fichier
   onSelect(event: any) {
     this.listes.resetData()
-    //alert("Lecture du fichier en cours");
     console.log(event);
     this.files = []
     this.files.push(...event.addedFiles);
@@ -366,9 +347,6 @@ export class DragZoneExcelComponent implements OnInit {
     this.fullname = [];
     this.bloc = [];
 
-    // this.score = [];
-    // this.generateScore();
-
     this.generateDataStudentDisplay();
     let cpt = this.matricule.length;
     let etudiant: StudentToDisplay;
@@ -521,45 +499,9 @@ export class DragZoneExcelComponent implements OnInit {
     })
   }
 
-  // generateScore(){
-  //   this.listes.data.forEach( (section,page )=> {
-  //     section.forEach((data,row) =>{
-  //       if(row <= 2)return;
-  //       let i = 4; //passe 5 colonnes
-  //       let tmp = [];
-  //       while (section[0][i] != '%' && i < 200){  //securité maximum 200 colonnes
-  //         if((section[0][i] + "").match(/^\s*$/) || !section[0][i]){
-  //           tmp.push({
-  //             unit: this.listes.listUE[page][tmp.length],
-  //             score: data[i-1],
-  //             validated: data[i] == 'O'
-  //           });
-  //         }
-  //         i++;
-  //       }
-  //       this.score.push(tmp);
-  //     })
-  //   });
-  //   console.log("score:", this.score);
-  // }
-
-
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
-
-  verifyExtension() {
-    var isExcelFile = 1;
-    if (this.files == null) isExcelFile = 0;
-    this.files.forEach(file => {
-      if (file.name.slice((file.name.lastIndexOf('.') - 1 >>> 0) + 2) != "xlsx") {
-        isExcelFile = 0;
-      };
-    });
-    return (isExcelFile == 1);
-
-  }
-
 
 }

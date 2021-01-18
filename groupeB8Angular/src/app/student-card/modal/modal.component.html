@@ -1,5 +1,32 @@
-<div class="tabcontent">
-  <div style="text-align: center">Confirmation des changements</div>
-  <p>Je suis un texte</p>
-  <button>Retour</button> <button>Confirmer</button>
+<!-- [ngClass]="{'is-active' : loading}
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <div class="lds-ring">
+        <div></div>
+        <div style="border-color: gray;"></div>
+        <div></div>
+        <div></div>
+      </div>
+      <p class="has-text-centered">Le fichier est en cours de lecture, veuillez patientez ...</p>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal" [ngClass]="{'is-active': isVisible}">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Confirmation du PAE</p>
+      <!-- <button class="delete" aria-label="close"></button> -->
+    </header>
+    <section class="modal-card-body">
+      <p>{{getConfirmationMsg() === "" ? "Le PAE respecte les conditions" : confirmationMsg}}</p>
+      <div class="button-container">
+        <button (click)="updateAndSaveToPdf($event)" class="button is-success">Sauvegarder le PAE</button>
+        <button (click)="closeModal($event)" class="button">Annuler</button>
+      </div>
+    </section>
+  </div>
 </div>

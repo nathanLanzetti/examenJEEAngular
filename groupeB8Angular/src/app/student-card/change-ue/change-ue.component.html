@@ -53,6 +53,9 @@
     </div>
   </ng-template> -->
   <footer class="card-footer">
-    <a (click)="updateStudent($event)" class="card-footer-item helha eco-background">Confirmer</a>
+    <a (click)="onClickShowModal($event)" [ngClass]="{'a-is-disabled' : creditsTotal === 0 }"
+      class="card-footer-item helha eco-background">Confirmer</a>
   </footer>
 </div>
+<app-modal (setVisibility)="setVisibility($event)" [isVisible]="isVisible" [student]="student"
+  [creditsTotal]="creditsTotal"></app-modal>

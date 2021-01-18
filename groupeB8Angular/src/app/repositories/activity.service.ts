@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Activity} from "../models/Activity";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Activity } from "../models/Activity";
 
 const URL_API: string = "api/activity"
 @Injectable({
@@ -9,6 +9,10 @@ const URL_API: string = "api/activity"
 })
 export class ActivityService {
 
+  // Tous les services dans /repositories se charge de la connexion avec la BD
+  // Chaque service connecte angular avec les méthodes du controller
+  // Les différents components s'abonnent aux méthodes des services
+  // Leurs données seront mises à jour quand le serveur aura répondu
   constructor(private http: HttpClient) { }
 
   query(): Observable<Activity[]> {

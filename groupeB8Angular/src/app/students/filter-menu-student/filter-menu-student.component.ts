@@ -13,6 +13,7 @@ export class FilterMenuStudentComponent implements OnInit {
   selectSection: number = 0;
   selectBloc: number = 0;
   searchInput: string = "";
+  // Output, fonction qui permette de partager des valeur avec un component qui engloe celui-ci
   @Output() sectionEmitter: EventEmitter<Number> = new EventEmitter<Number>()
   @Output() blocEmitter: EventEmitter<Number> = new EventEmitter<Number>()
   @Output() searchEmitter: EventEmitter<String> = new EventEmitter<String>()
@@ -26,6 +27,7 @@ export class FilterMenuStudentComponent implements OnInit {
   }
 
   initSelects() {
+    // initialise les listes utilisés pour les selects
     let valuesBloc: string[] = []
     let valuesSection: string[] = []
     Object.keys(Bloc).map((val, i) => {
@@ -62,18 +64,21 @@ export class FilterMenuStudentComponent implements OnInit {
   }
 
   onSectionSelected($event) {
+    // changement de valeur => fais monter l'event au component parent
     const value: number = $event.target.value
     console.log(value)
     this.sectionEmitter.emit(value)
   }
 
   onBlocSelected($event) {
+    // changement de valeur => fais monter l'event au component parent
     const value: number = $event.target.value
     console.log(value)
     this.blocEmitter.emit(value)
   }
 
   onKeyUp($event) {
+    // changement de valeur => fais monter l'event au component parent
     const value: string = $event.target.value
     console.log(value)
     this.searchEmitter.emit(value)

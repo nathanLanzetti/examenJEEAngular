@@ -26,65 +26,34 @@ export class SingleUnitComponent implements OnInit, OnChanges {
   toAdd: boolean;
 
 
-  constructor(private addedUnitService: AddedUnitService, private removedUnitService: RemovedUnitService) {
+  constructor(private addedUnitService: AddedUnitService, private removedUnitService: RemovedUnitService) { }
 
-  }
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(`${changes.indexToRemove.currentValue} === ? ${this.unit.id}`);
-    // console.log(changes);
-    // console.log(this.indexToRemove);
-    //console.log(changes);
-    //console.log(changes.nextUnitsByBloc);
 
-
+    // si une unité a été retiré
     if (changes.indexToRemove !== undefined) {
-
       if (changes.indexToRemove.currentValue === this.unit.id) {
         this.toAdd = true
         this.currentIcon = faPlus
-        //console.log("Changing stuff");
-
       }
     }
-
-    // if (changes.indexToRemove.currentValue !== undefined) {
-
-
-    // }
-
+    // change le toAdd des unités qui sont ajouté via le bouton "Ajouter UE du bloc suivant"
     if (changes.nextUnitsByBloc !== undefined) {
-      //console.log(this.nextUnitsByBloc);
-
-      //console.log("Heyyyyyy ooooooh");
-      //console.log(this.nextUnitsByBloc.find(nextU => nextU.code === this.unit.code));
-
       if (this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id) !== undefined) {
-        //console.log("Added units ");
-
-        //console.log(this.nextUnitsByBloc.find(nextU => nextU.id === this.unit.id));
-
         this.toAdd = false
         this.currentIcon = faMinus
-        //this.addedUnitService.addUnit(this.unit)
-        //console.log("Adding unit form single : " + this.unit.code);
-        //changes.nextUnitsByBloc.currentValue
-
       }
     }
 
-    // }
   }
 
   ngOnInit(): void {
     this.checkUnitOperation()
-
   }
 
   checkUnitOperation() {
-    //console.log(this.unitsInPae);
-
+    // si l'unité est dans le pae, on change le toAdd => ! et le style
     const unitExist = this.unitsInPae.find(tmpUnit => this.unit.code === tmpUnit.code)
-
     if (unitExist === undefined) {
       this.toAdd = true
       this.currentIcon = faPlus
@@ -92,10 +61,12 @@ export class SingleUnitComponent implements OnInit, OnChanges {
       this.toAdd = false
       this.currentIcon = faMinus
     }
-
   }
 
+  // quand on click sur le bouton + / -
   onClickManageUnit(event) {
+    // en fct de l'attribut toAdd, on ajoute ou retire une unité
+    // on change l'icone et le style aussi
     if (this.toAdd) {
       console.log("Adding unit");
       this.currentIcon = faMinus

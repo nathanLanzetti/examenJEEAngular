@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticateService {
 
+  // SUbject est un observable. Les component peuvent l'observer
+  // pour savoir si un utilisateur est connecté
   private currentUserSubject: BehaviorSubject<User>;
   private currentUser: Observable<User>;
 
@@ -28,14 +30,19 @@ export class AuthenticateService {
   login(login: string, password: string) {
     return this.http.post<any>("api/user/auth", { login, password })
       .pipe(map(user => {
+        // enregistre l'utilisateur dans le localStorage du navigateur
         localStorage.setItem('currentUser', JSON.stringify(user));
+        // l'observable renvoie un utilisateur
+        // les components qui observent celui-ci seront notifiés
         this.currentUserSubject.next(user);
         return user;
       }));
   }
 
   logout() {
+    // efface l'utilisateur du local storage
     localStorage.removeItem("currentUser");
+    // renvoie null a tous les component abonnés au subject
     this.currentUserSubject.next(null);
   }
 }

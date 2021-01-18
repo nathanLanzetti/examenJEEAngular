@@ -24,6 +24,7 @@ export class ContainerStudentsComponent implements OnInit, OnDestroy {
   constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
+    // récupère tous les étudants de la BD
     this.subscriptions.push(
       this.studentService.query()
         .subscribe(studentList => {
@@ -49,16 +50,20 @@ export class ContainerStudentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // section récupéré a partir du select du menu
   getSection($event) {
     console.log($event);
     this.selectedSection = $event
-
   }
+
+  // bloc récupéré a partir du select du menu
   getBloc($event) {
     console.log($event);
     this.selectedBloc = $event
 
   }
+
+  // terme de recherche récupéré a partir de l'input du menu
   getSearch($event) {
     console.log($event);
     this.searchTerm = $event
@@ -74,7 +79,4 @@ export class ContainerStudentsComponent implements OnInit, OnDestroy {
       })
     })
   }
-
-
-
 }

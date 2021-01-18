@@ -52,26 +52,29 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private route: ActivatedRoute, private listes: ListesEtudiantsService,
     private unit: UnitService, private removedUnitService: RemovedUnitService, private addedUnitService: AddedUnitService) {
+    // initialise la liste de bloc
     this.blocs = ["Bloc 1", "Bloc 2", "Bloc 3"]
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes.student);
+    // convertit la valeur du bloc en nombre pour changer de tab
     if (changes.student.previousValue === undefined) {
       this.currentTab = convertBlocStringToNumber(this.student.bloc)
-      console.log(`${this.currentTab} === ${convertBlocStringToNumber(this.student.bloc)}`);
+      //console.log(`${this.currentTab} === ${convertBlocStringToNumber(this.student.bloc)}`);
 
     }
   }
 
   ngOnInit(): void {
-    //this.hideTabs();
-    //this.currentTab = convertBlocStringToNumber(this.student.bloc)
+    // filtre les unités par le bloc de l'étudiant
     this.filterUnitListByBloc(this.currentTab);
+    // récupère à patir de la BD toutes les UE (sans doublons)
     const sub = this.unit.queryWithoutDuplicates()
       .subscribe(unit => {
         this.listUE = unit;
+        // UE filtré en fct de la section
         this.listUE = this.listUE.filter(ue => ue.section == this.student.section);
+        // iste UE ordonné 
         this.listUE = this.listUE.sort(function (ueA, ueB) {
           if (ueA.code > ueB.code) {
             return 1;
@@ -82,6 +85,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
         this.filterUnitListByBloc(this.currentTab);
       });
     this.subscription.push(sub);
+    // component notifié quand une unité a été enlevé
     const rmvdUnitSub = this.removedUnitService.unitsSubject.subscribe(id => {
       this.indexToRemove = id
       console.log(`Index to remove : ${this.indexToRemove}`);
@@ -100,6 +104,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  // donne nom au bouton en fonction du bloc
   getNextBlocName(): string {
     switch (this.student.bloc) {
       case "BLOC_1":
@@ -116,6 +121,7 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  // change l'index en fonction du Bloc (n+1)
   getNextIndex() {
     switch (this.student.bloc) {
       case "BLOC_1":
@@ -135,44 +141,32 @@ export class ListCoursesComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   addAllUnitNextBloc($event) {
-    //this.currentTab = this.nextBlocIndex
+    // filtre les unités en fct de l'index du bloc suivant
     this.filterUnitListByNextBloc(this.nextBlocIndex)
     console.log(this.nextUnitsByBloc);
     console.log(this.nextBlocIndex);
 
+    // notifie tous les observers qu'une unité a été ajouté
     this.nextUnitsByBloc.forEach(unit => {
-
       this.addedUnitService.addUnit(unit)
     })
-    //this.currentUnitsByBloc = []
-    //console.log(this.nextUnitsByBloc);
   }
 
+  // click sur Tab
   onClickTab(event, index) {
-    // console.log(`${event} : ${index}`);
+    // change l'index de la tab sélectionné
     this.currentTab = index;
     this.filterUnitListByBloc(this.currentTab);
-    // console.log(this.currentUnitsByBloc);
   }
 
+  // filtre les unités du bloc courant
   filterUnitListByBloc(blocIndex: number) {
-
-    // console.log(this.currentTab);
-    // console.log(this.student);
-
-    // console.log(convertBlocNumberToDB(blocIndex));
     this.currentUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(blocIndex));
   }
 
+  // filtre les unités du bloc suivant
   filterUnitListByNextBloc(blocIndex: number) {
-
-    // console.log(this.currentTab);
-    // console.log(this.student);
-
-    // console.log(convertBlocNumberToDB(blocIndex));
     this.nextUnitsByBloc = this.listUE.filter(ue => ue.bloc == convertBlocNumberToDB(blocIndex));
-    //console.log(this.nextUnitsByBloc);
-
   }
 
 

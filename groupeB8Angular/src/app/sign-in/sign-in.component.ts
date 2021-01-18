@@ -23,6 +23,7 @@ export class SignInComponent implements OnInit {
   loading = false;
 
   constructor(private formbuilder: FormBuilder, private authenticateService: AuthenticateService, private router: Router) {
+    // si l'utilisateur est connecté, renvoie vers la page principale 
     if (this.authenticateService.currentUserValue) {
       this.router.navigate(['/']);
     }
@@ -32,7 +33,9 @@ export class SignInComponent implements OnInit {
     this.initForm();
   }
 
+
   initForm() {
+    // initialise le formualaire avec ses validateurs
     this.signinForm = this.formbuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -41,6 +44,7 @@ export class SignInComponent implements OnInit {
 
   get f() { return this.signinForm.controls; }
 
+  // fonction qui s'éxécute lors de la soumission du formulaire
   onSubmit() {
     this.submitted = true;
 
@@ -52,6 +56,7 @@ export class SignInComponent implements OnInit {
     const login = this.signinForm.value['email'];
     //const credentials: UserCredentials = {login, password}
 
+    // appel au service auth, qui renvoie un utilisateur avec les bons identifiants
     this.authenticateService.login(login, password)
       .pipe(first())
       .subscribe(

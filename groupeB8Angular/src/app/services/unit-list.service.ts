@@ -22,24 +22,5 @@ export class UnitListService {
     //this.unitsSubject.
   }
 
-  // switchOffAll() {
-  //   for (let appareil of this.appareils) {
-  //     appareil.status = 'éteint';
-  //     this.emitAppareilSubject();
-  //   }
-  // }
-
-  // switchOnOne(i: number) {
-  //   this.appareils[i].status = 'allumé';
-  //   this.emitAppareilSubject();
-  // }
-
-  // switchOffOne(i: number) {
-  //   this.appareils[i].status = 'éteint';
-  //   this.emitAppareilSubject();
-  // }
-
-
-
   constructor() { }
 }

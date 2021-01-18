@@ -15,6 +15,7 @@ export class DetailStudentComponent implements OnInit {
 
   @Input() students: StudentToDB;
   matricule: string;
+  // Définit la couleur du component en fonction de la section
   colorArray = { "ASSISTANT_E_DE_DIRECTION": "#BE8CF3", "INFORMATIQUE_DE_GESTION": "#417EBF", "COMPTABILITE": "#C95511" } // Purple, Blue, Orange
 
 
@@ -23,6 +24,7 @@ export class DetailStudentComponent implements OnInit {
     private listesEtudiants: ListesEtudiantsService) { }
 
   ngOnInit(): void {
+    // récupère le paramètre de l'url
     this.route.paramMap.subscribe(
       params => this.matricule = params.get('matricule')
     );
@@ -30,6 +32,7 @@ export class DetailStudentComponent implements OnInit {
   }
 
   getStudent() {
+
     this.listesEtudiants.studentList.forEach(student => {
       if (student.matricule == this.matricule) {
         console.log(this.students);
@@ -38,6 +41,7 @@ export class DetailStudentComponent implements OnInit {
     return this.students;
   }
 
+  // fonction qui transforme les données en BD en string pour l'affichage
   fromBlocDBToDisplay(blocStringFromDB: string): string {
     switch (blocStringFromDB) {
       case "BLOC_1":
@@ -55,6 +59,7 @@ export class DetailStudentComponent implements OnInit {
     }
   }
 
+  // fonction qui transforme les données en BD en string pour l'affichage
   fromSectionDBToDisplay(sectionStringFromDB: string): string {
     switch (sectionStringFromDB) {
       case "INFORMATIQUE_DE_GESTION":

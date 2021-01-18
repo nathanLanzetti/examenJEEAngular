@@ -7,11 +7,9 @@ import { Unit, UnitToDB } from '../models/Unit';
 })
 export class AddedUnitService {
 
-  unitsSubject = new Subject<UnitToDB>();
+  // Observable qui envoie une unit ajouté aux components abonnés au subject
 
-  // emitUnitsSubject(unit: Unit) {
-  //   this.unitsSubject.next();
-  // }
+  unitsSubject = new Subject<UnitToDB>();
 
   addUnit(unit: UnitToDB) {
     this.unitsSubject.next(unit)

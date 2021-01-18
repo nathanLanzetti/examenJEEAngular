@@ -6,16 +6,14 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { ManagerStudentComponent } from './student-card/manager-student/manager-student.component';
 import { ContainerStudentsComponent } from './students/container-students/container-students.component';
 
-
+// Contient la liste de toutes les routes ( => pages )
 const routes: Routes = [
   { path: 'auth/signin', component: SignInComponent },
+  /* toutes les routes avec canActivate ne sont accessible qu'après connexion */
   { path: 'etudiants', canActivate: [AuthGuard], component: ContainerStudentsComponent },
   { path: 'excel', canActivate: [AuthGuard], component: DragZoneExcelComponent },
   { path: 'etudiants/:matricule', canActivate: [AuthGuard], component: ManagerStudentComponent },
-  /*
-  { path: 'correctifs/:id', canActivate: [AuthGuard], component: CorrectifsComponent },
-  */
-  { path: '', redirectTo: 'etudiants', pathMatch: 'full' /*prevent bugs on empty paths*/ },
+  { path: '', redirectTo: 'etudiants', pathMatch: 'full' /* empeche les bugs quand le chemin est vide*/ },
   { path: '**', redirectTo: 'etudiants' }
 ];
 

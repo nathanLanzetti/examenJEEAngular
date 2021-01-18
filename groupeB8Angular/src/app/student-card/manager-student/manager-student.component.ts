@@ -20,10 +20,12 @@ export class ManagerStudentComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    // récupère paramètre de l'url
     this.route.paramMap.subscribe(
       params => this.matricule = params.get('matricule')
     );
     console.log(this.matricule);
+    // récupère un étudiant en fct de son matricule
     const sub = this.studentService
       .getByMatricule(this.matricule)
       .subscribe(student => {
